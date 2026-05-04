@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WMS Local Creative Override
 // @namespace    wemass-local-dev
-// @version      1.0
+// @version      1.1
 // @description  Override creativeURL in iframe_preview renderer to test local skins via custom_creative param
 // @match        https://creative-studio.wemass.com/iframe_preview*
 // @run-at       document-start
@@ -28,21 +28,21 @@
         set: () => {},
     });
 
-    // 2. Intercept fetch so that when wmsSkin.js downloads tag.js, we patch adPath to point
-    //    to the base URL of our custom server instead of the app-generated URL.
-    const _fetch = window.fetch;
-    window.fetch = async function (...args) {
-        const url = typeof args[0] === 'string' ? args[0] : (args[0] && args[0].url) || '';
-        const response = await _fetch.apply(this, args);
-        if (url.includes('tag.js')) {
-            const text = await response.text();
-            const patched = text.replace(/"adPath"\s*:\s*"[^"]*"/, `"adPath":"${baseUrl}"`);
-            return new Response(patched, {
-                status: response.status,
-                statusText: response.statusText,
-                headers: response.headers,
-            });
-        }
-        return response;
-    };
+    // 2. Intercept _skn_creative assignment so we can patch adPath before wmsSkin.js reads it.
+    //    wmsSkin.js loads tag.js as a <script> element (not via fetch), so tag.js executes and
+    //    sets window._skn_creative = {...}. By defining a setter here, we patch adPath in-place
+    //    the moment tag.js runs, before wmsSkin.js's init() picks it up.
+    const baseUrlNoSlash = baseUrl.replace(/\/$/, '');
+    let _sknCreative;
+    Object.defineProperty(window, '_skn_creative', {
+        configurable: true,
+        enumerable: true,
+        get: () => _sknCreative,
+        set: (value) => {
+            if (value && 'adPath' in value) {
+                value.adPath = baseUrlNoSlash;
+            }
+            _sknCreative = value;
+        },
+    });
 })();
