@@ -1,0 +1,132 @@
+/* Variables */
+
+:root {
+    --wms-fullbg-bgcolor: transparent;
+    --wms-skin-width: 1920px;
+    --wms-skin-height: 1000px;
+    --wms-sticky-top: 0px;
+    --wms-stickywrapper-height: 0px;
+    --wms-safezone-skin-width: 1440px;
+    --wms-safezone-skin-height: 800px;
+    --wms-header-height: 250px;
+}
+
+/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÓN ENCIMA DE ESTO SERÁ DEVUELTA A LOS VALORES INICIALES */
+.wms-full-bg * {
+    all: unset;
+}
+
+/* Inicio hoja de estilos general */
+
+.wms-siteBgHelper {
+    position: absolute;
+    display: inline-block;
+    width: 1000px;
+    height: calc(var(--wms-skin-height) + var(--wms-stickywrapper-height) - var(--wms-header-height));
+    margin: auto;
+    margin-top: var(--wms-header-height);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--wms-site-bg-helper-color);
+}
+
+.wms-siteBgHelper.-wms1000 {
+    width: 1000px;
+}
+
+.wms-siteBgHelper.-wms1200 {
+    width: 1200px;
+}
+
+.wms-cc {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+}
+
+.wms-sticky {
+    display: block;
+    position: -webkit-sticky;
+    position: sticky;
+    top: var(--wms-sticky-top);
+    left: 0px;
+    width: 100%;
+}
+
+.wms-full-bg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+.wms-mainContainer {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: var(--wms-skin-height);
+}
+
+.wms-centerContents {
+    position: absolute;
+    top: 0;
+    left: 50%; /* Place the container horizontally at the center of the page */
+    transform: translateX(-50%); /* Center the container using transform */
+    width: 100%;
+    height: var(--wms-skin-height);
+    display: flex;
+    align-items: flex-start; /* Align the image to the top */
+    justify-content: center;
+    max-width: 100%;
+    overflow: hidden;
+
+}
+
+.wms-centerContents > .wms-centeredContent {
+    position: absolute;
+    top: 0; /* Position the image at the top of the container */
+    left: 50%; /* Place the image horizontally at the center of the container */
+    transform: translateX(-50%); /* Center the image using transform */
+}
+
+.wms-stickyWrapper {
+    display: block;
+    height: var(--wms-stickywrapper-height); /* calcular por site para que no choque con el footer del mismo */
+    background-color: var(--wms-fullbg-bgcolor);
+    padding-bottom: var(--wms-skin-height);
+}
+
+.wms-safezone {
+    width: var(--wms-safezone-skin-width);
+    height: var(--wms-safezone-skin-height);
+    position: absolute;
+    top: 0;
+    left: 50%; /* Place the container horizontally at the center of the page */
+    transform: translateX(-50%); /* Center the container using transform */
+}
+
+.wms-skinbg {
+    z-index: 1;
+    position: relative;
+    width: unset;
+}
+
+.wms-skinimg {
+    width: var(--wms-skin-width);
+    height: var(--wms-skin-height);
+}
+
+.wms-header-block {
+    margin: auto;
+    height: var(--wms-header-height);
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    top: 0;
+}
+
+

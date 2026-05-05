@@ -1,0 +1,86 @@
+/* Variables */
+
+:root {
+    --wms-fullbg-bgcolor: transparent;
+    --wms-skin-width: 450px;
+    --wms-skin-height: 450px;
+    --wms-sticky-top: 0px;
+    --wms-site-bg-helper-color: transparent;
+    --wms-stickywrapper-height: 0px;
+}
+
+/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÓN ENCIMA DE ESTO SERÁ DEVUELTA A LOS VALORES INICIALES */
+.wms-mob-full-bg, .wms-mob-full-bg * {
+    all: initial;
+}
+
+/* Inicio hoja de estilos general */
+
+.wms-cc-mob {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.wms-skinbg {
+    z-index: 1;
+    position: relative;
+    width: unset;
+}
+
+.wms-skinimg {
+    width: var(--wms-skin-width);
+    height: var(--wms-skin-height);
+}
+
+.wms-mob-full-bg {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    z-index: 1;
+    background-color: red;
+}
+
+.wms-centerContents {
+    position: absolute;
+    top: 0;
+    left: 50%; /* Place the container horizontally at the center of the page */
+    transform: translateX(-50%); /* Center the container using transform */
+    width: 100%;
+    height: var(--wms-skin-height);
+    display: flex;
+    align-items: flex-start; /* Align the image to the top */
+    justify-content: center;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.wms-centerContents > .wms-centeredContent {
+    position: absolute;
+    top: 0; /* Position the image at the top of the container */
+    left: 50%; /* Place the image horizontally at the center of the container */
+    transform: translateX(-50%); /* Center the image using transform */
+}
+
+
+@media screen and (orientation: portrait) {
+    .wms-mob-full-bg {
+        position: absolute;
+        top: 0px;
+        width: 100%;
+        z-index: 1;
+        background-color: red;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    .wms-mob-full-bg {
+        position: absolute;
+        top: 0px;
+        width: 100% !important;
+        /* max-width: 450px !important; */
+        max-width: 100% !important;
+        z-index: 1;
+        background-color: blue;
+    }
+}
