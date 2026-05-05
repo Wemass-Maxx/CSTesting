@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSTesting — URL Builder</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+
+    header {
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+
+    header p {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: 0.25rem;
+    }
+
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: #1e2130;
+      border: 1px solid #2d3148;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    .card-meta {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.2rem;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .badge-desktop { background: #1e3a5f; color: #93c5fd; }
+    .badge-mobile  { background: #1a3a2f; color: #6ee7b7; }
+    .badge-tablet  { background: #3a2d1a; color: #fcd34d; }
+
+    .url-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+    }
+
+    .url-row .device-label {
+      width: 100px;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .url-box {
+      flex: 1;
+      font-size: 0.7rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: #94a3b8;
+      background: #13151f;
+      border: 1px solid #2d3148;
+      border-radius: 5px;
+      padding: 0.4rem 0.6rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+
+    .url-box:hover { border-color: #4f6ef7; color: #c7d2fe; }
+
+    .btn-copy {
+      flex-shrink: 0;
+      font-size: 0.72rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 5px;
+      border: 1px solid #2d3148;
+      background: #252840;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-copy:hover { background: #3a3f6e; color: #e2e8f0; }
+    .btn-copy.copied { background: #1a3a2f; color: #6ee7b7; border-color: #6ee7b7; }
+
+    .status {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: 1.5rem;
+    }
+
+    .error { color: #f87171; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>CSTesting — URL Builder</h1>
+  <p>Creatividades disponibles en el repo con sus URLs de preview para cada dispositivo</p>
+</header>
+
+<div id="grid"></div>
+<p class="status" id="status">Cargando creatividades...</p>
+
+<script>
+  const REPO   = 'Wemass-Maxx/CSTesting';
+  const BRANCH = 'main';
+  const FOLDER = 'Creatividades';
+  const CDN    = `https://cdn.jsdelivr.net/gh/${REPO}@${BRANCH}/${FOLDER}`;
+  const PREVIEW = 'https://creative-studio.wemass.com/iframe_preview';
+
+  const WIDTHS = [
+    { key: 'img_1000', width: 1000, device: 'desktop', label: 'Desktop 1000px' },
+    { key: 'img_1200', width: 1200, device: 'desktop', label: 'Desktop 1200px' },
+    { key: 'img_450',  width: 450,  device: 'mobile',  label: 'Mobile 450px'   },
+    { key: 'img_768',  width: 768,  device: 'tablet',  label: 'Tablet 768px'   },
+  ];
+
+  function buildUrl(folder, meta, width, device) {
+    const date     = meta.folder || (meta.date || '').slice(0, 7) || '2026-05';
+    const campaign = meta.title  || folder;
+    const creative = `${CDN}/${folder}/tag.js`;
+    return `${PREVIEW}?date=${date}&campaign=${encodeURIComponent(campaign)}&custom_creative=${encodeURIComponent(creative)}&width=${width}&device=${device}`;
+  }
+
+  function copyToClipboard(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Copiado';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 1500);
+    });
+  }
+
+  function renderCard(folder, meta) {
+    const variants = WIDTHS.filter(w => meta[w.key]);
+    if (!variants.length) return null;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const typeBadge = `<span class="badge badge-desktop">${meta.type || 'Skin'}</span>`;
+    card.innerHTML = `
+      <div class="card-header">
+        <div>
+          <div class="card-title">${folder}</div>
+          <div class="card-meta">${meta.adServer || ''} · ${meta.date ? meta.date.slice(0,10) : ''}</div>
+        </div>
+        ${typeBadge}
+      </div>
+    `;
+
+    for (const { key, width, device, label } of variants) {
+      const url  = buildUrl(folder, meta, width, device);
+      const row  = document.createElement('div');
+      row.className = 'url-row';
+
+      const badge   = `<span class="badge badge-${device}">${device}</span>`;
+      const labelEl = document.createElement('div');
+      labelEl.className = 'device-label';
+      labelEl.innerHTML = `${badge} <span style="color:#64748b">${width}px</span>`;
+
+      const link = document.createElement('a');
+      link.className  = 'url-box';
+      link.href       = url;
+      link.target     = '_blank';
+      link.rel        = 'noopener';
+      link.title      = url;
+      link.textContent = url;
+
+      const btn = document.createElement('button');
+      btn.className   = 'btn-copy';
+      btn.textContent = 'Copiar';
+      btn.onclick = (e) => { e.preventDefault(); copyToClipboard(url, btn); };
+
+      row.append(labelEl, link, btn);
+      card.appendChild(row);
+    }
+
+    return card;
+  }
+
+  async function load() {
+    const grid   = document.getElementById('grid');
+    const status = document.getElementById('status');
+
+    try {
+      const res     = await fetch(`https://api.github.com/repos/${REPO}/contents/${FOLDER}?ref=${BRANCH}`);
+      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+      const items   = await res.json();
+      const folders = items.filter(i => i.type === 'dir').map(i => i.name).sort();
+
+      if (!folders.length) {
+        status.textContent = 'No se encontraron creatividades.';
+        return;
+      }
+
+      const results = await Promise.allSettled(
+        folders.map(async folder => {
+          const r = await fetch(`${CDN}/${folder}/metadata.json`);
+          if (!r.ok) throw new Error(`metadata.json no encontrado en ${folder}`);
+          return { folder, meta: await r.json() };
+        })
+      );
+
+      let rendered = 0;
+      for (const result of results) {
+        if (result.status === 'rejected') {
+          console.warn(result.reason);
+          continue;
+        }
+        const { folder, meta } = result.value;
+        const card = renderCard(folder, meta);
+        if (card) { grid.appendChild(card); rendered++; }
+      }
+
+      status.textContent = rendered
+        ? `${rendered} creatividad${rendered > 1 ? 'es' : ''} cargada${rendered > 1 ? 's' : ''}.`
+        : 'No se encontraron creatividades con metadata válida.';
+
+    } catch (err) {
+      status.innerHTML = `<span class="error">Error: ${err.message}</span>`;
+      console.error(err);
+    }
+  }
+
+  load();
+</script>
+</body>
+</html>
