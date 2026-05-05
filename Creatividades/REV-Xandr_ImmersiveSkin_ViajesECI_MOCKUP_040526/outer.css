@@ -1,0 +1,407 @@
+/* Variables */
+
+:root {
+  --wms-fullbg-bgcolor: transparent;
+  --wms-skin-width: 1920px;
+  --wms-skin-height: 1000px;
+  --wms-sticky-top: 0px;
+  --wms-stickywrapper-height: 0px;
+  --wms-safezone-skin-width: 1440px;
+  --wms-safezone-skin-height: 800px;
+  --wms-header-height: 250px;
+
+  --wms-ui-bg: rgb(0 0 0 / 80%);
+  --wms-bg-overlay-color: rgb(0 0 0 / 75%);
+
+  /* NUEVAS VARIABLES */
+  --wms-top-layer: 9999999999;
+  --wms-mid-bg: transparent;
+  --wms-ui-btnfullexpand: url('https://cs-assets.wemass/ad_creatives/');
+}
+
+/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÓN ENCIMA DE ESTO SERÁ DEVUELTA A LOS VALORES INICIALES */
+.wms-full-bg *,
+.wms-full-fg * {
+  all: unset;
+}
+
+/* Inicio hoja de estilos general */
+
+.wms-siteBgHelper {
+  position: absolute;
+  display: inline-block;
+  width: 1000px;
+  height: calc(
+    var(--wms-skin-height) + var(--wms-stickywrapper-height) -
+      var(--wms-header-height)
+  );
+  margin: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--wms-site-bg-helper-color);
+}
+
+.wms-siteBgHelper.-wms1000 {
+  width: 1000px;
+}
+
+.wms-siteBgHelper.-wms1200 {
+  width: 1200px;
+}
+
+.wms-cc {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  cursor: pointer;
+}
+
+.wms-full-bg,
+.wms-full-fg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
+
+.wms-sticky {
+  display: block;
+  position: -webkit-sticky;
+  position: sticky;
+  top: var(--wms-sticky-top);
+  left: 0px;
+  width: 100%;
+}
+
+.wms-full-fg.-wms-expanded .wms-sticky {
+  z-index: var(--wms-top-layer);
+  top: 0 !important;
+}
+
+.wms-mainContainer {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: var(--wms-skin-height);
+}
+
+.wms-centerContents {
+  position: absolute;
+  top: 0;
+  left: 50%; /* Place the container horizontally at the center of the page */
+  transform: translateX(-50%); /* Center the container using transform */
+  width: 100%;
+  height: var(--wms-skin-height);
+  display: flex;
+  align-items: flex-start; /* Align the image to the top */
+  justify-content: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.wms-centerContents > .wms-centeredContent {
+  position: absolute;
+  top: 0; /* Position the image at the top of the container */
+  left: 50%; /* Place the image horizontally at the center of the container */
+  transform: translateX(-50%); /* Center the image using transform */
+}
+
+.wms-full-bg .wms-stickyWrapper {
+  background-color: var(--wms-fullbg-bgcolor);
+}
+
+.wms-stickyWrapper {
+  display: block;
+  height: var(--wms-stickywrapper-height);
+  padding-bottom: var(--wms-skin-height);
+}
+
+.wms-safezone {
+  width: var(--wms-safezone-skin-width);
+  height: var(--wms-safezone-skin-height);
+  position: absolute;
+  top: 0;
+  left: 50%; /* Place the container horizontally at the center of the page */
+  transform: translateX(-50%); /* Center the container using transform */
+}
+
+.wms-skinbg {
+  z-index: 1;
+  position: relative;
+  width: unset;
+}
+
+.wms-skinimg {
+  width: var(--wms-skin-width);
+  height: var(--wms-skin-height);
+}
+
+.wms-btns-canvas {
+  display: block;
+  opacity: 0;
+  max-height: var(--wms-header-height);
+  transition: opacity 0.2s ease-in;
+  position: absolute;
+  background: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0) 65%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  z-index: 1;
+}
+
+.wms-btns-canvas > div {
+  opacity: 80%;
+}
+
+.wms-btns-canvas > div:hover {
+  opacity: 100%;
+}
+
+.wms-btns-canvas:hover {
+  opacity: 100;
+}
+
+.wms-box-btns {
+  display: block;
+  width: 35px;
+  height: auto;
+  position: absolute;
+  right: 5px;
+  pointer-events: all;
+}
+
+.wms-box-btns.-wms-generalbtns {
+  background-color: var(--wms-ui-bg);
+  padding: 4px;
+  border-radius: 5px;
+  z-index: var(--wms-top-layer);
+  position: absolute;
+}
+
+.wms-box-btns.-wms-generalbtns > div {
+  opacity: 80%;
+}
+
+.wms-box-btns.-wms-generalbtns > div:hover {
+  opacity: 100%;
+}
+
+.wms-btn-sound {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: url(images/wms-sprites.svg);
+  background-position: 118px -2px;
+}
+
+.wms-btn-sound.-soundoff {
+  background-position: 158px -2px;
+}
+
+.wms-btn-expand {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: url(images/wms-sprites.svg);
+  background-position: 238px -2px;
+}
+
+.wms-btn-play {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: url(images/wms-sprites.svg);
+  background-position: 38px -2px;
+}
+
+.wms-btn-close {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: url(images/x.svg);
+  background-position: 0px 0px;
+}
+
+.wms-btn-minimize {
+  display: block;
+  width: 35px;
+  height: 35px;
+  background: url(images/wms-sprites.svg);
+  background-position: 198px -2px;
+}
+
+.-wms-nodisplay {
+  display: none;
+}
+
+.wms-header-block {
+  margin: auto;
+  height: var(--wms-header-height);
+  display: flex;
+}
+
+/* expandable skin video */
+
+.wms-full-fg {
+  pointer-events: none;
+}
+
+.wms-full-fg .wms-header-block {
+  display: none;
+}
+
+.wms-full-fg.-wms-expanded .wms-header-block {
+  display: flex;
+}
+
+.wms-full-fg.-wms-expanded {
+  background-color: var(--wms-bg-overlay-color);
+  position: fixed !important;
+  z-index: var(--wms-top-layer);
+  height: 100%;
+  top: 0 !important;
+}
+
+.wms-count-down {
+  float: none !important;
+  pointer-events: none;
+  position: absolute;
+  border-radius: 5px;
+  width: 90px;
+  height: 91px;
+  background: var(--wms-ui-bg) url("images/conteo-sprite.svg") 0px 0px no-repeat;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+
+.wms-cont-counter {
+  display: block;
+  height: var(--wms-header-height);
+  position: absolute;
+}
+
+.-wms-expanded .wms-cont-counter {
+  z-index: 0;
+}
+
+.wms-count-down.-wms-2s {
+  background-position-y: -90px !important;
+}
+
+.wms-count-down.-wms-3s {
+  background-position-y: -180px !important;
+}
+
+.wms-mouseEventContainer {
+  display: block;
+  width: 100%;
+  height: var(--wms-header-height);
+  background-color: transparent;
+  position: relative;
+  cursor: pointer;
+}
+
+/* css de mid container */
+.wms-mid-container {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.wms-mid-video {
+  display: none;
+  width: 100%;
+  pointer-events: all;
+}
+
+.-wms-mid-event .wms-mid-container {
+  display: block;
+}
+
+.wms-full-fg.-wms-mid-event {
+  position: fixed !important;
+  height: 100%;
+  top: 0 !important;
+  z-index: var(--wms-top-layer);
+  background-color: var(--wms-mid-bg);
+}
+
+.wms-full-fg .wms-stickyWrapper {
+    pointer-events: none;
+}
+
+.-wms-mid-event .wms-mid-container .wms-mid-video {
+  display: block;
+}
+
+.wms-mid-container.-wms-skinsize {
+  display: block;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--wms-skin-width);
+  height: var(--wms-skin-height);
+}
+
+.-wms-fullexpand {
+  float: none !important;
+  pointer-events: none;
+  position: absolute;
+  background: var(--wms-ui-bg) url(images/fullexpand.svg) 0px 0px no-repeat;
+  background-size: 60px;
+  background-position: center;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  animation: animexpand 2s ease-in-out infinite;
+}
+
+.wms-full-bg.-wms-expanded .-wms-fullexpand {
+  display: none;
+}
+
+.-wms-fullexpand.-wms-custom-btn {
+  background: var(--wms-ui-bg) var(--wms-ui-btnfullexpand) 0px 0px no-repeat;
+}
+
+.-fullsize {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+@keyframes animexpand {
+  50% {
+    background-size: 50px;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
