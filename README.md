@@ -121,6 +121,40 @@ https://creative-studio.wemass.com/iframe_preview?date=2025-12&campaign=Xandr_Sk
 > `[%/params/contentWidth%]` como clave. Si pasas `width=1000` con `device=mobile` el
 > renderer usara el rol mobile pero no encontrara imagen para ese ancho.
 
+## Listado de piezas (Creatividades/index.html)
+
+El archivo `Creatividades/index.html` es una página web que lista todas las creatividades del repo y genera las URLs de preview automáticamente. Se puede abrir de tres formas:
+
+### Opción 1 — XAMPP local (sin internet, siempre fresco)
+
+```text
+http://localhost/CSTesting/Creatividades/index.html
+```
+
+Requiere tener XAMPP corriendo. No necesita conexión a internet.
+
+### Opción 2 — raw.githack.com (sin configuración, casi inmediato)
+
+```text
+https://raw.githack.com/Wemass-Maxx/CSTesting/main/Creatividades/index.html
+```
+
+Sirve el HTML con `Content-Type: text/html` correcto. Los cambios del repo tardan segundos en reflejarse.
+
+### Opción 3 — GitHub Pages (más robusta, requiere activarla una vez)
+
+1. Ir a `https://github.com/Wemass-Maxx/CSTesting/settings/pages`
+2. Source → **Deploy from a branch** → rama `main` → carpeta `/` (root) → Guardar
+3. En ~1 minuto queda disponible en:
+
+```text
+https://wemass-maxx.github.io/CSTesting/Creatividades/index.html
+```
+
+> **Por qué no jsDelivr:** jsDelivr es CDN de assets (JS, CSS, imágenes); no sirve HTML como página web ejecutable.
+
+---
+
 ## Piezas disponibles
 
 | Carpeta               | Tipo          | Dispositivos          | `width` validos |
