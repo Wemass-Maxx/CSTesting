@@ -150,6 +150,7 @@
   const FOLDER = 'Creatividades';
   const CDN    = `https://cdn.jsdelivr.net/gh/${REPO}@${BRANCH}/${FOLDER}`;
   const PREVIEW = 'https://creative-studio.wemass.com/iframe_preview';
+  const LOCAL_FOLDERS = ['skin-halo'];
 
   const WIDTHS = [
     { key: 'img_1000', width: 1000, device: 'desktop', label: 'Desktop 1000px' },
@@ -221,15 +222,39 @@
     return card;
   }
 
+  async function getFolders() {
+    const folders = new Set(LOCAL_FOLDERS);
+
+    try {
+      const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FOLDER}?ref=${BRANCH}`);
+      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+      const items = await res.json();
+      items
+        .filter(i => i.type === 'dir')
+        .forEach(i => folders.add(i.name));
+    } catch (err) {
+      console.warn('No se pudo consultar GitHub, usando carpetas locales declaradas.', err);
+    }
+
+    return [...folders].sort();
+  }
+
+  async function getMetadata(folder) {
+    const local = await fetch(`${folder}/metadata.json`);
+    if (local.ok) return local.json();
+
+    const remote = await fetch(`${CDN}/${folder}/metadata.json`);
+    if (remote.ok) return remote.json();
+
+    throw new Error(`metadata.json no encontrado en ${folder}`);
+  }
+
   async function load() {
     const grid   = document.getElementById('grid');
     const status = document.getElementById('status');
 
     try {
-      const res     = await fetch(`https://api.github.com/repos/${REPO}/contents/${FOLDER}?ref=${BRANCH}`);
-      if (!res.ok) throw new Error(`GitHub API ${res.status}`);
-      const items   = await res.json();
-      const folders = items.filter(i => i.type === 'dir').map(i => i.name).sort();
+      const folders = await getFolders();
 
       if (!folders.length) {
         status.textContent = 'No se encontraron creatividades.';
@@ -238,9 +263,7 @@
 
       const results = await Promise.allSettled(
         folders.map(async folder => {
-          const r = await fetch(`${CDN}/${folder}/metadata.json`);
-          if (!r.ok) throw new Error(`metadata.json no encontrado en ${folder}`);
-          return { folder, meta: await r.json() };
+          return { folder, meta: await getMetadata(folder) };
         })
       );
 
