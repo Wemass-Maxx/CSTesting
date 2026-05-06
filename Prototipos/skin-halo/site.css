@@ -1,0 +1,78 @@
+/* =============================================================
+   §0  SIMULACIÓN DE WEBSITE
+   Solo para maqueta — no forma parte del sistema WMS.
+   Representa el contenido de la página anfitriona donde se
+   inserta el skin, para poder visualizar el comportamiento
+   sticky y el scroll en contexto real.
+   ============================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f0f0f0;
+  font-family: sans-serif;
+}
+
+/* Nodo central de contenido: 1000px de ancho, centrado, 5000px de alto. */
+.site-content {
+    position: relative;
+    width: 1000px;
+    /* min-height: 5000px; */
+    padding-top: 250px;
+    z-index: 1;
+    margin: auto;
+}
+
+.site-content__inner {
+  width: 1000px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 0 48px;
+}
+
+/* Bloques de contenido simulado (header, body, footer del site). */
+.site-content__block {
+  border-radius: 6px;
+  background: #d8d8d8;
+}
+
+.site-content__block--header {
+  height: 80px;
+  background: #c0c0c8;
+}
+
+.site-content__block--body {
+  flex: 1;
+  min-height: 400px;
+  background: repeating-linear-gradient(
+    180deg,
+    #d8d8d8 0px,
+    #d8d8d8 18px,
+    #cacaca 18px,
+    #cacaca 20px
+  );
+}
+
+.site-content__block--footer {
+  height: 120px;
+  background: #b8b8c0;
+}
+
+
+/* integracion falsa */
+
+.wms-siteBgHelper {
+  margin-top: 250px !important;
+  background-color: white !important;
+}
+/* .wms-full-fg {
+  z-index: 2;
+} */
+
+

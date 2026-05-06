@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WMS HTML → tag.js · MVP</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      min-height: 100vh;
+      padding: 24px 18px 60px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+
+    /* ── Tabs ─────────────────────────────────────────── */
+    .tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+    .tab-btn {
+      padding: 8px 18px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px 6px 0 0;
+      color: #8b949e;
+      font-size: 0.87rem;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .tab-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Cards ────────────────────────────────────────── */
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+    .card-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #58a6ff;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    /* ── Drop zones ───────────────────────────────────── */
+    .drop-zone {
+      border: 2px dashed #30363d;
+      border-radius: 6px;
+      padding: 28px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .drop-zone:hover, .drop-zone.over { border-color: #58a6ff; background: #1c2130; }
+    .drop-zone.loaded { border-color: #3fb950; }
+    .drop-zone .icon { font-size: 1.8rem; }
+    .drop-zone .hint { margin-top: 6px; font-size: .82rem; color: #8b949e; }
+    .drop-zone .hint a { color: #58a6ff; text-decoration: underline; cursor: pointer; }
+    .drop-zone .fname { margin-top: 8px; font-size: .82rem; font-weight: 600; color: #3fb950; }
+
+    /* ── Form fields ──────────────────────────────────── */
+    .field { margin-top: 12px; }
+    .field:first-child { margin-top: 0; }
+    .field label { display: block; font-size: .74rem; color: #8b949e; margin-bottom: 4px; }
+    .field label .opt { color: #484f58; font-style: italic; }
+    .field input, .field select {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+      border-radius: 5px;
+      padding: 7px 10px;
+      font-size: .86rem;
+    }
+    .field input:focus, .field select:focus { outline: none; border-color: #58a6ff; }
+    .field input::placeholder { color: #484f58; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+    /* ── Buttons ──────────────────────────────────────── */
+    .btn-primary {
+      display: block; width: 100%; margin-top: 16px;
+      padding: 10px; background: #1f6feb; color: #fff;
+      border: none; border-radius: 6px; font-size: .93rem;
+      font-weight: 600; cursor: pointer; transition: background .15s;
+    }
+    .btn-primary:hover:not(:disabled) { background: #388bfd; }
+    .btn-primary:disabled { opacity: .35; cursor: not-allowed; }
+
+    .btn-dl {
+      padding: 5px 12px; background: #238636; color: #fff;
+      border: none; border-radius: 5px; font-size: .77rem;
+      font-weight: 600; cursor: pointer; transition: background .15s;
+    }
+    .btn-dl:hover { background: #2ea043; }
+
+    .btn-secondary {
+      display: block; width: 100%; margin-top: 14px;
+      padding: 10px; background: #21262d; color: #c9d1d9;
+      border: 1px solid #30363d; border-radius: 6px; font-size: .9rem;
+      font-weight: 600; cursor: pointer; transition: background .15s;
+    }
+    .btn-secondary:hover:not(:disabled) { background: #30363d; }
+    .btn-secondary:disabled { opacity: .35; cursor: not-allowed; }
+
+    /* ── Mobile zone toggle ───────────────────────────── */
+    #mobileSection { display: none; }
+
+    /* ── Outputs ──────────────────────────────────────── */
+    .output-block { display: none; }
+    .out-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+    .out-label { font-size: .8rem; color: #8b949e; font-family: monospace; }
+    textarea.out {
+      width: 100%; height: 280px;
+      background: #0d1117; border: 1px solid #30363d;
+      color: #7ee787; font-family: 'Consolas','Monaco',monospace;
+      font-size: .75rem; line-height: 1.5;
+      padding: 11px 13px; border-radius: 5px; resize: vertical;
+    }
+    textarea.out:focus { outline: none; }
+
+    /* ── Stats & Warnings ─────────────────────────────── */
+    .stats { display: none; font-size: .74rem; color: #6e7681; margin-top: 8px;
+             padding: 5px 10px; background: #1c2130; border-radius: 4px; font-family: monospace; }
+    .warnings { display: none; background: #161009; border: 1px solid #9e6a03;
+                border-radius: 6px; padding: 11px 15px; margin-top: 10px; }
+    .warnings .wt { font-size: .78rem; font-weight: 600; color: #d29922; margin-bottom: 5px; }
+    .warnings ul { list-style: disc; padding-left: 16px; font-size: .77rem; color: #e3b341; line-height: 1.6; }
+
+    /* ── Merge tab specific ───────────────────────────── */
+    .merge-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .merge-label { font-size: .78rem; color: #8b949e; margin-bottom: 8px; font-weight: 600; }
+
+    hr.sep { border: none; border-top: 1px solid #21262d; margin: 18px 0; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div style="margin-bottom:18px">
+    <h1 style="font-size:1.1rem;font-weight:600;color:#58a6ff">🔧 WMS HTML → tag.js &nbsp;·&nbsp; MVP</h1>
+    <p style="font-size:.78rem;color:#6e7681;margin-top:3px">Convierte maquetas HTML con clases <code>.wms-*</code> en <code>tag.js</code> + <code>metadata.json</code> para el renderer WMS.</p>
+  </div>
+
+  <!-- ── Tabs ────────────────────────────────────────── -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="convert">HTML → tag.js</button>
+    <button class="tab-btn" data-tab="merge">Merge Desktop + Mobile</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       TAB 1: CONVERT
+  ════════════════════════════════════════════════════ -->
+  <div class="tab-panel active" id="tab-convert">
+
+    <!-- Desktop file -->
+    <div class="card">
+      <p class="card-title">1 · Archivo HTML</p>
+      <div class="drop-zone" id="dz-desktop">
+        <div class="icon">📄</div>
+        <p class="hint">Arrastra el HTML de maqueta &nbsp;·&nbsp; <a id="trig-desktop">Seleccionar</a></p>
+        <p class="fname" id="fn-desktop"></p>
+      </div>
+      <input type="file" id="fi-desktop" accept=".html,.htm" style="display:none">
+    </div>
+
+    <!-- Config -->
+    <div class="card">
+      <p class="card-title">2 · Configuración</p>
+      <div class="row3">
+        <div class="field">
+          <label>Título</label>
+          <input type="text" id="inputTitle" placeholder="MiSkin_SkinClassic_Marca">
+        </div>
+        <div class="field">
+          <label>AdServer</label>
+          <select id="inputAdServer">
+            <option value="Xandr">Xandr</option>
+            <option value="AppNexus">AppNexus</option>
+            <option value="DV360">DV360</option>
+            <option value="TTD">TTD</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Device</label>
+          <select id="inputDevice">
+            <option value="desktop">Solo Desktop</option>
+            <option value="desktop+mobile">Desktop + Mobile</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>adPath &mdash; URL base de la creatividad <span class="opt">(opcional)</span></label>
+        <input type="text" id="inputAdPath" placeholder="https://cdn.jsdelivr.net/gh/usuario/repo@main/Creatividades/MiSkin">
+      </div>
+      <div class="field">
+        <label>clickUrl <span class="opt">(opcional)</span></label>
+        <input type="text" id="inputClickUrl" placeholder="https://www.ejemplo.com">
+      </div>
+    </div>
+
+    <!-- Mobile file (conditional) -->
+    <div class="card" id="mobileSection">
+      <p class="card-title">3 · HTML Mobile <span style="font-weight:400;color:#6e7681;text-transform:none;font-size:.75rem">(si se omite se reutiliza el desktop)</span></p>
+      <div class="drop-zone" id="dz-mobile">
+        <div class="icon">📱</div>
+        <p class="hint">Arrastra el HTML de maqueta mobile &nbsp;·&nbsp; <a id="trig-mobile">Seleccionar</a></p>
+        <p class="fname" id="fn-mobile"></p>
+      </div>
+      <input type="file" id="fi-mobile" accept=".html,.htm" style="display:none">
+    </div>
+
+    <button class="btn-primary" id="btnGenerate" disabled>⚙&nbsp; Generar tag.js + metadata.json</button>
+
+    <!-- Outputs -->
+    <div class="card output-block" id="block-tagjs" style="margin-top:14px">
+      <div class="out-header">
+        <span class="out-label">tag.js</span>
+        <button class="btn-dl" id="dl-tagjs">⬇ Descargar</button>
+      </div>
+      <textarea class="out" id="out-tagjs" readonly spellcheck="false"></textarea>
+    </div>
+
+    <div class="card output-block" id="block-meta" style="margin-top:0">
+      <div class="out-header">
+        <span class="out-label">metadata.json</span>
+        <button class="btn-dl" id="dl-meta">⬇ Descargar</button>
+      </div>
+      <textarea class="out" id="out-meta" readonly spellcheck="false"></textarea>
+    </div>
+
+    <div class="stats" id="stats-convert"></div>
+    <div class="warnings" id="warn-convert"><p class="wt">⚠ Avisos</p><ul id="wl-convert"></ul></div>
+
+  </div><!-- /tab-convert -->
+
+  <!-- ═══════════════════════════════════════════════════
+       TAB 2: MERGE
+  ════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-merge">
+
+    <div class="card">
+      <p class="card-title">Combinar Desktop + Mobile en un tag.js</p>
+      <p style="font-size:.79rem;color:#8b949e;margin-bottom:14px">
+        Sube dos <code>tag.js</code> generados por esta herramienta (o compatibles). El resultado tiene
+        <code>"__type__":"device"</code> con ambos roles.
+      </p>
+      <div class="merge-inputs">
+        <div>
+          <p class="merge-label">🖥 Desktop tag.js</p>
+          <div class="drop-zone" id="dz-merge-d">
+            <div class="icon">📄</div>
+            <p class="hint"><a id="trig-merge-d">Seleccionar</a></p>
+            <p class="fname" id="fn-merge-d"></p>
+          </div>
+          <input type="file" id="fi-merge-d" accept=".js,.txt" style="display:none">
+        </div>
+        <div>
+          <p class="merge-label">📱 Mobile tag.js</p>
+          <div class="drop-zone" id="dz-merge-m">
+            <div class="icon">📄</div>
+            <p class="hint"><a id="trig-merge-m">Seleccionar</a></p>
+            <p class="fname" id="fn-merge-m"></p>
+          </div>
+          <input type="file" id="fi-merge-m" accept=".js,.txt" style="display:none">
+        </div>
+      </div>
+      <button class="btn-secondary" id="btnMerge" disabled>🔀&nbsp; Combinar</button>
+    </div>
+
+    <div class="card output-block" id="block-merged">
+      <div class="out-header">
+        <span class="out-label">tag.js (combinado)</span>
+        <button class="btn-dl" id="dl-merged">⬇ Descargar</button>
+      </div>
+      <textarea class="out" id="out-merged" readonly spellcheck="false"></textarea>
+    </div>
+    <div class="warnings" id="warn-merge"><p class="wt">⚠ Avisos</p><ul id="wl-merge"></ul></div>
+
+  </div><!-- /tab-merge -->
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════════════════════
+//  SHARED EVENT TEMPLATES
+// ═══════════════════════════════════════════════════════════════
+
+const CLICK_URL_EXPR = { '__type__': 'expression', 'expression': '[%/params/click%]' };
+
+const CLICK_EVENTS = [
+  { 'expression': '[%/skin_producer%].logMetric([%/skin_producer/names/CLICK%], 1, [%/creativeId%])' },
+  { 'expression': '[%/skin_producer%].incMetric([%/skin_producer/names/CLICK_COUNT%], [%/creativeId%])' },
+  { 'expression': '[%/skin_producer%].logTime([%/skin_producer/names/CLICK%], [%/creativeId%])' },
+  { 'expression': '[%/skin_producer%].logClickDetail([%/event%], [%/creativeId%])' },
+];
+
+const IMPRESSION_EVENTS = [
+  { 'expression': '[%/skin_producer%].logMetric([%/skin_producer/names/IMPRESSION%], 1, [%/creativeId%])' },
+  { 'expression': '[%/skin_producer%].logTime([%/skin_producer/names/IMPRESSION%], [%/creativeId%])' },
+];
+
+const VIEW_ABILITY_EXTENDED_EVENTS = [
+  { 'expression': '[%/skin_producer%].log([%/skin_producer/names/VIEW_ABILITY_EXTENDED%], 1, [%/creativeId%])' },
+  { 'expression': '[%/skin_producer%].logTime([%/skin_producer/names/VIEW_ABILITY_EXTENDED%], [%/creativeId%])' },
+];
+
+const VIEW_ABILITY_EVENTS = [
+  { 'expression': '[%/skin_producer%].logMetric([%/skin_producer/names/VIEW_ABILITY%], 1, [%/creativeId%])' },
+  { 'expression': '[%/skin_producer%].logTime([%/skin_producer/names/VIEW_ABILITY%], [%/creativeId%])' },
+];
+
+const PIXELS_EXPRS = {
+  img:    { '__type__': 'expression', 'expression': '[%/params/imgPixels%]' },
+  script: { '__type__': 'expression', 'expression': '[%/params/jsPixels%]' },
+  html:   { '__type__': 'expression', 'expression': '[%/params/htmlPixels%]' },
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  BEHAVIOR FACTORY
+//  Returns the `b` object for a given element based on its classes.
+//  context: 'desktop' | 'mobile'
+// ═══════════════════════════════════════════════════════════════
+
+function makeBehaviors(el, context) {
+  const b = {};
+  const cl = el.classList;
+
+  // ── Desktop behaviors ───────────────────────────────────────
+  if (context !== 'mobile') {
+
+    // wms-full-bg  →  layout infrastructure + impression
+    if (cl.contains('wms-full-bg') || cl.contains('wms-full-fg')) {
+      Object.assign(b, {
+        CalculateHeight:        { path: '/params/skins/CalculateHeight' },
+        CssVariableDeclaration: { path: '/params/skins/CssVariableDeclaration' },
+        CalculatePosition:      { path: '/params/skins/CalculatePosition' },
+        Timer: { timeout: 0, events: [...IMPRESSION_EVENTS] },
+      });
+    }
+
+    // wms-sticky  →  offset vertical
+    if (cl.contains('wms-sticky')) {
+      b.VerticalOffset = { path: '/params/skins/VerticalOffset' };
+    }
+
+    // wms-skinbg  →  viewability EXTENDED (uses .wms-siteBgHelper as reference)
+    if (cl.contains('wms-skinbg')) {
+      Object.assign(b, {
+        ViewportEvent: {
+          threshold: 0.01,
+          onEnter: [{ path: '../skinbg/b/ViewAbilityCheck', message: 'start' }],
+          onExit:  [{ path: '../skinbg/b/ViewAbilityCheck', message: 'stop'  }],
+        },
+        ViewAbilityCheck: {
+          ratio: 0.33,
+          elapsedTime: 1000,
+          contentClass: '.wms-siteBgHelper',
+          events: [...VIEW_ABILITY_EXTENDED_EVENTS],
+        },
+      });
+    }
+
+    // wms-safezone  →  viewability standard
+    if (cl.contains('wms-safezone')) {
+      Object.assign(b, {
+        ViewportEvent: {
+          threshold: 0.01,
+          onEnter: [{ path: '../skinsafezone/b/ViewAbilityCheck', message: 'start' }],
+          onExit:  [{ path: '../skinsafezone/b/ViewAbilityCheck', message: 'stop'  }],
+        },
+        ViewAbilityCheck: {
+          ratio: 0.33,
+          elapsedTime: 1000,
+          contentClass: '.wms-siteBgHelper',
+          events: [...VIEW_ABILITY_EVENTS],
+        },
+      });
+    }
+
+    // wms-cc  →  click overlay (pointer visible)
+    if (cl.contains('wms-cc')) {
+      b.Click = { url: CLICK_URL_EXPR, hidePointer: false, events: [...CLICK_EVENTS] };
+    }
+
+    // wms-siteBgHelper  →  click invisible
+    if (cl.contains('wms-siteBgHelper')) {
+      b.Click = { url: CLICK_URL_EXPR, hidePointer: true, events: [...CLICK_EVENTS] };
+    }
+
+    // wms-header-block  →  megabanner visible time + viewability eval
+    if (cl.contains('wms-header-block')) {
+      const visTime = { expression: "[%/skin_producer%].incValue('megabanner_visible_time', [%/event/elapsedTime%], [%/creativeId%])" };
+      Object.assign(b, {
+        Style:    { width: 'var(--wms-content-width)' },
+        TimeKeeper: {
+          stopEvents: [visTime],
+          onUnload:   [visTime],
+        },
+        EvalNodeViewAbility: {
+          evalOnStart: '1',
+          ratio: 0.5,
+          steps: 10,
+          onVisible: [{ path: '../fullBgHeaderBlock/b/TimeKeeper', message: 'start' }],
+          onHidden:  [{ path: '../fullBgHeaderBlock/b/TimeKeeper', message: 'stop'  }],
+        },
+      });
+    }
+  }
+
+  // ── Mobile behaviors ────────────────────────────────────────
+  if (context === 'mobile') {
+
+    // Mobile root container (wms-full-bg acts as wms-mob-full-bg in mobile HTML)
+    // Viewability is applied directly here — no skinbg intermediate node
+    if (cl.contains('wms-full-bg') || cl.contains('wms-mob-full-bg')) {
+      Object.assign(b, {
+        CalculateHeight:        { path: '/params/skins/CalculateHeight' },
+        CssVariableDeclaration: { path: '/params/skins/CssVariableDeclaration' },
+        CalculatePosition:      { path: '/params/skins/CalculatePosition' },
+        Timer: { timeout: 0, events: [...IMPRESSION_EVENTS] },
+        ViewportEvent: {
+          threshold: 0.01,
+          onEnter: [{ path: '../fullbg/b/ViewAbilityCheck', message: 'start' }],
+          onExit:  [{ path: '../fullbg/b/ViewAbilityCheck', message: 'stop'  }],
+        },
+        ViewAbilityCheck: {
+          ratio: 0.5,
+          elapsedTime: 1000,
+          contentClass: '.wms-skinimg',
+          events: [...VIEW_ABILITY_EVENTS],
+        },
+      });
+    }
+
+    // Mobile click overlay
+    if (cl.contains('wms-cc-mob') || cl.contains('wms-cc')) {
+      b.Click = { url: CLICK_URL_EXPR, hidePointer: false, events: [...CLICK_EVENTS] };
+    }
+  }
+
+  return Object.keys(b).length > 0 ? b : null;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  INNER BOILERPLATE
+// ═══════════════════════════════════════════════════════════════
+
+function makeInner(context) {
+  if (context === 'mobile') return {};  // mobile inner is empty
+  return {
+    stylesheet: 'file:inner.css',
+    nodes: {
+      root: {
+        mode:  'body',
+        attrs: { class: 'wms-bodyclass' },
+        size:  { width: { '__type__': 'expression', 'expression': '[%/params/contentWidth%]' } },
+        b: {
+          Style: { 'background-color': 'transparent' },
+          Click: { url: CLICK_URL_EXPR, hidePointer: true, events: [...CLICK_EVENTS] },
+        },
+      },
+    },
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  CLASS → NODE NAME MAP
+// ═══════════════════════════════════════════════════════════════
+
+const CLASS_TO_NAME = {
+  'wms-full-bg':              'fullbg',
+  'wms-mob-full-bg':          'fullbg',
+  'wms-full-fg':              'fullfg',
+  'wms-stickyWrapper':        'stickyWrapper',
+  'wms-sticky':               'sticky',
+  'wms-centerContents':       'centerContents',
+  'wms-skinbg':               'skinbg',
+  'wms-skinimg':              'skinimg',
+  'wms-safezone':             'skinsafezone',
+  'wms-cc':                   'wms-cc',
+  'wms-cc-mob':               'wms-cc-mob',
+  'wms-siteBgHelper':         'wms-siteBgHelper',
+  'wms-header-block':         'fullBgHeaderBlock',
+  'wms-halo':                 'halo',
+  'wms-halo-content':         'haloContent',
+  'wms-halo-buttoncontainer': 'haloButtonContainer',
+  'wms-btn-close':            'btnClose',
+  'wms-btn-sound':            'btnSound',
+  'wms-btn-expand':           'btnExpand',
+  'wms-btn-minimize':         'btnMinimize',
+  'wms-btn-play':             'btnPlay',
+  'wms-box-btns':             'boxBtns',
+  'wms-cont-video':           'contVideo',
+  'wms-btns-canvas':          'btnsCanvas',
+  'wms-bg-cont-video':        'bgContVideo',
+  'wms-count-down':           'countDown',
+  'wms-cont-counter':         'contCounter',
+  'wms-mouseEventContainer':  'mouseEventContainer',
+  'wms-overlay-bg':           'overlayBg',
+};
+
+// Classes stripped from output attrs (maqueta-only)
+const STRIP_CLASSES = new Set(['wms-skinimg--placeholder']);
+// Attrs never copied to nodes
+const SKIP_ATTRS    = new Set(['style', 'data-wms-node']);
+
+// ═══════════════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════════════
+
+function genUuid() {
+  const b = new Uint8Array(4);
+  crypto.getRandomValues(b);
+  return [...b].map(x => x.toString(16).padStart(2,'0')).join('');
+}
+
+function dedupe(base, used) {
+  if (!used.has(base)) { used.add(base); return base; }
+  let i = 2;
+  while (used.has(`${base}_${i}`)) i++;
+  const n = `${base}_${i}`; used.add(n); return n;
+}
+
+function getNodeName(el, usedNames) {
+  const exp = el.dataset && el.dataset.wmsNode;
+  if (exp) return dedupe(exp, usedNames);
+  for (const c of el.classList) {
+    if (CLASS_TO_NAME[c]) return dedupe(CLASS_TO_NAME[c], usedNames);
+  }
+  return dedupe(el.tagName.toLowerCase(), usedNames);
+}
+
+function buildAttrs(el) {
+  const attrs = {};
+  for (const { name, value } of el.attributes) {
+    if (SKIP_ATTRS.has(name) || name.startsWith('data-wms-')) continue;
+    if (name === 'class') {
+      const cl = [...el.classList].filter(c => !STRIP_CLASSES.has(c)).join(' ').trim();
+      if (cl) attrs.class = cl;
+      continue;
+    }
+    if (value !== '') attrs[name] = value;
+  }
+  return attrs;
+}
+
+function resolveUrl(src, adPath) {
+  if (!src) return '';
+  if (/^(https?:)?\/\//.test(src)) return src;
+  return (adPath || '').replace(/\/$/, '') + '/' + src;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  DOM WALKER
+// ═══════════════════════════════════════════════════════════════
+
+function walkNode(el, adPath, context, _w) {
+  if (el.nodeType !== Node.ELEMENT_NODE) return null;
+  const tag = el.tagName.toLowerCase();
+
+  // ── wms-skinimg (container div → canvas) ───────────────────
+  if (el.classList.contains('wms-skinimg')) {
+    const imgs = [...el.querySelectorAll('img')];
+    if (!imgs.length) _w.push('wms-skinimg sin &lt;img&gt; encontrado');
+
+    const isMob = context === 'mobile';
+    const cw = parseInt(el.getAttribute('data-canvas-width')  || (isMob ? '430'  : '1920'), 10);
+    const ch = parseInt(el.getAttribute('data-canvas-height') || (isMob ? '450'  : '1000'), 10);
+
+    const attrs = buildAttrs(el);
+    attrs.width  = cw;
+    attrs.height = ch;
+    if (!attrs.id) attrs.id = 'canvas';
+
+    const node = { tagName: 'canvas', attrs };
+
+    if (imgs.length) {
+      const ci = { '__type__': 'expression', 'expression': '[%/params/contentWidth%]' };
+      if (isMob) {
+        ci['450'] = resolveUrl(imgs[0].getAttribute('src'), adPath);
+      } else {
+        ci['1000'] = resolveUrl(imgs[0].getAttribute('src'), adPath);
+        ci['1200'] = resolveUrl((imgs[1] || imgs[0]).getAttribute('src'), adPath);
+      }
+      node.canvasImage = ci;
+    }
+    return node;
+  }
+
+  // ── standalone <img> → canvas ──────────────────────────────
+  if (tag === 'img') {
+    const src = el.getAttribute('src') || '';
+    if (!src) _w.push('&lt;img&gt; sin src encontrado');
+    const url = resolveUrl(src, adPath);
+    const attrs = buildAttrs(el);
+    delete attrs.src; delete attrs.alt;
+    if (!attrs.width)  attrs.width  = 300;
+    if (!attrs.height) attrs.height = 200;
+    const node = { tagName: 'canvas', attrs };
+    if (url) node.canvasImage = { '__type__': 'expression', 'expression': '[%/params/contentWidth%]', '1000': url, '1200': url };
+    return node;
+  }
+
+  // ── <video> ────────────────────────────────────────────────
+  if (tag === 'video') {
+    const attrs = buildAttrs(el);
+    const src = el.getAttribute('src') || (el.querySelector('source') || {}).getAttribute('src') || '';
+    if (src) attrs.src = resolveUrl(src, adPath);
+    return { tagName: 'video', attrs };
+  }
+
+  // ── Generic element ────────────────────────────────────────
+  const attrs = buildAttrs(el);
+
+  // wms-siteBgHelper: override attrs.class with responsive expression
+  if (el.classList.contains('wms-siteBgHelper')) {
+    attrs.class = {
+      '__type__': 'expression',
+      'expression': '[%/params/contentWidth%]',
+      '1000': 'wms-siteBgHelper -wms1000',
+      '1200': 'wms-siteBgHelper -wms1200',
+    };
+  }
+
+  const node = { tagName: tag, attrs };
+
+  // size: width 100% for layer roots
+  if (el.classList.contains('wms-full-bg') || el.classList.contains('wms-mob-full-bg') ||
+      el.classList.contains('wms-full-fg')) {
+    node.size = { width: '100%' };
+  }
+
+  // Inject behaviors
+  const beh = makeBehaviors(el, context);
+  if (beh) node.b = beh;
+
+  // Recurse
+  const usedChild = new Set();
+  const sub = {};
+  for (const child of el.children) {
+    const cn = walkNode(child, adPath, context, _w);
+    if (cn) sub[getNodeName(child, usedChild)] = cn;
+  }
+  if (Object.keys(sub).length) node.subNodes = sub;
+
+  return node;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  BUILD OUTER ROLE
+// ═══════════════════════════════════════════════════════════════
+
+function buildRole(htmlString, adPath, context, _w) {
+  const doc = new DOMParser().parseFromString(htmlString, 'text/html');
+  doc.querySelectorAll('.site-content,script,link[rel="stylesheet"],style,[data-wms-exclude]').forEach(n => n.remove());
+
+  const stylesheet = context === 'mobile' ? 'file:outer-mobile.css' : 'file:outer.css';
+  const outerNodes = {};
+  const usedTop = new Set();
+
+  for (const child of doc.body.children) {
+    const hasWms = [...child.classList].some(c => c.startsWith('wms-'));
+    if (!hasWms) {
+      if (child.className || child.children.length)
+        _w.push(`[${context}] Elemento ignorado (sin clase wms-*): &lt;${child.tagName.toLowerCase()}${child.className ? ' class="'+child.className+'"' : ''}&gt;`);
+      continue;
+    }
+    const node = walkNode(child, adPath, context, _w);
+    if (node) outerNodes[getNodeName(child, usedTop)] = node;
+  }
+
+  if (!Object.keys(outerNodes).length)
+    _w.push(`[${context}] No se encontraron nodos WMS en el HTML.`);
+
+  return {
+    '__type__': 'role',
+    inner: makeInner(context),
+    outer: { stylesheet, pixels: { ...PIXELS_EXPRS }, nodes: outerNodes },
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MAIN CONVERTER
+// ═══════════════════════════════════════════════════════════════
+
+function convert(desktopHtml, mobileHtml, opts) {
+  const { title, adPath, adServer, clickUrl, device } = opts;
+  const _w = [];
+  const uuid = genUuid();
+  const safeTitle  = title   || 'creatividad_sin_titulo';
+  const safeAdPath = adPath  || 'https://PLACEHOLDER/PLACEHOLDER';
+
+  let params;
+
+  if (device === 'desktop+mobile') {
+    const mobHtml = mobileHtml || desktopHtml;
+    params = {
+      '__type__': 'device',
+      desktop: buildRole(desktopHtml, safeAdPath, 'desktop', _w),
+      mobile:  buildRole(mobHtml,     safeAdPath, 'mobile',  _w),
+    };
+  } else {
+    // Solo desktop — wrap in device anyway (matches template convention)
+    params = {
+      '__type__': 'device',
+      desktop: buildRole(desktopHtml, safeAdPath, 'desktop', _w),
+    };
+  }
+
+  const creative = { title: safeTitle, adPath: safeAdPath, uuid, Type: 'SkinClassic', params };
+  const tagJs = `_skn_creative=${JSON.stringify(creative, null, 2)}`;
+
+  // ── metadata.json ──────────────────────────────────────────
+  const now = new Date();
+  const p2 = n => String(n).padStart(2,'0');
+  const dateStr = `${now.getFullYear()}-${p2(now.getMonth()+1)}-${p2(now.getDate())} ${p2(now.getHours())}:${p2(now.getMinutes())}`;
+  let folder = `${now.getFullYear()}-${p2(now.getMonth()+1)}`;
+  if (adPath) { const m = adPath.match(/(\d{4}-\d{2})/); if (m) folder = m[1]; }
+
+  const meta = {
+    title: safeTitle, adServer: adServer || 'Xandr',
+    clickUrl: clickUrl || '',
+    type: 'SkinClassic', creativeType: 'SKIN',
+    uuid, adPath: adPath || '', folder, date: dateStr,
+    fullBackgroundColor: 'transparent',
+    pixels_script: '', pixels_img: '', pixels_html: '',
+  };
+
+  return { tagJs, metadataJson: JSON.stringify(meta, null, 2), warnings: _w };
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MERGE: desktop tag.js + mobile tag.js → combined
+// ═══════════════════════════════════════════════════════════════
+
+function parseTagJs(text) {
+  // Extract the object after "_skn_creative=" and parse as JSON
+  const raw = text.trim().replace(/^_skn_creative\s*=\s*/, '').replace(/;?\s*$/, '');
+  return JSON.parse(raw);
+}
+
+function mergeTagJs(desktopText, mobileText) {
+  const _w = [];
+
+  let dtop, mob;
+  try { dtop = parseTagJs(desktopText); } catch(e) { _w.push('Error parseando desktop tag.js: ' + e.message); return { tagJs: '', warnings: _w }; }
+  try { mob  = parseTagJs(mobileText);  } catch(e) { _w.push('Error parseando mobile tag.js: ' + e.message);  return { tagJs: '', warnings: _w }; }
+
+  // Extract desktop role
+  let desktopRole = dtop.params;
+  if (desktopRole['__type__'] === 'device') {
+    desktopRole = desktopRole.desktop || Object.values(desktopRole).find(v => v && v['__type__'] === 'role');
+  }
+
+  // Extract mobile role
+  let mobileRole = mob.params;
+  if (mobileRole['__type__'] === 'device') {
+    mobileRole = mobileRole.mobile || Object.values(mobileRole).find(v => v && v['__type__'] === 'role');
+  }
+
+  // Force mobile inner to be empty, stylesheet to outer-mobile.css
+  if (mobileRole && mobileRole.outer) {
+    mobileRole.inner = {};
+    if (mobileRole.outer.stylesheet !== 'file:outer-mobile.css') {
+      mobileRole.outer.stylesheet = 'file:outer-mobile.css';
+      _w.push('Mobile outer.stylesheet ajustado a file:outer-mobile.css');
+    }
+  }
+
+  const merged = {
+    title:   dtop.title   || mob.title,
+    adPath:  dtop.adPath  || mob.adPath,
+    uuid:    dtop.uuid    || genUuid(),
+    Type:    dtop.Type    || mob.Type || 'SkinClassic',
+    params: {
+      '__type__': 'device',
+      desktop: desktopRole,
+      mobile:  mobileRole,
+    },
+  };
+
+  return { tagJs: `_skn_creative=${JSON.stringify(merged, null, 2)}`, warnings: _w };
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════════════════════════════
+
+function showWarnings(containerEl, listEl, warns) {
+  if (warns.length) {
+    listEl.innerHTML = warns.map(w => `<li>${w}</li>`).join('');
+    containerEl.style.display = 'block';
+  } else {
+    containerEl.style.display = 'none';
+  }
+}
+
+function download(content, filename) {
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function makeDropZone(dzId, trigId, fiId, fnId, onLoaded) {
+  const dz = document.getElementById(dzId);
+  const fi = document.getElementById(fiId);
+  const fn = document.getElementById(fnId);
+  const tr = document.getElementById(trigId);
+
+  function load(file) {
+    if (!file) return;
+    const r = new FileReader();
+    r.onload = e => {
+      fn.textContent = '✓  ' + file.name;
+      dz.classList.add('loaded');
+      onLoaded(e.target.result, file.name);
+    };
+    r.readAsText(file, 'utf-8');
+  }
+
+  tr.addEventListener('click', e => { e.stopPropagation(); fi.click(); });
+  fi.addEventListener('change', () => load(fi.files[0]));
+  dz.addEventListener('click',     () => fi.click());
+  dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over'); load(e.dataTransfer.files[0]); });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  WIRE-UP: TAB CONVERT
+// ═══════════════════════════════════════════════════════════════
+
+let desktopHtml = null;
+let mobileHtml  = null;
+
+makeDropZone('dz-desktop', 'trig-desktop', 'fi-desktop', 'fn-desktop', (content, name) => {
+  desktopHtml = content;
+  const ti = document.getElementById('inputTitle');
+  if (!ti.value) ti.value = name.replace(/\.html?$/i, '');
+  checkGenerateReady();
+});
+
+makeDropZone('dz-mobile', 'trig-mobile', 'fi-mobile', 'fn-mobile', (content) => {
+  mobileHtml = content;
+});
+
+function checkGenerateReady() {
+  document.getElementById('btnGenerate').disabled = !desktopHtml;
+}
+
+// Device select toggle
+document.getElementById('inputDevice').addEventListener('change', function () {
+  document.getElementById('mobileSection').style.display =
+    this.value === 'desktop+mobile' ? 'block' : 'none';
+});
+
+document.getElementById('btnGenerate').addEventListener('click', () => {
+  if (!desktopHtml) return;
+  const result = convert(desktopHtml, mobileHtml, {
+    title:    document.getElementById('inputTitle').value.trim(),
+    adPath:   document.getElementById('inputAdPath').value.trim(),
+    adServer: document.getElementById('inputAdServer').value,
+    clickUrl: document.getElementById('inputClickUrl').value.trim(),
+    device:   document.getElementById('inputDevice').value,
+  });
+
+  document.getElementById('out-tagjs').value = result.tagJs;
+  document.getElementById('out-meta').value  = result.metadataJson;
+  document.getElementById('block-tagjs').style.display = 'block';
+  document.getElementById('block-meta').style.display  = 'block';
+
+  const kb = (result.tagJs.length / 1024).toFixed(1);
+  const st = document.getElementById('stats-convert');
+  st.textContent = `tag.js: ${kb} KB`;
+  st.style.display = 'block';
+
+  showWarnings(
+    document.getElementById('warn-convert'),
+    document.getElementById('wl-convert'),
+    result.warnings
+  );
+
+  document.getElementById('block-tagjs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('dl-tagjs').addEventListener('click', () =>
+  download(document.getElementById('out-tagjs').value, 'tag.js'));
+document.getElementById('dl-meta').addEventListener('click', () =>
+  download(document.getElementById('out-meta').value, 'metadata.json'));
+
+// ═══════════════════════════════════════════════════════════════
+//  WIRE-UP: TAB MERGE
+// ═══════════════════════════════════════════════════════════════
+
+let mergeDesktopText = null;
+let mergeMobileText  = null;
+
+makeDropZone('dz-merge-d', 'trig-merge-d', 'fi-merge-d', 'fn-merge-d', (content) => {
+  mergeDesktopText = content; checkMergeReady();
+});
+makeDropZone('dz-merge-m', 'trig-merge-m', 'fi-merge-m', 'fn-merge-m', (content) => {
+  mergeMobileText = content; checkMergeReady();
+});
+
+function checkMergeReady() {
+  document.getElementById('btnMerge').disabled = !(mergeDesktopText && mergeMobileText);
+}
+
+document.getElementById('btnMerge').addEventListener('click', () => {
+  const result = mergeTagJs(mergeDesktopText, mergeMobileText);
+  if (!result.tagJs) {
+    showWarnings(document.getElementById('warn-merge'), document.getElementById('wl-merge'), result.warnings);
+    return;
+  }
+  document.getElementById('out-merged').value = result.tagJs;
+  document.getElementById('block-merged').style.display = 'block';
+  showWarnings(document.getElementById('warn-merge'), document.getElementById('wl-merge'), result.warnings);
+  document.getElementById('block-merged').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('dl-merged').addEventListener('click', () =>
+  download(document.getElementById('out-merged').value, 'tag.js'));
+
+// ═══════════════════════════════════════════════════════════════
+//  WIRE-UP: TABS
+// ═══════════════════════════════════════════════════════════════
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
