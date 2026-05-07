@@ -160,7 +160,7 @@ _skn_creative={
                               "skinimg": {
                                 "tagName": "canvas",
                                 "attrs": {
-                                  "class": "wms-skinimg",
+                                  "class": "wms-skinimg wms-halo-fg",
                                   "width": 1920,
                                   "height": 1000,
                                   "id": "canvas"

@@ -580,6 +580,14 @@ function walkNode(el, adPath, context, _w) {
     const ch = parseInt(el.getAttribute('data-canvas-height') || (isMob ? '450'  : '1000'), 10);
 
     const attrs = buildAttrs(el);
+    if (imgs.length) {
+      const imgClasses = [...imgs[0].classList].filter(c => c !== 'wms-skinimg--placeholder');
+      if (imgClasses.length) {
+        const merged = new Set((attrs.class || '').split(/\s+/).filter(Boolean));
+        imgClasses.forEach(c => merged.add(c));
+        attrs.class = [...merged].join(' ');
+      }
+    }
     attrs.width  = cw;
     attrs.height = ch;
     if (!attrs.id) attrs.id = 'canvas';
