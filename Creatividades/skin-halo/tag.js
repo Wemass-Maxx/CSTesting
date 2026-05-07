@@ -167,7 +167,7 @@ _skn_creative={
                                 },
                                 "canvasImage": {
                                   "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
-                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1200.jpg",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
                                 }
@@ -381,7 +381,7 @@ _skn_creative={
                                 },
                                 "canvasImage": {
                                   "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
-                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1200.jpg",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
                                 }

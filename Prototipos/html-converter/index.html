@@ -703,6 +703,27 @@ function buildRole(htmlString, adPath, context, _w) {
 //  MAIN CONVERTER
 // ═══════════════════════════════════════════════════════════════
 
+function collectMetadataImages(params) {
+  const images = {};
+
+  function visit(node) {
+    if (!node || typeof node !== 'object') return;
+
+    const ci = node.canvasImage;
+    if (ci && typeof ci === 'object') {
+      if (!images.img_1000 && ci['1000']) images.img_1000 = ci['1000'];
+      if (!images.img_1200 && ci['1200']) images.img_1200 = ci['1200'];
+      if (!images.img_450 && ci['450']) images.img_450 = ci['450'];
+      if (!images.img_768 && ci['768']) images.img_768 = ci['768'];
+    }
+
+    for (const value of Object.values(node)) visit(value);
+  }
+
+  visit(params);
+  return images;
+}
+
 function convert(desktopHtml, mobileHtml, opts) {
   const { title, adPath, adServer, clickUrl, device } = opts;
   const _w = [];
@@ -736,12 +757,14 @@ function convert(desktopHtml, mobileHtml, opts) {
   const dateStr = `${now.getFullYear()}-${p2(now.getMonth()+1)}-${p2(now.getDate())} ${p2(now.getHours())}:${p2(now.getMinutes())}`;
   let folder = `${now.getFullYear()}-${p2(now.getMonth()+1)}`;
   if (adPath) { const m = adPath.match(/(\d{4}-\d{2})/); if (m) folder = m[1]; }
+  const metadataImages = collectMetadataImages(params);
 
   const meta = {
     title: safeTitle, adServer: adServer || 'Xandr',
     clickUrl: clickUrl || '',
     type: 'SkinClassic', creativeType: 'SKIN',
     uuid, adPath: adPath || '', folder, date: dateStr,
+    ...metadataImages,
     fullBackgroundColor: 'transparent',
     pixels_script: '', pixels_img: '', pixels_html: '',
   };
