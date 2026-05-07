@@ -1,0 +1,453 @@
+/* Variables */
+
+:root {
+    --wms-fullbg-bgcolor: "##fullBackgroundColor##";
+    --wms-skin-width: 1920px;
+    --wms-skin-height: 1000px;
+    --wms-sticky-top: 0px;
+    --wms-stickywrapper-height: 0px;
+    --wms-safezone-skin-width: 1440px;
+    --wms-safezone-skin-height: 800px;
+    --wms-header-height: 250px;
+}
+
+/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÓN ENCIMA DE ESTO SERÁ DEVUELTA A LOS VALORES INICIALES */
+.wms-full-bg * {
+    all: unset;
+}
+
+/* Inicio hoja de estilos general */
+
+.wms-siteBgHelper {
+    position: absolute;
+    display: inline-block;
+    width: 1000px;
+    height: calc(var(--wms-skin-height) + var(--wms-stickywrapper-height) - var(--wms-header-height));
+    margin: auto;
+    margin-top: var(--wms-header-height);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--wms-site-bg-helper-color);
+}
+
+.wms-siteBgHelper.-wms1000 {
+    width: 1000px;
+}
+
+.wms-siteBgHelper.-wms1200 {
+    width: 1200px;
+}
+
+.wms-cc {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    cursor: pointer;
+}
+
+.wms-sticky {
+    display: block;
+    position: -webkit-sticky;
+    position: sticky;
+    top: var(--wms-sticky-top);
+    left: 0px;
+    width: 100%;
+}
+
+.wms-full-bg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+.wms-mainContainer {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: var(--wms-skin-height);
+}
+
+.wms-centerContents {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: var(--wms-skin-height);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.wms-centerContents>.wms-centeredContent {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.wms-stickyWrapper {
+    display: block;
+    height: var(--wms-stickywrapper-height);
+    background-color: var(--wms-fullbg-bgcolor);
+    padding-bottom: var(--wms-skin-height);
+}
+
+.wms-safezone {
+    width: var(--wms-safezone-skin-width);
+    height: var(--wms-safezone-skin-height);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.wms-skinbg {
+    z-index: 1;
+    position: relative;
+    width: unset;
+}
+
+.wms-header-block {
+    margin: auto;
+    height: var(--wms-header-height);
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    top: 0;
+}
+
+/* Scoreboard */
+.wms-scoreboard {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    background-color: rgba(0, 0, 0, 0.82);
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    z-index: 100;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.wms-scoreboard__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.wms-scoreboard__events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.wms-scoreboard__event {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto 1fr;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 13px;
+    gap: 6px;
+}
+
+.wms-scoreboard__event:last-child {
+    border-bottom: none;
+}
+
+.wms-scoreboard__scorers,
+.wms-scoreboard__cards {
+    grid-column: 1 / -1;
+    width: 100%;
+    list-style: none;
+    margin-top: 6px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    font-size: 10px;
+}
+
+.wms-scoreboard__cards {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.wms-scoreboard__scorer,
+.wms-scoreboard__card {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.82);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    padding: 2px 8px;
+    min-height: 20px;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.wms-scoreboard__card {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.wms-scoreboard__scorer-minute,
+.wms-scoreboard__card-minute {
+    opacity: 0.62;
+    font-size: 10px;
+}
+
+.wms-scoreboard__scorer-name,
+.wms-scoreboard__card-player {
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.wms-scoreboard__scorer-meta,
+.wms-scoreboard__card-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+}
+
+.wms-scoreboard__scorer-team,
+.wms-scoreboard__card-team {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.13);
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.wms-scoreboard__card-type {
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.82);
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+}
+
+.wms-scoreboard__home {
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wms-scoreboard__away {
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wms-scoreboard__home-score,
+.wms-scoreboard__away-score {
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+    min-width: 20px;
+}
+
+.wms-scoreboard__status {
+    display: block;
+    font-size: 10px;
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    text-align: center;
+}
+
+.wms-scoreboard__fallback {
+    padding: 16px;
+    text-align: center;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.wms-scoreboard__fallback:empty {
+    display: none;
+}
+
+/* Clasificación (schemaId: sports.clasificacion) */
+.wms-table__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: linear-gradient(90deg, #0f766e, #155e75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.wms-table__title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+.wms-table__round {
+    font-size: 11px;
+    opacity: 0.85;
+}
+
+.wms-table__columns {
+    display: grid;
+    grid-template-columns: 64px 1fr 64px;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.wms-table__col {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.wms-table__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.wms-table__row {
+    display: grid;
+    grid-template-columns: 64px 1fr 64px;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.wms-table__pos,
+.wms-table__pts {
+    text-align: center;
+    font-weight: 700;
+}
+
+.wms-table__team {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* === f1.session-info === */
+
+.wms-f1-session {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 340px;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    z-index: 100;
+    border-radius: 6px;
+    overflow: hidden;
+    border-top: 3px solid #e10600;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 10px;
+}
+
+.wms-f1-session__circuit,
+.wms-f1-session__location,
+.wms-f1-session__session-type,
+.wms-f1-session__year {
+    position: relative;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    min-height: 18px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.wms-f1-session__circuit::before,
+.wms-f1-session__location::before,
+.wms-f1-session__session-type::before,
+.wms-f1-session__year::before {
+    position: absolute;
+    top: -11px;
+    left: 0;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.58);
+}
+
+.wms-f1-session__circuit {
+    grid-column: 1;
+}
+
+.wms-f1-session__circuit::before {
+    content: "Circuit";
+}
+
+.wms-f1-session__location {
+    grid-column: 2;
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.wms-f1-session__location::before {
+    content: "Location";
+    left: auto;
+    right: 0;
+}
+
+.wms-f1-session__session-type {
+    grid-column: 1;
+    margin-top: 8px;
+}
+
+.wms-f1-session__session-type::before {
+    content: "Session";
+}
+
+.wms-f1-session__year {
+    grid-column: 2;
+    justify-content: flex-end;
+    text-align: right;
+    margin-top: 8px;
+}
+
+.wms-f1-session__year::before {
+    content: "Year";
+    left: auto;
+    right: 0;
+}
+
+
+/*##outerCustomCSSAppend##*/

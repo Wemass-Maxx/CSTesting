@@ -1,0 +1,147 @@
+{
+  "url": "https://api.wemass.com/v1/state?sourceId=soccer-matches",
+  "wrapperClass": "wms-scoreboard",
+  "schema": {
+    "text": {
+      "league": ".wms-scoreboard__league",
+      "season": ".wms-scoreboard__season"
+    },
+    "lists": {
+      "events": {
+        "container": ".wms-scoreboard__events",
+        "templateSelector": ".wms-scoreboard__event",
+        "mappings": {
+          "homeTeam": ".wms-scoreboard__home",
+          "awayTeam": ".wms-scoreboard__away",
+          "homeScore": ".wms-scoreboard__home-score",
+          "awayScore": ".wms-scoreboard__away-score",
+          "status": ".wms-scoreboard__status"
+        },
+        "nestedLists": {
+          "scorers": {
+            "container": ".wms-scoreboard__scorers",
+            "templateSelector": ".wms-scoreboard__scorer",
+            "mappings": {
+              "minute": ".wms-scoreboard__scorer-minute",
+              "name": ".wms-scoreboard__scorer-name",
+              "team": ".wms-scoreboard__scorer-team"
+            }
+          },
+          "cards": {
+            "container": ".wms-scoreboard__cards",
+            "templateSelector": ".wms-scoreboard__card",
+            "mappings": {
+              "minute": ".wms-scoreboard__card-minute",
+              "player": ".wms-scoreboard__card-player",
+              "team": ".wms-scoreboard__card-team",
+              "type": ".wms-scoreboard__card-type"
+            }
+          }
+        }
+      }
+    }
+  },
+  "subNodes": {
+    "header": {
+      "tagName": "div",
+      "attrs": {
+        "class": "wms-scoreboard__header"
+      },
+      "subNodes": {
+        "league": {
+          "tagName": "span",
+          "attrs": {
+            "class": "wms-scoreboard__league"
+          }
+        },
+        "season": {
+          "tagName": "span",
+          "attrs": {
+            "class": "wms-scoreboard__season"
+          }
+        }
+      }
+    },
+    "events": {
+      "tagName": "ul",
+      "attrs": {
+        "class": "wms-scoreboard__events"
+      },
+      "subNodes": {
+        "eventTemplate": {
+          "tagName": "li",
+          "attrs": {
+            "class": "wms-scoreboard__event",
+            "style": "display:none"
+          },
+          "subNodes": {
+            "home": { "tagName": "span", "attrs": { "class": "wms-scoreboard__home" } },
+            "homeScore": { "tagName": "span", "attrs": { "class": "wms-scoreboard__home-score" } },
+            "awayScore": { "tagName": "span", "attrs": { "class": "wms-scoreboard__away-score" } },
+            "away": { "tagName": "span", "attrs": { "class": "wms-scoreboard__away" } },
+            "status": { "tagName": "span", "attrs": { "class": "wms-scoreboard__status" } },
+            "scorers": {
+              "tagName": "ul",
+              "attrs": {
+                "class": "wms-scoreboard__scorers"
+              },
+              "subNodes": {
+                "scorerTemplate": {
+                  "tagName": "li",
+                  "attrs": {
+                    "class": "wms-scoreboard__scorer",
+                    "style": "display:none"
+                  },
+                  "subNodes": {
+                    "meta": {
+                      "tagName": "span",
+                      "attrs": { "class": "wms-scoreboard__scorer-meta" },
+                      "subNodes": {
+                        "minute": { "tagName": "span", "attrs": { "class": "wms-scoreboard__scorer-minute" } },
+                        "team": { "tagName": "span", "attrs": { "class": "wms-scoreboard__scorer-team" } }
+                      }
+                    },
+                    "name": { "tagName": "span", "attrs": { "class": "wms-scoreboard__scorer-name" } }
+                  }
+                }
+              }
+            },
+            "cards": {
+              "tagName": "ul",
+              "attrs": {
+                "class": "wms-scoreboard__cards"
+              },
+              "subNodes": {
+                "cardTemplate": {
+                  "tagName": "li",
+                  "attrs": {
+                    "class": "wms-scoreboard__card",
+                    "style": "display:none"
+                  },
+                  "subNodes": {
+                    "type": { "tagName": "span", "attrs": { "class": "wms-scoreboard__card-type" } },
+                    "player": { "tagName": "span", "attrs": { "class": "wms-scoreboard__card-player" } },
+                    "meta": {
+                      "tagName": "span",
+                      "attrs": { "class": "wms-scoreboard__card-meta" },
+                      "subNodes": {
+                        "minute": { "tagName": "span", "attrs": { "class": "wms-scoreboard__card-minute" } },
+                        "team": { "tagName": "span", "attrs": { "class": "wms-scoreboard__card-team" } }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "fallback": {
+      "tagName": "div",
+      "attrs": {
+        "class": "wms-scoreboard__fallback"
+      }
+    }
+  }
+}

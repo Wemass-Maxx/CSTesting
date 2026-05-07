@@ -1,0 +1,34 @@
+{
+  "url": "https://api.wemass.com/v1/state?sourceId=f1-session-info",
+  "wrapperClass": "wms-f1-session",
+  "schema": {
+    "text": {
+      "circuit": ".wms-f1-session__circuit",
+      "location": ".wms-f1-session__location",
+      "sessionType": ".wms-f1-session__session-type",
+      "year": ".wms-f1-session__year"
+    }
+  },
+  "subNodes": {
+    "circuit": {
+      "tagName": "div",
+      "attrs": { "class": "wms-f1-session__circuit" }
+    },
+    "location": {
+      "tagName": "div",
+      "attrs": { "class": "wms-f1-session__location" }
+    },
+    "sessionType": {
+      "tagName": "div",
+      "attrs": { "class": "wms-f1-session__session-type" }
+    },
+    "year": {
+      "tagName": "div",
+      "attrs": { "class": "wms-f1-session__year" }
+    },
+    "fallback": {
+      "tagName": "div",
+      "attrs": { "class": "wms-scoreboard__fallback" }
+    }
+  }
+}

@@ -1,0 +1,413 @@
+/* SkinScoreboard - outer-mobile.css */
+
+/* Variables */
+:root {
+    --wms-mob-full-bg-height: 600px;
+    --wms-mob-full-bg-max-width: 450px;
+    --wms-skin-height: 450px;
+    --wms-sticky-top: 0px;
+}
+
+/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÓN ENCIMA DE ESTO SERÁ DEVUELTA A LOS VALORES INICIALES */
+.wms-mob-full-bg,
+.wms-mob-full-bg * {
+    all: initial;
+}
+
+/* Inicio hoja de estilos general */
+.wms-cc-mob,
+.wms-centerContents {
+    position: sticky;
+    top: var(--wms-sticky-top);
+    left: 0;
+    width: 100%;
+    height: var(--wms-skin-height);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.wms-cc-mob {
+    height: var(--wms-mob-full-bg-height);
+    margin-top: calc(var(--wms-skin-height) * -1);
+    z-index: 1;
+    pointer-events: all;
+}
+
+.wms-centerContents {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.wms-mob-full-bg {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@media screen and (orientation: portrait) {
+    .wms-mob-full-bg {
+        height: var(--wms-mob-full-bg-height);
+    }
+}
+
+@media screen and (orientation: landscape) {
+    .wms-mob-full-bg {
+        top: var(--wms-sticky-top);
+        width: 100%;
+        max-width: var(--wms-mob-full-bg-max-width);
+    }
+}
+
+/* Scoreboard */
+.wms-scoreboard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    z-index: 100;
+    overflow: hidden;
+    border-radius: 0 0 8px 8px;
+}
+
+.wms-scoreboard__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 10px;
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.wms-scoreboard__league,
+.wms-scoreboard__season {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 10px;
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wms-scoreboard__events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.wms-scoreboard__event {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto 1fr;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+    gap: 4px;
+}
+
+.wms-scoreboard__event:last-child {
+    border-bottom: none;
+}
+
+.wms-scoreboard__scorers,
+.wms-scoreboard__cards {
+    grid-column: 1 / -1;
+    width: 100%;
+    list-style: none;
+    margin-top: 5px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    font-size: 9px;
+}
+
+.wms-scoreboard__cards {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.wms-scoreboard__scorer,
+.wms-scoreboard__card {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.82);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    padding: 1px 6px;
+    min-height: 18px;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.wms-scoreboard__card {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.wms-scoreboard__scorer-minute,
+.wms-scoreboard__card-minute {
+    opacity: 0.6;
+    font-size: 8px;
+}
+
+.wms-scoreboard__scorer-name,
+.wms-scoreboard__card-player {
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.wms-scoreboard__scorer-meta,
+.wms-scoreboard__card-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.wms-scoreboard__scorer-team,
+.wms-scoreboard__card-team {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.13);
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.25px;
+}
+
+.wms-scoreboard__card-type {
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.82);
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+}
+
+.wms-scoreboard__home {
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+}
+
+.wms-scoreboard__away {
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+}
+
+.wms-scoreboard__home-score,
+.wms-scoreboard__away-score {
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    min-width: 16px;
+    color: #ffffff;
+}
+
+.wms-scoreboard__status {
+    display: block;
+    font-size: 9px;
+    font-weight: normal;
+    font-family: Arial, sans-serif;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    text-align: center;
+}
+
+.wms-scoreboard__fallback {
+    padding: 12px;
+    text-align: center;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.wms-scoreboard__fallback:empty {
+    display: none;
+}
+
+/* Clasificación (schemaId: sports.clasificacion) */
+.wms-table__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background: linear-gradient(90deg, #0f766e, #155e75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.wms-table__title {
+    font-size: 10px;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.3px;
+}
+
+.wms-table__round {
+    font-size: 9px;
+    font-family: Arial, sans-serif;
+    opacity: 0.9;
+}
+
+.wms-table__columns,
+.wms-table__row {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    gap: 4px;
+    align-items: center;
+    padding: 7px 10px;
+}
+
+.wms-table__columns {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.wms-table__col {
+    font-size: 9px;
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.wms-table__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.wms-table__row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+}
+
+.wms-table__pos,
+.wms-table__pts {
+    text-align: center;
+    font-weight: 700;
+}
+
+.wms-table__team {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* === f1.session-info === */
+
+.wms-f1-session {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 320px;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    z-index: 100;
+    border-radius: 6px;
+    overflow: hidden;
+    border-top: 3px solid #e10600;
+    padding: 8px 10px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 8px;
+}
+
+.wms-f1-session__circuit,
+.wms-f1-session__location,
+.wms-f1-session__session-type,
+.wms-f1-session__year {
+    position: relative;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    min-height: 16px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.wms-f1-session__circuit::before,
+.wms-f1-session__location::before,
+.wms-f1-session__session-type::before,
+.wms-f1-session__year::before {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.58);
+}
+
+.wms-f1-session__circuit {
+    grid-column: 1;
+}
+
+.wms-f1-session__circuit::before {
+    content: "Circuit";
+}
+
+.wms-f1-session__location {
+    grid-column: 2;
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.wms-f1-session__location::before {
+    content: "Location";
+    left: auto;
+    right: 0;
+}
+
+.wms-f1-session__session-type {
+    grid-column: 1;
+    margin-top: 6px;
+}
+
+.wms-f1-session__session-type::before {
+    content: "Session";
+}
+
+.wms-f1-session__year {
+    grid-column: 2;
+    justify-content: flex-end;
+    text-align: right;
+    margin-top: 6px;
+}
+
+.wms-f1-session__year::before {
+    content: "Year";
+    left: auto;
+    right: 0;
+}
