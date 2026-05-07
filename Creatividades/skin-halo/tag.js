@@ -1,7 +1,7 @@
 _skn_creative={
-  "title": "halo-skin",
+  "title": "skin-halo-test",
   "adPath": "https://PLACEHOLDER/PLACEHOLDER",
-  "uuid": "37056547",
+  "uuid": "6bbf8858",
   "Type": "SkinClassic",
   "params": {
     "__type__": "device",
@@ -160,14 +160,14 @@ _skn_creative={
                               "skinimg": {
                                 "tagName": "canvas",
                                 "attrs": {
-                                  "class": "wms-skinimg wms-halo-fg",
+                                  "class": "wms-skinimg",
                                   "width": 1920,
                                   "height": 1000,
                                   "id": "canvas"
                                 },
                                 "canvasImage": {
                                   "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
-                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1200.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
                                 }
@@ -374,14 +374,14 @@ _skn_creative={
                               "skinimg": {
                                 "tagName": "canvas",
                                 "attrs": {
-                                  "class": "wms-skinimg",
+                                  "class": "wms-skinimg wms-halo-fg",
                                   "width": 1920,
                                   "height": 1000,
                                   "id": "canvas"
                                 },
                                 "canvasImage": {
                                   "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
-                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1200.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
                                 }
