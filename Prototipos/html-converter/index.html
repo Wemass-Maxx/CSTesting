@@ -341,13 +341,17 @@ function makeBehaviors(el, context) {
   if (context !== 'mobile') {
 
     // wms-full-bg  →  layout infrastructure + impression
-    if (cl.contains('wms-full-bg') || cl.contains('wms-full-fg')) {
+    if (cl.contains('wms-full-bg')) {
       Object.assign(b, {
         CalculateHeight:        { path: '/params/skins/CalculateHeight' },
         CssVariableDeclaration: { path: '/params/skins/CssVariableDeclaration' },
         CalculatePosition:      { path: '/params/skins/CalculatePosition' },
         Timer: { timeout: 0, events: [...IMPRESSION_EVENTS] },
       });
+    }
+
+    if (cl.contains('wms-full-fg')) {
+      b.Click = { url: CLICK_URL_EXPR, hidePointer: false, events: [...CLICK_EVENTS] };
     }
 
     // wms-sticky  →  offset vertical
@@ -562,6 +566,13 @@ function resolveUrl(src, adPath) {
   return (adPath || '').replace(/\/$/, '') + '/' + src;
 }
 
+function inferWidthVariantSrc(src, width) {
+  if (!src) return src;
+  if (width === '1200' && /1000/.test(src)) return src.replace(/1000/g, '1200');
+  if (width === '1000' && /1200/.test(src)) return src.replace(/1200/g, '1000');
+  return src;
+}
+
 // ═══════════════════════════════════════════════════════════════
 //  DOM WALKER
 // ═══════════════════════════════════════════════════════════════
@@ -600,7 +611,12 @@ function walkNode(el, adPath, context, _w) {
         ci['450'] = resolveUrl(imgs[0].getAttribute('src'), adPath);
       } else {
         ci['1000'] = resolveUrl(imgs[0].getAttribute('src'), adPath);
-        ci['1200'] = resolveUrl((imgs[1] || imgs[0]).getAttribute('src'), adPath);
+        ci['1200'] = resolveUrl(
+          imgs[1]
+            ? imgs[1].getAttribute('src')
+            : inferWidthVariantSrc(imgs[0].getAttribute('src'), '1200'),
+          adPath
+        );
       }
       node.canvasImage = ci;
     }
@@ -648,6 +664,14 @@ function walkNode(el, adPath, context, _w) {
   if (el.classList.contains('wms-full-bg') || el.classList.contains('wms-mob-full-bg') ||
       el.classList.contains('wms-full-fg')) {
     node.size = { width: '100%' };
+  }
+
+  if (el.classList.contains('wms-full-bg')) {
+    node.name = 'wmsFullBgMain';
+  }
+
+  if (el.classList.contains('wms-full-fg')) {
+    node.name = 'wmsFullFgMain';
   }
 
   // Inject behaviors
@@ -703,18 +727,24 @@ function buildRole(htmlString, adPath, context, _w) {
 //  MAIN CONVERTER
 // ═══════════════════════════════════════════════════════════════
 
-function collectMetadataImages(params) {
+function collectMetadataImages(params, adPath) {
   const images = {};
+  const normalizedAdPath = (adPath || '').replace(/\/$/, '');
+
+  function toMetadataPath(value) {
+    if (!value || !normalizedAdPath || !value.startsWith(normalizedAdPath + '/')) return value;
+    return value.substring(normalizedAdPath.length + 1);
+  }
 
   function visit(node) {
     if (!node || typeof node !== 'object') return;
 
     const ci = node.canvasImage;
     if (ci && typeof ci === 'object') {
-      if (!images.img_1000 && ci['1000']) images.img_1000 = ci['1000'];
-      if (!images.img_1200 && ci['1200']) images.img_1200 = ci['1200'];
-      if (!images.img_450 && ci['450']) images.img_450 = ci['450'];
-      if (!images.img_768 && ci['768']) images.img_768 = ci['768'];
+      if (!images.img_1000 && ci['1000']) images.img_1000 = toMetadataPath(ci['1000']);
+      if (!images.img_1200 && ci['1200']) images.img_1200 = toMetadataPath(ci['1200']);
+      if (!images.img_450 && ci['450']) images.img_450 = toMetadataPath(ci['450']);
+      if (!images.img_768 && ci['768']) images.img_768 = toMetadataPath(ci['768']);
     }
 
     for (const value of Object.values(node)) visit(value);
@@ -757,7 +787,7 @@ function convert(desktopHtml, mobileHtml, opts) {
   const dateStr = `${now.getFullYear()}-${p2(now.getMonth()+1)}-${p2(now.getDate())} ${p2(now.getHours())}:${p2(now.getMinutes())}`;
   let folder = `${now.getFullYear()}-${p2(now.getMonth()+1)}`;
   if (adPath) { const m = adPath.match(/(\d{4}-\d{2})/); if (m) folder = m[1]; }
-  const metadataImages = collectMetadataImages(params);
+  const metadataImages = collectMetadataImages(params, safeAdPath);
 
   const meta = {
     title: safeTitle, adServer: adServer || 'Xandr',

@@ -1,7 +1,7 @@
 _skn_creative={
-  "title": "base-skin-halohalo",
+  "title": "base-skinHaaalo",
   "adPath": "https://PLACEHOLDER/PLACEHOLDER",
-  "uuid": "efec2487",
+  "uuid": "9f9b2214",
   "Type": "SkinClassic",
   "params": {
     "__type__": "device",
@@ -75,6 +75,7 @@ _skn_creative={
             "size": {
               "width": "100%"
             },
+            "name": "wmsFullBgMain",
             "b": {
               "CalculateHeight": {
                 "path": "/params/skins/CalculateHeight"
@@ -167,7 +168,7 @@ _skn_creative={
                                 },
                                 "canvasImage": {
                                   "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
-                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1200.jpg",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
                                 }
@@ -289,24 +290,26 @@ _skn_creative={
             "size": {
               "width": "100%"
             },
+            "name": "wmsFullFgMain",
             "b": {
-              "CalculateHeight": {
-                "path": "/params/skins/CalculateHeight"
-              },
-              "CssVariableDeclaration": {
-                "path": "/params/skins/CssVariableDeclaration"
-              },
-              "CalculatePosition": {
-                "path": "/params/skins/CalculatePosition"
-              },
-              "Timer": {
-                "timeout": 0,
+              "Click": {
+                "url": {
+                  "__type__": "expression",
+                  "expression": "[%/params/click%]"
+                },
+                "hidePointer": false,
                 "events": [
                   {
-                    "expression": "[%/skin_producer%].logMetric([%/skin_producer/names/IMPRESSION%], 1, [%/creativeId%])"
+                    "expression": "[%/skin_producer%].logMetric([%/skin_producer/names/CLICK%], 1, [%/creativeId%])"
                   },
                   {
-                    "expression": "[%/skin_producer%].logTime([%/skin_producer/names/IMPRESSION%], [%/creativeId%])"
+                    "expression": "[%/skin_producer%].incMetric([%/skin_producer/names/CLICK_COUNT%], [%/creativeId%])"
+                  },
+                  {
+                    "expression": "[%/skin_producer%].logTime([%/skin_producer/names/CLICK%], [%/creativeId%])"
+                  },
+                  {
+                    "expression": "[%/skin_producer%].logClickDetail([%/event%], [%/creativeId%])"
                   }
                 ]
               }
@@ -381,7 +384,7 @@ _skn_creative={
                                 },
                                 "canvasImage": {
                                   "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
-                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1200.jpg",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
                                 }

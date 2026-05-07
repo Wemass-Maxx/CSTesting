@@ -21,12 +21,14 @@
   - intente leer `metadata.json` local antes de caer al CDN.
 - Se corrigió el converter en `Prototipos/html-converter/index.html` para que, al transformar `div.wms-skinimg` en `canvas`, preserve las clases semánticas del `<img>` original. En `skin-halo` eso era necesario para mantener `wms-halo-fg` y permitir que el CSS de la capa frontal se aplique.
 - Se ajustó el converter para que `metadata.json` incluya automáticamente las claves `img_1000`, `img_1200`, `img_450` e `img_768` cuando existen en los `canvasImage` generados. El index de `Creatividades` usa esas claves para decidir si pinta la tarjeta.
+- Se corrigió el contrato de `wms-full-fg` en el converter: ya no hereda behaviours de infraestructura de `wms-full-bg` (`CalculateHeight`, `CssVariableDeclaration`, `CalculatePosition`, `Timer`) y ahora sale con `name: "wmsFullFgMain"` como las plantillas oficiales con foreground.
 
 ## Cosas a tener en cuenta en la proxima sesion
 
 - Si el converter vuelve a regenerar `skin-halo`, revisar que no sobrescriba manualmente las claves `img_1000` y `img_1200`.
 - Revisar que cualquier clase útil en un `<img>` convertido a `canvas` siga viajando al `attrs.class` del nodo final.
 - Confirmar que el `metadata.json` generado tenga al menos una clave `img_*`; si no, la pieza no se listará aunque `tag.js` exista.
+- Para piezas con `wms-full-fg`, comparar siempre contra `ImmersiveSkin`, `SkinImmersiveSimple` o `SkinToggle*`, no contra `SkinClassic`, porque `SkinClassic` no tiene nodo foreground.
 - Confirmar que el `adPath` generado por el converter siga apuntando a la carpeta real publicada para jsDelivr.
 - Revisar si el index debe seguir con esta excepcion local o si conviene generar un `manifest` comun para todas las creatividades.
 - Mantener sincronizados los nombres de archivo del arte con lo que declara `metadata.json` y con lo que referencia `tag.js`.
