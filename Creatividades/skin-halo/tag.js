@@ -1,7 +1,7 @@
 _skn_creative={
-  "title": "skin-halo-test",
+  "title": "base-skin-halo",
   "adPath": "https://PLACEHOLDER/PLACEHOLDER",
-  "uuid": "6bbf8858",
+  "uuid": "39f67d27",
   "Type": "SkinClassic",
   "params": {
     "__type__": "device",
