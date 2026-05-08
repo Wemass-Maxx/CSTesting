@@ -1,7 +1,7 @@
 _skn_creative={
-  "title": "Halo-v1",
+  "title": "halo",
   "adPath": "https://PLACEHOLDER/PLACEHOLDER",
-  "uuid": "7d3a8363",
+  "uuid": "cb59969c",
   "Type": "SkinClassic",
   "params": {
     "__type__": "device",
@@ -435,8 +435,8 @@ _skn_creative={
                         "tagName": "canvas",
                         "attrs": {
                           "class": "wms-halo-banner",
-                          "width": 300,
-                          "height": 200
+                          "width": 1920,
+                          "height": 150
                         },
                         "canvasImage": {
                           "1000": "https://PLACEHOLDER/PLACEHOLDER/BANNER.png",

@@ -107,6 +107,12 @@
      Se centra en el viewport cuando .-wms-expanded está activo. */
   --wms-video-expanded-width: 800px;
 
+  /* Color de fondo intermedio (overlay parcial, ej. bajo el header). */
+  --wms-mid-bg: transparent;
+
+  /* URL del botón expand personalizado. Sobreescribir para usar imagen custom. */
+  --wms-ui-btnfullexpand: none;
+
   /* ── SCROLLING SKIN — OPCIONAL ───────────────────────────── */
   /* Solo para: skin-scrolling. */
 
@@ -165,6 +171,11 @@
    Los clicks pasan a .wms-full-bg debajo.
    Los hijos interactivos (botones, video) activan pointer-events individualmente. */
 .wms-full-fg {
+  pointer-events: none;
+}
+
+/* El stickyWrapper del fg no debe capturar eventos de mouse. */
+.wms-full-fg .wms-stickyWrapper {
   pointer-events: none;
 }
 
@@ -325,6 +336,7 @@
 .wms-siteBgHelper {
   position: absolute;
   display: inline-block;
+  width: 1000px;
   left: 50%;
   transform: translateX(-50%);
   height: calc(var(--wms-skin-height) + var(--wms-stickywrapper-height) - var(--wms-header-height));
@@ -346,6 +358,15 @@
    de countdown, botón close, etc. */
 .-wms-nodisplay {
   display: none !important;
+}
+
+/* Posicionamiento fixed a pantalla completa. */
+.-fullsize {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 
 
@@ -439,6 +460,10 @@
   position: absolute;
   background: linear-gradient(45deg, rgba(0,0,0,0) 65%, rgba(0,0,0,0.70) 100%);
   z-index: 1;
+}
+.wms-cont-video .wms-btns-canvas {
+  height: calc(var(--wms-video-width-1000) / 1.78);
+  width: var(--wms-video-width-1000);
 }
 .wms-cont-video.-wms1000 .wms-btns-canvas {
   height: calc(var(--wms-video-width-1000) / 1.78);
@@ -825,6 +850,12 @@
 
 @keyframes wms-animexpand {
   50% { background-size: 50px; }
+}
+
+/* Botón expand con imagen custom vía --wms-ui-btnfullexpand. */
+.wms-fullexpand.-wms-custom-btn,
+.-wms-fullexpand.-wms-custom-btn {
+  background: var(--wms-ui-bg) var(--wms-ui-btnfullexpand) center / 65px no-repeat;
 }
 
 

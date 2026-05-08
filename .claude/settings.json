@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/xampp/htdocs/creative-studio/assets/css/core/**)",
+      "Read(//c/xampp/htdocs/creative-studio/assets/**)"
+    ]
+  }
+}

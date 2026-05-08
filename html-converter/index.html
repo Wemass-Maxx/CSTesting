@@ -290,6 +290,7 @@
 <!-- ═══════════════════════════════════════════════════════════
      JAVASCRIPT
 ════════════════════════════════════════════════════════════ -->
+<script src="wms-converter-config.js"></script>
 <script>
 'use strict';
 
@@ -587,8 +588,9 @@ function walkNode(el, adPath, context, _w) {
     if (!imgs.length) _w.push('wms-skinimg sin &lt;img&gt; encontrado');
 
     const isMob = context === 'mobile';
-    const cw = parseInt(el.getAttribute('data-canvas-width')  || (isMob ? '430'  : '1920'), 10);
-    const ch = parseInt(el.getAttribute('data-canvas-height') || (isMob ? '450'  : '1000'), 10);
+    const def = isMob ? WMS_CONVERTER_CONFIG.canvasDefaults.mobile : WMS_CONVERTER_CONFIG.canvasDefaults.desktop;
+    const cw  = parseInt(el.getAttribute('data-canvas-width')  || def.width,  10);
+    const ch  = parseInt(el.getAttribute('data-canvas-height') || def.height, 10);
 
     const attrs = buildAttrs(el);
     if (imgs.length) {
@@ -608,7 +610,7 @@ function walkNode(el, adPath, context, _w) {
     if (imgs.length) {
       const ci = { '__type__': 'expression', 'expression': '[%/params/contentWidth%]' };
       if (isMob) {
-        ci['450'] = resolveUrl(imgs[0].getAttribute('src'), adPath);
+        WMS_CONVERTER_CONFIG.breakpoints.mobile.forEach(k => ci[k] = resolveUrl(imgs[0].getAttribute('src'), adPath));
       } else {
         ci['1000'] = resolveUrl(imgs[0].getAttribute('src'), adPath);
         ci['1200'] = resolveUrl(
@@ -630,10 +632,16 @@ function walkNode(el, adPath, context, _w) {
     const url = resolveUrl(src, adPath);
     const attrs = buildAttrs(el);
     delete attrs.src; delete attrs.alt;
-    if (!attrs.width)  attrs.width  = 300;
-    if (!attrs.height) attrs.height = 200;
+    const knownDim = [...el.classList].map(c => WMS_CONVERTER_CONFIG.classDimensions[c]).find(Boolean);
+    const fb       = WMS_CONVERTER_CONFIG.imgFallback;
+    if (!attrs.width)  attrs.width  = knownDim?.width  ?? fb.width;
+    if (!attrs.height) attrs.height = knownDim?.height ?? fb.height;
     const node = { tagName: 'canvas', attrs };
-    if (url) node.canvasImage = { '__type__': 'expression', 'expression': '[%/params/contentWidth%]', '1000': url, '1200': url };
+    if (url) {
+      const ci = { '__type__': 'expression', 'expression': '[%/params/contentWidth%]' };
+      WMS_CONVERTER_CONFIG.breakpoints.desktop.forEach(k => ci[k] = url);
+      node.canvasImage = ci;
+    }
     return node;
   }
 
@@ -653,8 +661,7 @@ function walkNode(el, adPath, context, _w) {
     attrs.class = {
       '__type__': 'expression',
       'expression': '[%/params/contentWidth%]',
-      '1000': 'wms-siteBgHelper -wms1000',
-      '1200': 'wms-siteBgHelper -wms1200',
+      ...WMS_CONVERTER_CONFIG.siteBgHelperClasses,
     };
   }
 
@@ -778,7 +785,7 @@ function convert(desktopHtml, mobileHtml, opts) {
     };
   }
 
-  const creative = { title: safeTitle, adPath: safeAdPath, uuid, Type: 'SkinClassic', params };
+  const creative = { title: safeTitle, adPath: safeAdPath, uuid, Type: WMS_CONVERTER_CONFIG.creativeType, params };
   const tagJs = `_skn_creative=${JSON.stringify(creative, null, 2)}`;
 
   // ── metadata.json ──────────────────────────────────────────
