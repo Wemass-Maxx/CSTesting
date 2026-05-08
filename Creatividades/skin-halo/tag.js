@@ -1,7 +1,7 @@
 _skn_creative={
-  "title": "base-skinHaaalo",
+  "title": "Halo-v1",
   "adPath": "https://PLACEHOLDER/PLACEHOLDER",
-  "uuid": "9f9b2214",
+  "uuid": "7d3a8363",
   "Type": "SkinClassic",
   "params": {
     "__type__": "device",
@@ -167,8 +167,8 @@ _skn_creative={
                                   "id": "canvas"
                                 },
                                 "canvasImage": {
-                                  "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
-                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1200.jpg",
+                                  "1000": "https://PLACEHOLDER/PLACEHOLDER/1000.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/1200.jpg",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
                                 }
@@ -383,61 +383,10 @@ _skn_creative={
                                   "id": "canvas"
                                 },
                                 "canvasImage": {
-                                  "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1000.jpg",
-                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/1200.jpg",
+                                  "1000": "https://PLACEHOLDER/PLACEHOLDER/1000.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/1200.jpg",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
-                                }
-                              },
-                              "halo": {
-                                "tagName": "div",
-                                "attrs": {
-                                  "class": "wms-halo"
-                                },
-                                "subNodes": {
-                                  "haloButtonContainer": {
-                                    "tagName": "div",
-                                    "attrs": {
-                                      "class": "wms-halo-buttoncontainer"
-                                    },
-                                    "subNodes": {
-                                      "boxBtns": {
-                                        "tagName": "div",
-                                        "attrs": {
-                                          "class": "wms-box-btns -wms-generalbtns"
-                                        },
-                                        "subNodes": {
-                                          "btnClose": {
-                                            "tagName": "div",
-                                            "attrs": {
-                                              "class": "wms-btn-close"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  },
-                                  "haloContent": {
-                                    "tagName": "div",
-                                    "attrs": {
-                                      "class": "wms-halo-content"
-                                    },
-                                    "subNodes": {
-                                      "img": {
-                                        "tagName": "canvas",
-                                        "attrs": {
-                                          "width": 300,
-                                          "height": 200
-                                        },
-                                        "canvasImage": {
-                                          "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/BANNER.png",
-                                          "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/BANNER.png",
-                                          "__type__": "expression",
-                                          "expression": "[%/params/contentWidth%]"
-                                        }
-                                      }
-                                    }
-                                  }
                                 }
                               }
                             }
@@ -485,12 +434,13 @@ _skn_creative={
                       "img": {
                         "tagName": "canvas",
                         "attrs": {
+                          "class": "wms-halo-banner",
                           "width": 300,
                           "height": 200
                         },
                         "canvasImage": {
-                          "1000": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/BANNER.png",
-                          "1200": "https://PLACEHOLDER/PLACEHOLDER/skin-halo/BANNER.png",
+                          "1000": "https://PLACEHOLDER/PLACEHOLDER/BANNER.png",
+                          "1200": "https://PLACEHOLDER/PLACEHOLDER/BANNER.png",
                           "__type__": "expression",
                           "expression": "[%/params/contentWidth%]"
                         }

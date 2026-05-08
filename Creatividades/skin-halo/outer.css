@@ -97,6 +97,7 @@
 
   /* Fondo de elementos UI (botones, paneles). Negro semitransparente. */
   --wms-ui-bg: rgb(0 0 0 / 80%);
+  --wms-btn-size: 35px;
 
   /* Color del overlay cuando el estado expandido está activo.
      Cubre el contenido del site detrás del video expandido. */
@@ -453,7 +454,7 @@
 /* Contenedor de botones: columna vertical, esquina superior derecha. */
 .wms-box-btns {
   display: block;
-  width: 35px;
+  width: var(--wms-btn-size);
   height: auto;
   position: absolute;
   right: 5px;
@@ -476,8 +477,8 @@
    background-position selecciona el icono dentro del sprite. */
 .wms-btn-sound {
   display: block;
-  width: 35px;
-  height: 35px;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
   background: url(images/wms-sprites.svg);
   background-position: 118px -2px;
 }
@@ -486,29 +487,29 @@
 }
 .wms-btn-expand {
   display: block;
-  width: 35px;
-  height: 35px;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
   background: url(images/wms-sprites.svg);
   background-position: 238px -2px;
 }
 .wms-btn-minimize {
   display: block;
-  width: 35px;
-  height: 35px;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
   background: url(images/wms-sprites.svg);
   background-position: 198px -2px;
 }
 .wms-btn-play {
   display: block;
-  width: 35px;
-  height: 35px;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
   background: url(images/wms-sprites.svg);
   background-position: 38px -2px;
 }
 .wms-btn-close {
   display: block;
-  width: 35px;
-  height: 35px;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
   background: url(images/x.svg);
   background-position: 0px 0px;
 }
@@ -568,14 +569,19 @@
 
 /* skin halo */
 
+.wms-halo-banner {
+    display: block;
+    width: var(--wms-skin-width);
+    height: var(--wms-halo-height);
+    cursor: pointer;
+}
+
 .wms-full-fg.-wms-expanded.wms-expanded-halo {
-    /* background-color: red; */
     background-color: transparent !important;
     pointer-events: none;
 }
 
 .wms-full-fg.-wms-expanded .wms-halo {
-    /* background-color: red; */
     display: block;
     bottom: 0 !important;
     position: absolute;
@@ -588,23 +594,29 @@
     pointer-events: all;
 }
 .wms-full-fg.-wms-expanded .wms-halo-content {
-    /* background-color: red; */
     display: block;
     bottom: 0 !important;
-    position: fixed;
+    position: relative;
 }
 .wms-full-fg.-wms-expanded .wms-skinbg .wms-halo {
   display: none;
 }
 .wms-halo .wms-box-btns.-wms-generalbtns {
   position: relative;
-  left: 100%;
+  left: calc(100% - 35px);
 }
 .wms-halo-buttoncontainer {
+    position: absolute;
     height: var(--wms-halo-height);
     width: 1000px; /* ancho del sitio */
     margin: auto;
+    z-index: calc(var(--wms-top-layer) + 2);
+    pointer-events: none;
 }
+.wms-halo-buttoncontainer > * {
+    pointer-events: all;
+}
+
 
 @media (max-height: 1000px) {
   .wms-full-fg.-wms-expanded .wms-halo-fg {
@@ -615,11 +627,8 @@
   .wms-full-fg.-wms-expanded .wms-halo-fg {
       clip-path: inset(calc(var(--wms-skin-height) - var(--wms-halo-height)) 0 0 0);
   }
-  .wms-full-fg.-wms-expanded > .wms-halo {
-    display: none;
- }
-   .wms-full-fg.-wms-expanded .wms-skinbg .wms-halo {
-    display: flex;
+  .wms-full-fg.-wms-expanded .wms-halo {
+    top: calc(var(--wms-skin-height) - var(--wms-halo-height)) !important;
   }
 }
 
