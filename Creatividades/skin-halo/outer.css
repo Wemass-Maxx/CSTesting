@@ -328,6 +328,7 @@
   left: 50%;
   transform: translateX(-50%);
   height: calc(var(--wms-skin-height) + var(--wms-stickywrapper-height) - var(--wms-header-height));
+  margin-top: var(--wms-header-height);
   background-color: var(--wms-site-bg-helper-color);
 }
 
