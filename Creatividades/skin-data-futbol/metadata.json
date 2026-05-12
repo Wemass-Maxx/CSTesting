@@ -1,0 +1,17 @@
+{
+  "title": "halo",
+  "adServer": "Xandr",
+  "clickUrl": "https://www.wemass.com/",
+  "type": "SkinClassic",
+  "creativeType": "SKIN",
+  "uuid": "cb59969c",
+  "adPath": "",
+  "folder": "2026-05",
+  "date": "2026-05-08 12:27",
+  "img_1000": "1000.jpg",
+  "img_1200": "1200.jpg",
+  "fullBackgroundColor": "transparent",
+  "pixels_script": "",
+  "pixels_img": "",
+  "pixels_html": ""
+}

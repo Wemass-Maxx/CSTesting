@@ -25,15 +25,6 @@ body {
     z-index: 1;
     margin: auto;
 }
-.site-nav {
-    position: relative;
-    width: 100%;
-    /* min-height: 5000px; */
-    height: 100px;
-    z-index: 1;
-    margin: auto;
-    background-color: antiquewhite;
-}
 
 .site-content__inner {
   width: 1000px;

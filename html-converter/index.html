@@ -235,6 +235,22 @@
       <textarea class="out" id="out-meta" readonly spellcheck="false"></textarea>
     </div>
 
+    <div class="card output-block" id="block-config" style="margin-top:0">
+      <div class="out-header">
+        <span class="out-label">config.json</span>
+        <button class="btn-dl" id="dl-config">⬇ Descargar</button>
+      </div>
+      <textarea class="out" id="out-config" readonly spellcheck="false"></textarea>
+    </div>
+
+    <div class="card output-block" id="block-def" style="margin-top:0">
+      <div class="out-header">
+        <span class="out-label">definition.json</span>
+        <button class="btn-dl" id="dl-def">⬇ Descargar</button>
+      </div>
+      <textarea class="out" id="out-def" readonly spellcheck="false"></textarea>
+    </div>
+
     <div class="stats" id="stats-convert"></div>
     <div class="warnings" id="warn-convert"><p class="wt">⚠ Avisos</p><ul id="wl-convert"></ul></div>
 
@@ -761,6 +777,65 @@ function collectMetadataImages(params, adPath) {
   return images;
 }
 
+// ═══════════════════════════════════════════════════════════════
+//  CONFIG.JSON + DEFINITION.JSON BUILDERS
+// ═══════════════════════════════════════════════════════════════
+
+function replacePlaceholders(obj) {
+  if (!obj || typeof obj !== 'object') return obj;
+  if (Array.isArray(obj)) return obj.map(replacePlaceholders);
+  const result = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (key === 'canvasImage' && value && typeof value === 'object') {
+      const ci = { ...value };
+      if ('1000' in ci) ci['1000'] = '##img_1000##';
+      if ('1200' in ci) ci['1200'] = '##img_1200##';
+      if ('450'  in ci) ci['450']  = '##img_450##';
+      if ('768'  in ci) ci['768']  = '##img_768##';
+      result[key] = ci;
+    } else {
+      result[key] = replacePlaceholders(value);
+    }
+  }
+  return result;
+}
+
+function buildConfigJson(params, type) {
+  return JSON.stringify({ Type: type, params: replacePlaceholders(params) }, null, 2);
+}
+
+function buildDefinitionJson(foundImages, device) {
+  const fields = {};
+
+  fields.adServer = {
+    LABEL: 'AdServer (Plataforma para la que se prepara el Clicktag de la pieza)',
+    TYPE: 'Enum', DEVICE: 'both', SECTION: 'basic', REQUIRED: true,
+    VALUES: ['Xandr', 'TTD', 'DV360'], DEFAULT: 'Xandr',
+  };
+  fields.title = {
+    LABEL: 'Nombre (AdServer_SkinClassic_agencia_anunciante_campaña_fecha)',
+    TYPE: 'String', DEVICE: 'both', SECTION: 'basic',
+    DEFAULT: 'AdServer_SkinClassic_agencia_anunciante_campaña_fecha', REQUIRED: true,
+  };
+  fields.crmId   = { LABEL: 'Id en CRM',    TYPE: 'String', DEVICE: 'both', SECTION: 'basic', REQUIRED: false };
+  fields.sspId   = { LABEL: 'Id en SSP/DSP', TYPE: 'String', DEVICE: 'both', SECTION: 'basic', REQUIRED: false };
+  fields.clickUrl = { LABEL: 'Url de click (CC)', TYPE: 'String', DEVICE: 'both', SECTION: 'basic', REQUIRED: false };
+
+  if (foundImages.img_1000) fields.img_1000 = { LABEL: 'Arte 1000px (Imagen)', TYPE: 'Image', DEVICE: 'desktop', REQUIRED: true };
+  if (foundImages.img_1200) fields.img_1200 = { LABEL: 'Arte 1200px (Imagen)', TYPE: 'Image', DEVICE: 'desktop', REQUIRED: true };
+  if (foundImages.img_450)  fields.img_450  = { LABEL: 'Arte 900px x 900px (tamaño base de imagen de 450px x2 para pantallas 2x dpi) (Imagen)', TYPE: 'Image', DEVICE: 'mobile', REQUIRED: false };
+  if (foundImages.img_768)  fields.img_768  = { LABEL: 'Arte 768px (Imagen)', TYPE: 'Image', DEVICE: 'tablet', REQUIRED: false };
+
+  fields.fullBackgroundColor  = { LABEL: 'Color del fondo (CSS)', TYPE: 'String', DEVICE: 'desktop', REQUIRED: true, DEFAULT: 'transparent' };
+  fields.outerCustomCSSAppend = { LABEL: 'Custom CSS', TYPE: 'Text', DEVICE: 'desktop', REQUIRED: false };
+
+  fields.pixels_script = { LABEL: 'Pixels (JS) - Cada linea debe ir entre comillas y separado por comas (como Array)',  TYPE: 'Text', DEVICE: 'both', REQUIRED: false, REPLACE_QUOTES: true };
+  fields.pixels_img    = { LABEL: 'Pixels (IMG) - Cada linea debe ir entre comillas y separado por comas (como Array)', TYPE: 'Text', DEVICE: 'both', REQUIRED: false, REPLACE_QUOTES: true };
+  fields.pixels_html   = { LABEL: 'Pixels (HTML) - Cada linea debe ir entre comillas y separado por comas (como Array)',TYPE: 'Text', DEVICE: 'both', REQUIRED: false, REPLACE_QUOTES: true };
+
+  return JSON.stringify({ FIELDS: fields }, null, 2);
+}
+
 function convert(desktopHtml, mobileHtml, opts) {
   const { title, adPath, adServer, clickUrl, device } = opts;
   const _w = [];
@@ -806,7 +881,10 @@ function convert(desktopHtml, mobileHtml, opts) {
     pixels_script: '', pixels_img: '', pixels_html: '',
   };
 
-  return { tagJs, metadataJson: JSON.stringify(meta, null, 2), warnings: _w };
+  const configJson     = buildConfigJson(params, WMS_CONVERTER_CONFIG.creativeType);
+  const definitionJson = buildDefinitionJson(metadataImages, device);
+
+  return { tagJs, metadataJson: JSON.stringify(meta, null, 2), configJson, definitionJson, warnings: _w };
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -949,10 +1027,14 @@ document.getElementById('btnGenerate').addEventListener('click', () => {
     device:   document.getElementById('inputDevice').value,
   });
 
-  document.getElementById('out-tagjs').value = result.tagJs;
-  document.getElementById('out-meta').value  = result.metadataJson;
+  document.getElementById('out-tagjs').value  = result.tagJs;
+  document.getElementById('out-meta').value   = result.metadataJson;
+  document.getElementById('out-config').value = result.configJson;
+  document.getElementById('out-def').value    = result.definitionJson;
   document.getElementById('block-tagjs').style.display = 'block';
   document.getElementById('block-meta').style.display  = 'block';
+  document.getElementById('block-config').style.display = 'block';
+  document.getElementById('block-def').style.display    = 'block';
 
   const kb = (result.tagJs.length / 1024).toFixed(1);
   const st = document.getElementById('stats-convert');
@@ -972,6 +1054,10 @@ document.getElementById('dl-tagjs').addEventListener('click', () =>
   download(document.getElementById('out-tagjs').value, 'tag.js'));
 document.getElementById('dl-meta').addEventListener('click', () =>
   download(document.getElementById('out-meta').value, 'metadata.json'));
+document.getElementById('dl-config').addEventListener('click', () =>
+  download(document.getElementById('out-config').value, 'config.json'));
+document.getElementById('dl-def').addEventListener('click', () =>
+  download(document.getElementById('out-def').value, 'definition.json'));
 
 // ═══════════════════════════════════════════════════════════════
 //  WIRE-UP: TAB MERGE

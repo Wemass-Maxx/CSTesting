@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Read(//c/xampp/htdocs/creative-studio/assets/css/core/**)",
-      "Read(//c/xampp/htdocs/creative-studio/assets/**)"
+      "Read(//c/xampp/htdocs/creative-studio/assets/**)",
+      "Read(//c/xampp/htdocs/creative-studio/ad_creatives/**)"
     ]
   }
 }

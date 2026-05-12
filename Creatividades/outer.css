@@ -1,0 +1,882 @@
+/* =============================================================
+   base-skin.css — Desktop Ad Skin Base Stylesheet
+   =============================================================
+   Estilos estructurales para el esqueleto .wms-full-bg / .wms-full-fg.
+   Define todas las CSS custom properties configurables.
+
+   SCOPE: equivalente a outer.css en el sistema de producción.
+          Se ejecuta en el contexto outer del ad server (no en iframe).
+
+   RESET all: unset:
+     Aplicado a TODOS los hijos de .wms-full-bg y .wms-full-fg.
+     Elimina defaults del browser y estilos heredados del site.
+     Cada clase .wms- debe estilizarse explícitamente tras el reset.
+
+   RESPONSIVE:
+     NO usa media queries. Controlado por CSS custom properties
+     que tag.js sobreescribe en tiempo real vía CssVariableDeclaration.
+     Contexto de breakpoint comunicado mediante clases modificadoras
+     en .wms-siteBgHelper:
+       -wms1000  → contenido 1000px (desktop pequeño / tablet)
+       -wms1200  → contenido 1200px (desktop grande)
+
+   SECCIONES:
+     BASE     → presentes en TODAS las variantes de skin
+     OPCIONAL → solo necesarias al derivar variantes específicas
+   ============================================================= */
+
+
+
+
+
+/* =============================================================
+   §1  CSS CUSTOM PROPERTIES — SET COMPLETO
+   BASE — referencia central de todas las variables del sistema.
+   En producción, tag.js sobreescribe los valores vía
+   CssVariableDeclaration. En la maqueta, editar aquí.
+   ============================================================= */
+
+:root {
+
+  /* ── DIMENSIONES CORE ────────────────────────────────────── */
+
+  /* Color de fondo del contenedor scroll del skin.
+     transparent = el fondo del site se ve a través (mayoría de skins).
+     Asignar color para crear un fondo sólido detrás del arte. */
+  --wms-fullbg-bgcolor: transparent;
+
+  /* Dimensiones del canvas del skin. Siempre 1920×1000 para desktop.
+     El canvas/img se dimensiona a estos valores. */
+  --wms-skin-width:  1920px;
+  --wms-skin-height: 1000px;
+
+  /* Distancia desde el top a la que el frame sticky se ancla al scroll.
+     0px = se ancla inmediatamente al top del viewport.
+     Valor positivo = offset (ej. debajo de un header fijo del site). */
+  --wms-sticky-top: 0px;
+
+  /* Altura del wrapper scrollable que genera el recorrido sticky.
+     Debe ser suficiente para que el skin quede visible durante el scroll
+     sin solaparse con el footer del site.
+     Valores habituales:
+       2500px  → skin-classic, skin-video, skin-animated, skin-dual
+       5000px  → full-skin-video
+       8000px  → skin-video-animated
+       0px     → expandable-skin-video (sin scroll, overlay fijo) */
+  --wms-stickywrapper-height: 1818px;
+
+  /* ── ZONA SEGURA ─────────────────────────────────────────── */
+
+  /* Área centrada garantizada visible en viewports ≥ 1440px.
+     CTAs, logo y legales del anunciante van dentro de esta zona. */
+  --wms-safezone-skin-width:  1440px;
+  --wms-safezone-skin-height: 800px;
+
+  /* ── VIDEO / HEADER BLOCK — OPCIONAL ────────────────────── */
+  /* Comentar o ignorar para skin-classic, skin-dual, skin-animated. */
+
+  /* Altura de la barra de header que contiene el reproductor de video.
+     250px es el valor estándar en todos los skins con video. */
+  --wms-header-height: 250px;
+
+  /* Geometría del contenedor de video para breakpoint 1000px.
+     width: ancho renderizado del elemento video.
+     left:  offset horizontal desde el borde izquierdo del header.
+     top:   offset vertical dentro del header. */
+  --wms-video-width-1000: 444px;
+  --wms-video-left-1000:   45px;
+  --wms-video-top-1000:     0px;
+
+  /* Geometría del contenedor de video para breakpoint 1200px. */
+  --wms-video-width-1200: 444px;
+  --wms-video-left-1200: 450px;
+  --wms-video-top-1200:    0px;
+
+  /* ── EXPAND / OVERLAY — OPCIONAL ────────────────────────── */
+  /* Solo para: expandable-skin-video, full-skin-video. */
+
+  /* Fondo de elementos UI (botones, paneles). Negro semitransparente. */
+  --wms-ui-bg: rgb(0 0 0 / 80%);
+  --wms-btn-size: 35px;
+
+  /* Color del overlay cuando el estado expandido está activo.
+     Cubre el contenido del site detrás del video expandido. */
+  --wms-bg-overlay-color: rgb(0 0 0 / 75%);
+
+  /* Ancho del video en estado expandido (expandable-skin-video).
+     Se centra en el viewport cuando .-wms-expanded está activo. */
+  --wms-video-expanded-width: 800px;
+
+  /* Color de fondo intermedio (overlay parcial, ej. bajo el header). */
+  --wms-mid-bg: transparent;
+
+  /* URL del botón expand personalizado. Sobreescribir para usar imagen custom. */
+  --wms-ui-btnfullexpand: none;
+
+  /* ── SCROLLING SKIN — OPCIONAL ───────────────────────────── */
+  /* Solo para: skin-scrolling. */
+
+  /* Posición vertical final del video tras la animación de scroll.
+     El video se desplaza desde su posición inicial hasta este valor. */
+  --wms-video-scrolled-vertical-position: calc(100% - var(--wms-header-height));
+
+  /* ── UTILIDAD ─────────────────────────────────────────────── */
+
+  /* z-index techo para elementos del primer plano.
+     Garantiza que los overlays expandidos aparezcan por encima
+     de todos los elementos del site. Patrón de templates ≥ 05/2025. */
+  --wms-top-layer: 9999999999;
+
+  /* Color de fondo del helper de viewability (normalmente transparente). */
+  --wms-site-bg-helper-color: transparent;
+
+  /* halo */
+  /* --wms-halo-bg-img: url(skin-halo/1000.jpg); */
+  --wms-viewport-top-skin-offset: 0px; /* Valor dinámico asignado por tag.js según scroll */
+  --wms-halo-height: 150px;
+  --wms-halo-fg-clip-height: calc(var(--wms-viewport-top-skin-offset) + var(--wms-halo-height));
+
+}
+
+
+/* =============================================================
+   §2  RESET UNIVERSAL
+   BASE — presente en TODAS las variantes.
+   Elimina herencia de estilos del site en todos los hijos
+   de las capas wms. Cada elemento debe re-estilizarse
+   explícitamente con sus clases .wms-.
+   ============================================================= */
+
+.wms-full-bg *,
+.wms-full-fg * {
+  all: unset;
+}
+
+
+/* =============================================================
+   §3  RAÍCES DE CAPA
+   BASE — presente en TODAS las variantes.
+   ============================================================= */
+
+/* Ambas capas comparten el mismo posicionamiento raíz.
+   Se apilan una sobre la otra (absolute, top-left). */
+.wms-full-bg,
+.wms-full-fg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  line-height: 0;
+}
+
+/* Primer plano: pointer-events desactivados por defecto.
+   Los clicks pasan a .wms-full-bg debajo.
+   Los hijos interactivos (botones, video) activan pointer-events individualmente. */
+.wms-full-fg {
+  pointer-events: none;
+}
+
+/* El stickyWrapper del fg no debe capturar eventos de mouse. */
+.wms-full-fg .wms-stickyWrapper {
+  pointer-events: none;
+}
+
+
+/* =============================================================
+   §4  STACK STICKY SCROLL
+   BASE — presente en TODAS las variantes.
+   ============================================================= */
+
+/* Contenedor de altura scroll.
+   Su height crea el recorrido de scroll que mantiene el skin visible.
+   padding-bottom = skin height → evita solapamiento con footer. */
+.wms-stickyWrapper {
+  display: block;
+  height: var(--wms-stickywrapper-height);
+  padding-bottom: var(--wms-skin-height);
+}
+
+/* Solo la capa de fondo recibe el color de background del skin.
+   La capa de primer plano (.wms-full-fg) queda transparente. */
+.wms-full-bg .wms-stickyWrapper {
+  background-color: var(--wms-fullbg-bgcolor);
+}
+
+/* Frame sticky: se ancla a --wms-sticky-top durante el scroll.
+   El comportamiento VerticalOffset en tag.js ajusta top en tiempo real. */
+.wms-sticky {
+  display: block;
+  position: -webkit-sticky;
+  position: sticky;
+  top: var(--wms-sticky-top);
+  left: 0px;
+  width: 100%;
+}
+
+
+/* =============================================================
+   §5  STACK DE CENTRADO
+   BASE — presente en TODAS las variantes.
+   ============================================================= */
+
+/* Wrapper de centrado horizontal.
+   overflow: hidden recorta la imagen de 1920px dentro del viewport.
+   El hijo se posiciona a left:50% + translateX(-50%). */
+.wms-centerContents {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: var(--wms-skin-height);
+  display: flex;
+  align-items: flex-start; /* Align the image to the top */
+  justify-content: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Hijo centrado dentro de .wms-centerContents.
+   Aplicado como .wms-skinbg.wms-centeredContent en el HTML. */
+.wms-centerContents > .wms-centeredContent {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Contenedor del skin art: establece contexto de apilamiento. */
+.wms-skinbg {
+  z-index: 1;
+  position: relative;
+  width: unset; 
+}
+
+
+/* =============================================================
+   §6  SLOT IMAGEN / CANVAS / ANIMACIÓN
+   BASE — reglas de dimensiones aplicables a cualquier elemento
+   que ocupe el slot (canvas, img, div de animación).
+   El markup real se inserta en la variante derivada.
+   ============================================================= */
+
+/* Dimensiona el elemento del slot al canvas completo del skin.
+   Para <canvas>: los atributos width/height fijan el tamaño intrínseco;
+                  este CSS lo escala a las dimensiones del skin.
+   Para <img>:    src seleccionado por tag.js según contentWidth.
+   Para animación: <div> contenedor dimensionado por esta regla. */
+.wms-skinimg {
+  display: block;
+  width: var(--wms-skin-width);
+  height: var(--wms-skin-height);
+}
+
+/* Placeholder visual de maqueta (eliminar al derivar). */
+.wms-skinimg--placeholder {
+  background: repeating-linear-gradient(
+    45deg,
+    #1a1a2e 0px,
+    #1a1a2e 20px,
+    #16213e 20px,
+    #16213e 40px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wms-skinimg--placeholder::after {
+  content: "[BLOCK SLOT: imagen / canvas / animación — 1920 × 1000]";
+  all: unset;
+  display: block;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: monospace;
+  font-size: 16px;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+/* =============================================================
+   §7  ZONA SEGURA
+   BASE — estándar actual en todos los skins desde skin-classic-v2.
+   ============================================================= */
+
+/* Área centrada de 1440×800px, anclada al top del skin.
+   Garantiza visibilidad del contenido de marca en viewports ≥ 1440px.
+   ViewAbilityCheck en tag.js usa este elemento como target. */
+.wms-safezone {
+  width: var(--wms-safezone-skin-width);
+  height: var(--wms-safezone-skin-height);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+/* =============================================================
+   §8  CLICK OVERLAY Y HELPER DE VIEWABILITY
+   BASE — presente en skin-classic, skin-video y todos los Templates.
+   ============================================================= */
+
+/* Overlay de captura de clicks.
+   Cubre el 100% de .wms-full-bg. Recibe los eventos de click
+   para analytics (comportamiento Click en tag.js).
+   cursor: pointer → visible para el usuario. */
+.wms-cc {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+/* Target de ViewAbility para IntersectionObserver del ad server.
+   Centrado, ancho según breakpoint activo. */
+.wms-siteBgHelper {
+  position: absolute;
+  display: inline-block;
+  width: 1000px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: calc(var(--wms-skin-height) + var(--wms-stickywrapper-height) - var(--wms-header-height));
+  margin-top: var(--wms-header-height);
+  background-color: var(--wms-site-bg-helper-color);
+}
+
+.wms-siteBgHelper.-wms1000 { width: 1000px; }
+.wms-siteBgHelper.-wms1200 { width: 1200px; }
+
+
+/* =============================================================
+   §9  UTILIDADES
+   BASE — usadas en todas las variantes.
+   ============================================================= */
+
+/* Oculta un elemento. Añadida/eliminada por comportamientos JS
+   (addClass / removeClass). Usada en botones de sonido, estados
+   de countdown, botón close, etc. */
+.-wms-nodisplay {
+  display: none !important;
+}
+
+/* Posicionamiento fixed a pantalla completa. */
+.-fullsize {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+
+/* =============================================================
+   §10  HEADER BLOCK
+   OPCIONAL — solo para: skin-video, skin-scrolling,
+                          expandable-skin-video, full-skin-video.
+   ============================================================= */
+
+/* Barra header sticky que aloja el reproductor de video.
+   En skin-video: dentro de .wms-full-bg (hermano de .wms-stickyWrapper).
+   En expandable / full: dentro del stack sticky de .wms-full-fg.
+   Altura estándar: --wms-header-height (250px). */
+.wms-header-block {
+  margin: auto;
+  height: var(--wms-header-height);
+  display: flex;
+}
+
+/* En el primer plano: oculto por defecto, visible solo al expandir. */
+.wms-full-fg .wms-header-block {
+  display: none;
+}
+.wms-full-fg.-wms-expanded .wms-header-block {
+  display: flex;
+}
+
+
+/* =============================================================
+   §11  VIDEO BLOCK + CONTROLES
+   OPCIONAL — solo para: skin-video, skin-scrolling,
+                          expandable-skin-video, full-skin-video.
+   ============================================================= */
+
+/* Contenedor de video: z-index sobre el skin art. */
+.wms-cont-video {
+  z-index: 2;
+  pointer-events: all;
+}
+
+/* En primer plano: pointer-events desactivados a nivel contenedor.
+   Los hijos interactivos (botones) los activan individualmente. */
+.wms-full-fg .wms-cont-video {
+  z-index: var(--wms-top-layer);
+  pointer-events: none;
+}
+.-wms-expanded .wms-cont-video {
+  pointer-events: initial;
+}
+
+/* Posicionamiento del video para breakpoint 1000px. */
+.wms-cont-video.-wms1000.-wms-custom {
+  width: var(--wms-video-width-1000);
+  left: var(--wms-video-left-1000);
+  top: var(--wms-video-top-1000);
+  position: relative;
+  max-height: var(--wms-header-height);
+}
+
+/* Posicionamiento del video para breakpoint 1200px. */
+.wms-cont-video.-wms1200.-wms-custom {
+  width: var(--wms-video-width-1200);
+  left: var(--wms-video-left-1200);
+  top: var(--wms-video-top-1200);
+  position: relative;
+  max-height: var(--wms-header-height);
+}
+
+/* Alineación automática con flexbox (alternativa a -wms-custom). */
+.wms-cont-video.-wms-center { margin: auto; }
+.wms-cont-video.-wms-left   { margin-right: auto; }
+.wms-cont-video.-wms-right  { margin-left: auto; }
+
+/* Elemento <video>: llena el ancho de su contenedor. */
+.wms-video {
+  width: 100%;
+  height: auto;
+  position: relative;
+  max-height: var(--wms-header-height);
+  pointer-events: none;
+}
+
+/* Canvas de botones de control (superpuesto sobre el video).
+   Se muestra al hacer hover sobre el contenedor.
+   Gradiente en esquina inferior derecha para dar contexto al icono. */
+.wms-btns-canvas {
+  display: block;
+  opacity: 0;
+  max-height: var(--wms-header-height);
+  transition: opacity 0.2s ease-in;
+  position: absolute;
+  background: linear-gradient(45deg, rgba(0,0,0,0) 65%, rgba(0,0,0,0.70) 100%);
+  z-index: 1;
+}
+.wms-cont-video .wms-btns-canvas {
+  height: calc(var(--wms-video-width-1000) / 1.78);
+  width: var(--wms-video-width-1000);
+}
+.wms-cont-video.-wms1000 .wms-btns-canvas {
+  height: calc(var(--wms-video-width-1000) / 1.78);
+  width: var(--wms-video-width-1000);
+}
+.wms-cont-video.-wms1200 .wms-btns-canvas {
+  height: calc(var(--wms-video-width-1200) / 1.78);
+  width: var(--wms-video-width-1200);
+}
+.wms-btns-canvas > div       { opacity: 80%; }
+.wms-btns-canvas > div:hover { opacity: 100%; }
+.wms-btns-canvas:hover       { opacity: 1; }
+
+/* Contenedor de botones: columna vertical, esquina superior derecha. */
+.wms-box-btns {
+  display: block;
+  width: var(--wms-btn-size);
+  height: auto;
+  position: absolute;
+  right: 5px;
+  pointer-events: all;
+}
+
+/* Panel de botones generales (expand/close/sonido en píldora).
+   Usado en expandable-skin-video y full-skin-video. */
+.wms-box-btns.-wms-generalbtns {
+  background-color: var(--wms-ui-bg);
+  padding: 4px;
+  border-radius: 5px;
+  z-index: var(--wms-top-layer);
+  position: absolute;
+}
+.wms-box-btns.-wms-generalbtns > div       { opacity: 80%; }
+.wms-box-btns.-wms-generalbtns > div:hover { opacity: 100%; }
+
+/* Iconos de botones — sprite sheet wms-sprites.svg.
+   background-position selecciona el icono dentro del sprite. */
+.wms-btn-sound {
+  display: block;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
+  background: url(images/wms-sprites.svg);
+  background-position: 118px -2px;
+}
+.wms-btn-sound.-soundoff {
+  background-position: 158px -2px;
+}
+.wms-btn-expand {
+  display: block;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
+  background: url(images/wms-sprites.svg);
+  background-position: 238px -2px;
+}
+.wms-btn-minimize {
+  display: block;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
+  background: url(images/wms-sprites.svg);
+  background-position: 198px -2px;
+}
+.wms-btn-play {
+  display: block;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
+  background: url(images/wms-sprites.svg);
+  background-position: 38px -2px;
+}
+.wms-btn-close {
+  display: block;
+  width: var(--wms-btn-size);
+  height: var(--wms-btn-size);
+  background: url(images/x.svg);
+  background-position: 0px 0px;
+}
+
+/* Visibilidad de botones según estado expandido. */
+.wms-btn-close                { display: none; }
+.-wms-expanded .wms-btn-close  { display: block; }
+.-wms-expanded .wms-btn-expand { display: none; }
+
+
+/* =============================================================
+   §12  EXPAND / OVERLAY STATE
+   OPCIONAL — solo para: expandable-skin-video, full-skin-video.
+   La clase .-wms-expanded la añade/elimina tag.js en tiempo real.
+   ============================================================= */
+
+/* Bloquea el scroll del site mientras el overlay expandido está activo. */
+/* body:has(.-wms-expanded) {
+  overflow: hidden;
+} */
+
+/* Estado expandido: transforma .wms-full-fg en overlay fijo a pantalla completa. */
+.wms-full-fg.-wms-expanded {
+  background-color: var(--wms-bg-overlay-color);
+  z-index: var(--wms-top-layer);
+  height: 100%;
+  pointer-events: all;
+}
+
+.wms-full-fg.-wms-expanded .wms-sticky {
+  z-index: var(--wms-top-layer);
+}
+
+.wms-full-fg.-wms-expanded:not(.wms-expanded-halo) .wms-sticky {
+  position: fixed !important;
+  top: 0 !important;
+}
+
+/* Video expandido: centrado en el viewport. */
+.wms-full-fg.-wms-expanded .wms-cont-video {
+  max-height: initial;
+  margin: 0;
+  margin-top: var(--wms-header-height);
+  width: var(--wms-video-expanded-width);
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+  animation: wms-fade-in 0.5s;
+}
+.wms-full-fg.-wms-expanded .wms-video {
+  max-height: initial;
+}
+.wms-full-fg.-wms-expanded .wms-btns-canvas {
+  height: calc(var(--wms-video-expanded-width) / 1.78);
+  width: var(--wms-video-expanded-width);
+  max-height: initial;
+  animation: wms-fade-in 0.5s;
+}
+
+/* skin halo */
+
+.wms-halo-banner {
+    display: block;
+    width: var(--wms-skin-width);
+    height: var(--wms-halo-height);
+    cursor: pointer;
+}
+
+.wms-full-fg.-wms-expanded.wms-expanded-halo {
+    background-color: transparent !important;
+    pointer-events: none;
+}
+
+.wms-full-fg.-wms-expanded .wms-halo {
+    display: block;
+    bottom: 0 !important;
+    position: fixed;
+    width: 100%;
+    height: var(--wms-halo-height);
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    z-index: calc(var(--wms-top-layer) + 1);
+    pointer-events: all;
+}
+.wms-full-fg.-wms-expanded .wms-halo-content {
+    display: block;
+    bottom: 0 !important;
+    position: relative;
+}
+.wms-full-fg.-wms-expanded .wms-skinbg .wms-halo {
+  display: none;
+}
+.wms-halo .wms-box-btns.-wms-generalbtns {
+  position: relative;
+  left: calc(100% - 35px);
+}
+.wms-halo-buttoncontainer {
+    position: absolute;
+    height: var(--wms-halo-height);
+    width: 1000px; /* ancho del sitio */
+    margin: auto;
+    z-index: calc(var(--wms-top-layer) + 2);
+    pointer-events: none;
+}
+.wms-halo-buttoncontainer > * {
+    pointer-events: all;
+}
+/* .wms-halo-fg-img,*/ .wms-halo-fg { 
+position: absolute;
+    width: var(--wms-skin-width);
+    height: var(--wms-skin-height);
+    object-fit: cover;
+    background-image: var(--wms-halo-bg-img);
+    clip-path: inset(calc(100vh - var(--wms-halo-fg-clip-height)) 0 0 0);
+}
+
+
+@media (min-height: 1001px) {
+/* .wms-halo-fg-img, */ .wms-halo-fg {
+    clip-path: inset(calc(var(--wms-skin-height) - var(--wms-halo-height)) 0 0 0);
+  }
+  .wms-full-fg.-wms-expanded .wms-halo {
+    top: calc(var(--wms-skin-height) - var(--wms-halo-height)) !important;
+  }
+}
+
+/* Video fullscreen (full-skin-video): ocupa 100vw. */
+.wms-cont-video.-wms-fullvideo {
+  display: none;
+}
+.-wms-expanded .wms-cont-video.-wms-fullvideo {
+  display: initial;
+  margin: 0;
+  width: 100vw;
+  max-height: 100vh;
+  left: 0;
+  position: fixed;
+  animation: wms-fade-in 0.5s;
+}
+.-wms-expanded .wms-cont-video.-wms-fullvideo .wms-video {
+  max-height: 100vh;
+  object-fit: contain;
+}
+
+/* Imagen de fondo del overlay expandido. */
+.wms-overlay-bg {
+  display: none;
+}
+.-wms-expanded .wms-overlay-bg {
+  display: block;
+  position: fixed !important;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: all;
+  animation: wms-fade-in 0.5s;
+}
+
+
+/* =============================================================
+   §13  COUNTDOWN BLOCK
+   OPCIONAL — solo para: expandable-skin-video, full-skin-video.
+   Máquina de estados: default → 3s → 2s → 1s → default.
+   Las clases modificadoras seleccionan el frame del sprite.
+   ============================================================= */
+
+/* Contenedor del countdown: z-index 3, sobre el video (z-index 2). */
+.wms-cont-counter {
+  display: block;
+  height: var(--wms-header-height);
+  position: absolute;
+  z-index: 3;
+  pointer-events: all;
+}
+.-wms-expanded .wms-cont-counter {
+  z-index: 0;
+}
+
+/* Display del countdown: sprite circular con 3 frames (3s / 2s / 1s). */
+.wms-count-down {
+  float: none !important;
+  pointer-events: none;
+  position: absolute;
+  border-radius: 5px;
+  width: 90px;
+  height: 91px;
+  background: var(--wms-ui-bg) url('images/conteo-sprite.svg') 0px 0px no-repeat;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+.wms-count-down.-wms-2s { background-position-y:  -90px !important; }
+.wms-count-down.-wms-3s { background-position-y: -180px !important; }
+
+/* Zona de captura de hover para activar el countdown. */
+.wms-mouseEventContainer {
+  display: block;
+  width: 100%;
+  height: var(--wms-header-height);
+  background-color: transparent;
+  position: relative;
+  cursor: pointer;
+}
+
+
+/* =============================================================
+   §14  SKIN-SCROLLING
+   OPCIONAL — solo para: skin-scrolling.
+   El video anima desde el borde lateral del contenido hasta
+   la esquina inferior al hacer scroll en la página.
+   ============================================================= */
+
+.wms-full-fg.-wms-scrolling {
+  z-index: 1;
+}
+
+/* En scrolling, el header ocupa la altura total del skin (no 250px). */
+.wms-full-fg .wms-header-block {
+  width: 100% !important;
+  margin: 0;
+  height: var(--wms-skin-height);
+}
+
+/* Posición inicial del video: sticky en el borde del área de contenido. */
+.wms-cont-video.-wms1200.-wms-left  { position: sticky; left:  calc((100vw - 1218px) / 2); }
+.wms-cont-video.-wms1000.-wms-left  { position: sticky; left:  calc((100vw - 1018px) / 2); }
+.wms-cont-video.-wms1200.-wms-right { position: sticky; right: calc((100vw - 1218px) / 2); }
+.wms-cont-video.-wms1000.-wms-right { position: sticky; right: calc((100vw - 1018px) / 2); }
+
+/* Estado scrolled: video anima hasta la esquina inferior. */
+.wms-full-fg.-wms-scrolling .wms-cont-video.-wms-left {
+  animation: wms-anim-left-scroll 3s;
+  left: 0;
+  top: var(--wms-video-scrolled-vertical-position);
+}
+.wms-full-fg.-wms-scrolling .wms-cont-video.-wms-right {
+  animation: wms-anim-right-scroll 3s;
+  right: 0;
+  top: var(--wms-video-scrolled-vertical-position);
+}
+
+@keyframes wms-anim-left-scroll {
+  0%   { top: 0px; left: calc((100vw - 1200px) / 2); }
+  25%  { top: 0px; left: 0px; }
+  100% { top: var(--wms-video-scrolled-vertical-position); left: 0px; }
+}
+
+@keyframes wms-anim-right-scroll {
+  0%   { top: 0px; right: calc((100vw - 1200px) / 2); }
+  25%  { top: 0px; right: 0px; }
+  100% { top: var(--wms-video-scrolled-vertical-position); right: 0px; }
+}
+
+
+/* =============================================================
+   §15  FULL-SKIN-VIDEO
+   OPCIONAL — solo para: full-skin-video.
+   Video de fondo con overlay de textura antes del expand.
+   ============================================================= */
+
+/* Contenedor del video de fondo (fase colapsada). */
+.wms-bg-cont-video {
+  display: block;
+  z-index: 2;
+  position: relative;
+}
+
+/* Overlay de textura sobre el video de fondo (vía pseudo-elemento). */
+.wms-bg-cont-video::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+.wms-bg-cont-video.-wms-t-block::before    { background: url(images/trama-block.png); }
+.wms-bg-cont-video.-wms-t-scanline::before { background: url(images/trama-scanline.png); }
+.wms-bg-cont-video.-wms-t-jeans::before    { background: url(images/trama-jeans.png); }
+.wms-bg-cont-video.-wms-t-cross::before    { background: url(images/trama-cross.png); }
+
+/* Video de fondo: llena su contenedor sin restricción de altura. */
+.wms-bgvideo {
+  width: 100%;
+  height: auto;
+}
+
+/* Overlay de imagen de skin sobre el video de fondo. */
+.wms-skinoverlaycontainer {
+  width: var(--wms-skin-width);
+  height: var(--wms-skin-height);
+}
+.wms-centerContents.-wms-positon {
+  z-index: 2;
+}
+
+/* Icono de expand con animación de pulso (visible antes del click). */
+.wms-fullexpand,
+.-wms-fullexpand {
+  float: none !important;
+  pointer-events: none;
+  position: absolute;
+  border-radius: 5px;
+  width: 85px;
+  height: 86px;
+  background: var(--wms-ui-bg) url('images/fullexpand.svg') center / 65px no-repeat;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  animation: wms-animexpand 2s ease-in-out infinite;
+}
+.wms-full-bg.-wms-expanded .-wms-fullexpand {
+  display: none;
+}
+
+@keyframes wms-animexpand {
+  50% { background-size: 50px; }
+}
+
+/* Botón expand con imagen custom vía --wms-ui-btnfullexpand. */
+.wms-fullexpand.-wms-custom-btn,
+.-wms-fullexpand.-wms-custom-btn {
+  background: var(--wms-ui-bg) var(--wms-ui-btnfullexpand) center / 65px no-repeat;
+}
+
+
+/* =============================================================
+   §16  KEYFRAMES COMPARTIDOS
+   Usados por múltiples variantes opcionales.
+   ============================================================= */
+
+@keyframes wms-fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes wms-fade-out {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
