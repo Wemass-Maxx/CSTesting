@@ -1,7 +1,4 @@
-_skn_creative={
-  "title": "skin-realtime-fut",
-  "adPath": "https://PLACEHOLDER/PLACEHOLDER",
-  "uuid": "6bcb37ce",
+{
   "Type": "SkinClassic",
   "params": {
     "__type__": "device",
@@ -187,8 +184,8 @@ _skn_creative={
                                   "id": "canvas"
                                 },
                                 "canvasImage": {
-                                  "1000": "https://PLACEHOLDER/PLACEHOLDER/1000.jpg",
-                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/1200.jpg",
+                                  "1000": "##img_1000##",
+                                  "1200": "##img_1200##",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
                                 }
