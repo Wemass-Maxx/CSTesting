@@ -108,6 +108,13 @@
     }
     .btn-secondary:hover:not(:disabled) { background: #30363d; }
     .btn-secondary:disabled { opacity: .35; cursor: not-allowed; }
+    .btn-pack {
+      margin-top: 0;
+      background: #8957e5;
+      color: #fff;
+      border-color: #8957e5;
+    }
+    .btn-pack:hover:not(:disabled) { background: #a371f7; }
 
     /* ── Mobile zone toggle ───────────────────────────── */
     #mobileSection { display: none; }
@@ -132,6 +139,7 @@
                 border-radius: 6px; padding: 11px 15px; margin-top: 10px; }
     .warnings .wt { font-size: .78rem; font-weight: 600; color: #d29922; margin-bottom: 5px; }
     .warnings ul { list-style: disc; padding-left: 16px; font-size: .77rem; color: #e3b341; line-height: 1.6; }
+    .pack-note { display: none; margin-top: 8px; font-size: .74rem; color: #8b949e; }
 
     /* ── Merge tab specific ───────────────────────────── */
     .merge-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -216,7 +224,47 @@
       <input type="file" id="fi-mobile" accept=".html,.htm" style="display:none">
     </div>
 
+    <div class="card">
+      <p class="card-title">4 · CSS parametrizable <span style="font-weight:400;color:#6e7681;text-transform:none;font-size:.75rem">(opcional, opt-in)</span></p>
+      <div class="row2">
+        <div>
+          <div class="drop-zone" id="dz-css-desktop">
+            <div class="icon">🎨</div>
+            <p class="hint">Arrastra outer.css &nbsp;·&nbsp; <a id="trig-css-desktop">Seleccionar</a></p>
+            <p class="fname" id="fn-css-desktop"></p>
+          </div>
+          <input type="file" id="fi-css-desktop" accept=".css,text/css" style="display:none">
+        </div>
+        <div>
+          <div class="drop-zone" id="dz-css-mobile">
+            <div class="icon">📱</div>
+            <p class="hint">Arrastra outer-mobile.css &nbsp;·&nbsp; <a id="trig-css-mobile">Seleccionar</a></p>
+            <p class="fname" id="fn-css-mobile"></p>
+          </div>
+          <input type="file" id="fi-css-mobile" accept=".css,text/css" style="display:none">
+        </div>
+      </div>
+      <p style="font-size:.76rem;color:#8b949e;margin-top:10px">
+        Solo se parametrizan variables CSS marcadas con <code>/* wms-param */</code> o dentro de <code>/* wms-param:start */</code>.
+      </p>
+    </div>
+
+    <div class="card">
+      <p class="card-title">5 · Assets demo <span style="font-weight:400;color:#6e7681;text-transform:none;font-size:.75rem">(opcional)</span></p>
+      <div class="drop-zone" id="dz-assets">
+        <div class="icon">📁</div>
+        <p class="hint">Selecciona la carpeta de la demo para incluir assets &nbsp;·&nbsp; <a id="trig-assets">Seleccionar carpeta</a></p>
+        <p class="fname" id="fn-assets"></p>
+      </div>
+      <input type="file" id="fi-assets" webkitdirectory directory multiple style="display:none">
+      <p style="font-size:.76rem;color:#8b949e;margin-top:10px">
+        Se copiarán solo los assets referenciados por metadata, CSS y tag.js, manteniendo rutas relativas como <code>images/flags/BRA.png</code>.
+      </p>
+    </div>
+
     <button class="btn-primary" id="btnGenerate" disabled>⚙&nbsp; Generar tag.js + metadata.json</button>
+    <button class="btn-secondary btn-pack" id="btnPackage" disabled>Guardar paquete completo en carpeta...</button>
+    <p class="pack-note" id="pack-status"></p>
 
     <!-- Outputs -->
     <div class="card output-block" id="block-tagjs" style="margin-top:14px">
@@ -249,6 +297,22 @@
         <button class="btn-dl" id="dl-def">⬇ Descargar</button>
       </div>
       <textarea class="out" id="out-def" readonly spellcheck="false"></textarea>
+    </div>
+
+    <div class="card output-block" id="block-css-desktop" style="margin-top:0">
+      <div class="out-header">
+        <span class="out-label">outer.css</span>
+        <button class="btn-dl" id="dl-css-desktop">⬇ Descargar</button>
+      </div>
+      <textarea class="out" id="out-css-desktop" readonly spellcheck="false"></textarea>
+    </div>
+
+    <div class="card output-block" id="block-css-mobile" style="margin-top:0">
+      <div class="out-header">
+        <span class="out-label">outer-mobile.css</span>
+        <button class="btn-dl" id="dl-css-mobile">⬇ Descargar</button>
+      </div>
+      <textarea class="out" id="out-css-mobile" readonly spellcheck="false"></textarea>
     </div>
 
     <div class="stats" id="stats-convert"></div>
@@ -781,6 +845,160 @@ function collectMetadataImages(params, adPath) {
 //  CONFIG.JSON + DEFINITION.JSON BUILDERS
 // ═══════════════════════════════════════════════════════════════
 
+function cssVarToFieldName(varName) {
+  const cleaned = varName
+    .replace(/^--wms-/, '')
+    .replace(/^--wm-/, '')
+    .replace(/^--/, '');
+  return cleaned
+    .split('-')
+    .filter(Boolean)
+    .map((part, index) => index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1))
+    .join('')
+    .replace(/[^a-zA-Z0-9_]/g, '') || 'cssField';
+}
+
+function uniqueFieldName(baseName, usedNames) {
+  let name = baseName;
+  let index = 2;
+  while (usedNames.has(name)) {
+    name = `${baseName}${index}`;
+    index += 1;
+  }
+  usedNames.add(name);
+  return name;
+}
+
+function titleFromFieldName(name) {
+  return name
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, c => c.toUpperCase())
+    .trim();
+}
+
+function parseWmsParamOptions(raw) {
+  const opts = {};
+  if (!raw) return opts;
+  const text = raw.replace(/^:/, '').trim();
+  const re = /([a-zA-Z0-9_-]+)\s*=\s*("[^"]*"|'[^']*'|[^,\s]+)/g;
+  let match;
+  while ((match = re.exec(text))) {
+    opts[match[1]] = match[2].replace(/^['"]|['"]$/g, '');
+  }
+  return opts;
+}
+
+function parseWmsParamComment(commentText) {
+  if (!commentText) return null;
+  const match = commentText.match(/\/\*\s*wms-param(?!-ignore)([\s\S]*?)\*\//);
+  return match ? parseWmsParamOptions(match[1]) : null;
+}
+
+function splitCssValue(value) {
+  const trimmed = value.trim();
+  const quoted = trimmed.match(/^(['"])([\s\S]*)\1$/);
+  if (quoted) return { raw: trimmed, value: quoted[2], quote: quoted[1], unit: '' };
+
+  const numeric = trimmed.match(/^(-?\d+(?:\.\d+)?)([a-zA-Z%]+)$/);
+  if (numeric) return { raw: trimmed, value: numeric[1], quote: '', unit: numeric[2] };
+
+  return { raw: trimmed, value: trimmed, quote: '', unit: '' };
+}
+
+function inferCssField(varName, rawValue, opts, device) {
+  const parsed = splitCssValue(rawValue);
+  const explicitType = opts.type || opts.TYPE;
+  const urlMatch = parsed.raw.match(/^url\(\s*(['"]?)(.*?)\1\s*\)$/i);
+  let type = explicitType || 'String';
+  let defaultValue = parsed.value;
+  let replacement;
+
+  if (urlMatch) {
+    type = explicitType || 'Image';
+    defaultValue = urlMatch[2];
+    replacement = 'url("##FIELD##")';
+  } else if (parsed.quote) {
+    type = explicitType || 'String';
+    replacement = `${parsed.quote}##FIELD##${parsed.quote}`;
+  } else if (!explicitType && parsed.unit && /^-?\d+(?:\.\d+)?$/.test(parsed.value)) {
+    type = parsed.value.startsWith('-') ? 'String' : parsed.value.includes('.') ? 'Decimal' : 'Integer';
+    replacement = `/*##FIELD##*/${parsed.unit}`;
+  } else if (!explicitType && /^-?\d+\.\d+$/.test(parsed.value)) {
+    type = parsed.value.startsWith('-') ? 'String' : 'Decimal';
+    replacement = '/*##FIELD##*/';
+  } else if (!explicitType && /^\d+$/.test(parsed.value)) {
+    type = 'Integer';
+    replacement = '/*##FIELD##*/';
+  } else {
+    replacement = '/*##FIELD##*/';
+  }
+
+  if ((type === 'Integer' || type === 'Decimal') && /^-/.test(String(defaultValue))) type = 'String';
+
+  const field = {
+    LABEL: opts.label || opts.LABEL || titleFromFieldName(cssVarToFieldName(varName)),
+    TYPE: type,
+    DEVICE: opts.device || device,
+    REQUIRED: opts.required === 'true',
+  };
+
+  if (!['Image', 'Video', 'Zip', 'File'].includes(type)) {
+    field.DEFAULT = type === 'Integer' ? parseInt(defaultValue, 10)
+      : type === 'Decimal' ? parseFloat(defaultValue)
+      : defaultValue;
+  }
+  if (opts.section) field.SECTION = opts.section;
+  if (type === 'Enum' && opts.values) field.VALUES = opts.values.split('|').map(v => v.trim()).filter(Boolean);
+
+  return { field, replacement, defaultValue };
+}
+
+function parameterizeCss(cssText, device, usedFieldNames, warnings) {
+  if (!cssText) return { css: '', fields: {}, defaults: {}, count: 0 };
+
+  const fields = {};
+  const defaults = {};
+  let count = 0;
+  let blockOpts = null;
+
+  const css = cssText.split(/\r?\n/).map(line => {
+    const start = line.match(/\/\*\s*wms-param:start([\s\S]*?)\*\//);
+    if (start) {
+      blockOpts = parseWmsParamOptions(start[1]);
+      return line;
+    }
+    if (/\/\*\s*wms-param:end\s*\*\//.test(line)) {
+      blockOpts = null;
+      return line;
+    }
+    if (/\/\*\s*wms-param-ignore\s*\*\//.test(line)) return line;
+
+    const inlineOpts = parseWmsParamComment(line);
+    const opts = inlineOpts || blockOpts;
+    if (!opts) return line;
+
+    const declaration = line.match(/^(\s*)(--[a-zA-Z0-9_-]+)\s*:\s*([^;]+);(.*)$/);
+    if (!declaration) {
+      if (inlineOpts) warnings.push(`[css:${device}] Marcador wms-param ignorado: solo se parametrizan variables CSS (--nombre: valor;).`);
+      return line;
+    }
+
+    const [, indent, varName, rawValue, suffix] = declaration;
+    const baseFieldName = opts.field || opts.name || cssVarToFieldName(varName);
+    const fieldName = uniqueFieldName(baseFieldName, usedFieldNames);
+    const inferred = inferCssField(varName, rawValue, opts, device);
+    const replacement = inferred.replacement.replace('FIELD', fieldName);
+
+    fields[fieldName] = inferred.field;
+    defaults[fieldName] = inferred.defaultValue;
+    count += 1;
+
+    return `${indent}${varName}: ${replacement};${suffix}`;
+  }).join('\n');
+
+  return { css, fields, defaults, count };
+}
+
 function replacePlaceholders(obj) {
   if (!obj || typeof obj !== 'object') return obj;
   if (Array.isArray(obj)) return obj.map(replacePlaceholders);
@@ -804,7 +1022,7 @@ function buildConfigJson(params, type) {
   return JSON.stringify({ Type: type, params: replacePlaceholders(params) }, null, 2);
 }
 
-function buildDefinitionJson(foundImages, device) {
+function buildDefinitionJson(foundImages, device, cssFields = {}) {
   const fields = {};
 
   fields.adServer = {
@@ -826,6 +1044,8 @@ function buildDefinitionJson(foundImages, device) {
   if (foundImages.img_450)  fields.img_450  = { LABEL: 'Arte 900px x 900px (tamaño base de imagen de 450px x2 para pantallas 2x dpi) (Imagen)', TYPE: 'Image', DEVICE: 'mobile', REQUIRED: false };
   if (foundImages.img_768)  fields.img_768  = { LABEL: 'Arte 768px (Imagen)', TYPE: 'Image', DEVICE: 'tablet', REQUIRED: false };
 
+  Object.assign(fields, cssFields);
+
   fields.fullBackgroundColor  = { LABEL: 'Color del fondo (CSS)', TYPE: 'String', DEVICE: 'desktop', REQUIRED: true, DEFAULT: 'transparent' };
   fields.outerCustomCSSAppend = { LABEL: 'Custom CSS', TYPE: 'Text', DEVICE: 'desktop', REQUIRED: false };
 
@@ -837,7 +1057,7 @@ function buildDefinitionJson(foundImages, device) {
 }
 
 function convert(desktopHtml, mobileHtml, opts) {
-  const { title, adPath, adServer, clickUrl, device } = opts;
+  const { title, adPath, adServer, clickUrl, device, desktopCss, mobileCss } = opts;
   const _w = [];
   const uuid = genUuid();
   const safeTitle  = title   || 'creatividad_sin_titulo';
@@ -870,6 +1090,11 @@ function convert(desktopHtml, mobileHtml, opts) {
   let folder = `${now.getFullYear()}-${p2(now.getMonth()+1)}`;
   if (adPath) { const m = adPath.match(/(\d{4}-\d{2})/); if (m) folder = m[1]; }
   const metadataImages = collectMetadataImages(params, safeAdPath);
+  const usedFieldNames = new Set(['adServer', 'title', 'crmId', 'sspId', 'clickUrl', ...Object.keys(metadataImages)]);
+  const desktopCssResult = parameterizeCss(desktopCss, 'desktop', usedFieldNames, _w);
+  const mobileCssResult = parameterizeCss(mobileCss, 'mobile', usedFieldNames, _w);
+  const cssFields = { ...desktopCssResult.fields, ...mobileCssResult.fields };
+  const cssDefaults = { ...desktopCssResult.defaults, ...mobileCssResult.defaults };
 
   const meta = {
     title: safeTitle, adServer: adServer || 'Xandr',
@@ -877,14 +1102,24 @@ function convert(desktopHtml, mobileHtml, opts) {
     type: 'SkinClassic', creativeType: 'SKIN',
     uuid, adPath: adPath || '', folder, date: dateStr,
     ...metadataImages,
+    ...cssDefaults,
     fullBackgroundColor: 'transparent',
     pixels_script: '', pixels_img: '', pixels_html: '',
   };
 
   const configJson     = buildConfigJson(params, WMS_CONVERTER_CONFIG.creativeType);
-  const definitionJson = buildDefinitionJson(metadataImages, device);
+  const definitionJson = buildDefinitionJson(metadataImages, device, cssFields);
 
-  return { tagJs, metadataJson: JSON.stringify(meta, null, 2), configJson, definitionJson, warnings: _w };
+  return {
+    tagJs,
+    metadataJson: JSON.stringify(meta, null, 2),
+    configJson,
+    definitionJson,
+    desktopCss: desktopCssResult.css,
+    mobileCss: mobileCssResult.css,
+    cssParamCount: desktopCssResult.count + mobileCssResult.count,
+    warnings: _w,
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -964,6 +1199,104 @@ function download(content, filename) {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
+function normalizeAssetPath(file) {
+  const rawPath = file.webkitRelativePath || file.name || '';
+  return rawPath.replace(/\\/g, '/').replace(/^\/+/, '');
+}
+
+function stripTopFolder(path) {
+  const parts = path.split('/').filter(Boolean);
+  return parts.length > 1 ? parts.slice(1).join('/') : parts[0];
+}
+
+function isDemoAssetPath(path) {
+  return /\.(avif|gif|jpe?g|png|svg|webp|mp4|webm|mov|m4v|woff2?|ttf|otf|eot)$/i.test(path);
+}
+
+function resolveAssetOutputPath(file, referencedPaths) {
+  const fullPath = normalizeAssetPath(file);
+  const strippedPath = stripTopFolder(fullPath);
+  if (referencedPaths.has(fullPath)) return fullPath;
+  if (referencedPaths.has(strippedPath)) return strippedPath;
+  return strippedPath;
+}
+
+function collectPackageAssetPaths(result) {
+  const refs = new Set();
+  if (!result || !result.metadataJson) return refs;
+
+  try {
+    const meta = JSON.parse(result.metadataJson);
+    Object.entries(meta).forEach(([key, value]) => {
+      if (typeof value !== 'string') return;
+      if (/^https?:\/\//i.test(value) || value.includes('PLACEHOLDER') || value.includes('##')) return;
+      if (/^(img_|.*Image$)/.test(key) || isDemoAssetPath(value)) refs.add(value.replace(/\\/g, '/'));
+    });
+  } catch (e) {}
+
+  const urlPattern = /url\(\s*["']?([^"')]+)["']?\s*\)/gi;
+  [result.desktopCss, result.mobileCss, result.tagJs, result.configJson].forEach(text => {
+    if (!text) return;
+    let match;
+    while ((match = urlPattern.exec(text))) {
+      const value = match[1];
+      if (!/^https?:\/\//i.test(value) && !value.includes('##')) refs.add(value.replace(/\\/g, '/'));
+    }
+  });
+
+  return refs;
+}
+
+function buildPackageFiles(result, assetFiles) {
+  const files = [
+    { path: 'tag.js', content: result.tagJs, type: 'text/plain;charset=utf-8' },
+    { path: 'metadata.json', content: result.metadataJson, type: 'application/json;charset=utf-8' },
+    { path: 'config.json', content: result.configJson, type: 'application/json;charset=utf-8' },
+    { path: 'definition.json', content: result.definitionJson, type: 'application/json;charset=utf-8' },
+  ];
+  if (result.desktopCss) files.push({ path: 'outer.css', content: result.desktopCss, type: 'text/css;charset=utf-8' });
+  if (result.mobileCss) files.push({ path: 'outer-mobile.css', content: result.mobileCss, type: 'text/css;charset=utf-8' });
+
+  const referencedPaths = collectPackageAssetPaths(result);
+  const selected = new Map();
+  assetFiles.forEach(file => {
+    const relativePath = resolveAssetOutputPath(file, referencedPaths);
+    if (!relativePath) return;
+    if (referencedPaths.has(relativePath) && !selected.has(relativePath)) selected.set(relativePath, file);
+  });
+  selected.forEach((file, path) => files.push({ path, file }));
+
+  const includedPaths = new Set(files.map(file => file.path));
+  const missingAssets = [...referencedPaths].filter(path => !includedPaths.has(path));
+  return { files, missingAssets };
+}
+
+async function writeFileEntry(rootHandle, entry) {
+  const parts = entry.path.split('/').filter(Boolean);
+  let dir = rootHandle;
+  for (const part of parts.slice(0, -1)) {
+    dir = await dir.getDirectoryHandle(part, { create: true });
+  }
+  const handle = await dir.getFileHandle(parts[parts.length - 1], { create: true });
+  const writable = await handle.createWritable();
+  if (entry.file) {
+    await writable.write(await entry.file.arrayBuffer());
+  } else {
+    await writable.write(new Blob([entry.content], { type: entry.type || 'text/plain;charset=utf-8' }));
+  }
+  await writable.close();
+}
+
+async function savePackageToDirectory(result, assetFiles) {
+  if (!window.showDirectoryPicker) {
+    throw new Error('Este navegador no permite escoger una carpeta de destino. Abre el conversor en Chrome/Edge desde localhost para usar esta opción.');
+  }
+  const { files, missingAssets } = buildPackageFiles(result, assetFiles);
+  const rootHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+  for (const file of files) await writeFileEntry(rootHandle, file);
+  return { writtenCount: files.length, missingAssets };
+}
+
 function makeDropZone(dzId, trigId, fiId, fnId, onLoaded) {
   const dz = document.getElementById(dzId);
   const fi = document.getElementById(fiId);
@@ -995,6 +1328,10 @@ function makeDropZone(dzId, trigId, fiId, fnId, onLoaded) {
 
 let desktopHtml = null;
 let mobileHtml  = null;
+let desktopCss  = null;
+let mobileCss   = null;
+let demoAssetFiles = [];
+let currentConvertResult = null;
 
 makeDropZone('dz-desktop', 'trig-desktop', 'fi-desktop', 'fn-desktop', (content, name) => {
   desktopHtml = content;
@@ -1005,6 +1342,26 @@ makeDropZone('dz-desktop', 'trig-desktop', 'fi-desktop', 'fn-desktop', (content,
 
 makeDropZone('dz-mobile', 'trig-mobile', 'fi-mobile', 'fn-mobile', (content) => {
   mobileHtml = content;
+});
+
+makeDropZone('dz-css-desktop', 'trig-css-desktop', 'fi-css-desktop', 'fn-css-desktop', (content) => {
+  desktopCss = content;
+});
+
+makeDropZone('dz-css-mobile', 'trig-css-mobile', 'fi-css-mobile', 'fn-css-mobile', (content) => {
+  mobileCss = content;
+});
+
+document.getElementById('trig-assets').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('fi-assets').click();
+});
+document.getElementById('dz-assets').addEventListener('click', () => document.getElementById('fi-assets').click());
+document.getElementById('fi-assets').addEventListener('change', e => {
+  demoAssetFiles = Array.from(e.target.files || []);
+  const assetCount = demoAssetFiles.filter(file => isDemoAssetPath(stripTopFolder(normalizeAssetPath(file)))).length;
+  document.getElementById('fn-assets').textContent = `✓ ${assetCount} assets detectados`;
+  document.getElementById('dz-assets').classList.toggle('loaded', demoAssetFiles.length > 0);
 });
 
 function checkGenerateReady() {
@@ -1025,20 +1382,27 @@ document.getElementById('btnGenerate').addEventListener('click', () => {
     adServer: document.getElementById('inputAdServer').value,
     clickUrl: document.getElementById('inputClickUrl').value.trim(),
     device:   document.getElementById('inputDevice').value,
+    desktopCss,
+    mobileCss,
   });
+  currentConvertResult = result;
 
   document.getElementById('out-tagjs').value  = result.tagJs;
   document.getElementById('out-meta').value   = result.metadataJson;
   document.getElementById('out-config').value = result.configJson;
   document.getElementById('out-def').value    = result.definitionJson;
+  document.getElementById('out-css-desktop').value = result.desktopCss;
+  document.getElementById('out-css-mobile').value  = result.mobileCss;
   document.getElementById('block-tagjs').style.display = 'block';
   document.getElementById('block-meta').style.display  = 'block';
   document.getElementById('block-config').style.display = 'block';
   document.getElementById('block-def').style.display    = 'block';
+  document.getElementById('block-css-desktop').style.display = result.desktopCss ? 'block' : 'none';
+  document.getElementById('block-css-mobile').style.display  = result.mobileCss ? 'block' : 'none';
 
   const kb = (result.tagJs.length / 1024).toFixed(1);
   const st = document.getElementById('stats-convert');
-  st.textContent = `tag.js: ${kb} KB`;
+  st.textContent = `tag.js: ${kb} KB · campos CSS: ${result.cssParamCount}`;
   st.style.display = 'block';
 
   showWarnings(
@@ -1047,7 +1411,31 @@ document.getElementById('btnGenerate').addEventListener('click', () => {
     result.warnings
   );
 
+  document.getElementById('btnPackage').disabled = false;
+  document.getElementById('pack-status').style.display = 'none';
   document.getElementById('block-tagjs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+document.getElementById('btnPackage').addEventListener('click', async () => {
+  if (!currentConvertResult) return;
+  const status = document.getElementById('pack-status');
+  const button = document.getElementById('btnPackage');
+  status.style.display = 'block';
+  status.textContent = 'Preparando paquete...';
+  button.disabled = true;
+  try {
+    const result = await savePackageToDirectory(currentConvertResult, demoAssetFiles);
+    const missingText = result.missingAssets.length
+      ? ` Faltan assets referenciados no encontrados: ${result.missingAssets.join(', ')}.`
+      : '';
+    status.textContent = `Paquete guardado: ${result.writtenCount} archivos.${missingText}`;
+  } catch (err) {
+    status.textContent = err && err.name === 'AbortError'
+      ? 'Guardado cancelado.'
+      : `No se pudo guardar el paquete: ${err.message || err}`;
+  } finally {
+    button.disabled = false;
+  }
 });
 
 document.getElementById('dl-tagjs').addEventListener('click', () =>
@@ -1058,6 +1446,10 @@ document.getElementById('dl-config').addEventListener('click', () =>
   download(document.getElementById('out-config').value, 'config.json'));
 document.getElementById('dl-def').addEventListener('click', () =>
   download(document.getElementById('out-def').value, 'definition.json'));
+document.getElementById('dl-css-desktop').addEventListener('click', () =>
+  download(document.getElementById('out-css-desktop').value, 'outer.css'));
+document.getElementById('dl-css-mobile').addEventListener('click', () =>
+  download(document.getElementById('out-css-mobile').value, 'outer-mobile.css'));
 
 // ═══════════════════════════════════════════════════════════════
 //  WIRE-UP: TAB MERGE

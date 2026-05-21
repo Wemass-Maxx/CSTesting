@@ -1,0 +1,513 @@
+:root {
+  /* Template layout */
+  --wms-content-width: 1000px;
+  --wms-max-expandable-width: 1920px;
+  --wms-max-width: calc(100vw - (100vw - 100%));
+  --wms-fullbg-bgcolor: transparent;
+  --wms-skin-width: 1920px;
+  --wms-skin-height: 1000px;
+  --wms-sticky-top: 0px;
+  --wms-stickywrapper-height: 1818px;
+  --wms-safezone-skin-width: 1440px;
+  --wms-safezone-skin-height: 800px;
+  --wms-header-height: 250px;
+  --wms-video-scrolled-vertical-position-top: 250px;
+  --wms-site-bg-helper-color: transparent;
+
+/* wms-param:start section=scoreboard */
+
+  /* Scoreboard content */
+  --wm-txt-league: "##txtLeague##";
+  --wm-txt-season: "##txtSeason##";
+  --wm-txt-home-score: "##txtHomeScore##";
+  --wm-txt-home: "##txtHome##";
+  --wm-txt-away-score: "##txtAwayScore##";
+  --wm-txt-away: "##txtAway##";
+  --wm-txt-status: "##txtStatus##";
+
+  /* Scoreboard layout */
+  --wm-scoreboard-width: /*##scoreboardWidth##*/px;
+  --wm-scoreboard-max-width: /*##scoreboardMaxWidth##*/%;
+  --wm-scoreboard-scrolling-width: /*##scoreboardScrollingWidth##*/%;
+  --wm-scoreboard-height: /*##scoreboardHeight##*/;
+  --wm-scoreboard-scale: /*##scoreboardScale##*/;
+  --wm-scoreboard-transform-origin: /*##scoreboardTransformOrigin##*/;
+  --wm-scoreboard-rotate-y: /*##scoreboardRotateY##*/deg;
+  --wm-scoreboard-rotate-translate-x: /*##scoreboardRotateTranslateX##*/px;
+  --wm-scoreboard-header-padding: /*##scoreboardHeaderPadding##*/;
+  --wm-scoreboard-header-gap: /*##scoreboardHeaderGap##*/px;
+  --wm-scoreboard-event-padding: /*##scoreboardEventPadding##*/px;
+  --wm-scoreboard-event-gap: /*##scoreboardEventGap##*/px;
+  --wm-scoreboard-team-min-width: /*##scoreboardTeamMinWidth##*/px;
+  --wm-scoreboard-team-name-padding: /*##scoreboardTeamNamePadding##*/;
+  --wm-scoreboard-team-flag-size: /*##scoreboardTeamFlagSize##*/;
+  --wm-scoreboard-home-flag-position: /*##scoreboardHomeFlagPosition##*/;
+  --wm-scoreboard-away-flag-position: /*##scoreboardAwayFlagPosition##*/;
+  --wm-scoreboard-score-min-width: /*##scoreboardScoreMinWidth##*/px;
+  --wm-scoreboard-score-padding: /*##scoreboardScorePadding##*/;
+  --wm-scoreboard-status-wrap-padding: /*##scoreboardStatusWrapPadding##*/;
+  --wm-scoreboard-status-padding: /*##scoreboardStatusPadding##*/;
+
+  /* Scoreboard skin */
+  --wm-scoreboard-bg: /*##scoreboardBg##*/;
+  --wm-scoreboard-bg-color: /*##scoreboardBgColor##*/;
+  --wm-scoreboard-text-color: /*##scoreboardTextColor##*/;
+  --wm-scoreboard-font-family: /*##scoreboardFontFamily##*/;
+  --wm-scoreboard-radius: /*##scoreboardRadius##*/px;
+  --wm-scoreboard-radius-sm: /*##scoreboardRadiusSm##*/px;
+  --wm-scoreboard-border-soft: /*##scoreboardBorderSoft##*/;
+  --wm-scoreboard-border: /*##scoreboardBorder##*/;
+  --wm-scoreboard-shadow: /*##scoreboardShadow##*/;
+  --wm-scoreboard-header-bg: /*##scoreboardHeaderBg##*/;
+  --wm-scoreboard-header-color: /*##scoreboardHeaderColor##*/;
+  --wm-scoreboard-header-font-size: /*##scoreboardHeaderFontSize##*/px;
+  --wm-scoreboard-header-border: /*##scoreboardHeaderBorder##*/;
+  --wm-scoreboard-event-bg: /*##scoreboardEventBg##*/;
+  --wm-scoreboard-team-bg: /*##scoreboardTeamBg##*/;
+  --wm-scoreboard-team-flag-opacity: /*##scoreboardTeamFlagOpacity##*/;
+  --wm-scoreboard-team-flag-filter: /*##scoreboardTeamFlagFilter##*/;
+  --wm-scoreboard-team-flag-vignette: /*##scoreboardTeamFlagVignette##*/;
+  --wm-scoreboard-home-flag-image: url("##scoreboardHomeFlagImage##");
+  --wm-scoreboard-away-flag-image: url("##scoreboardAwayFlagImage##");
+  --wm-scoreboard-team-font-size: /*##scoreboardTeamFontSize##*/px;
+  --wm-scoreboard-score-bg: /*##scoreboardScoreBg##*/;
+  --wm-scoreboard-score-font-size: /*##scoreboardScoreFontSize##*/px;
+  --wm-scoreboard-score-shadow: /*##scoreboardScoreShadow##*/;
+  --wm-scoreboard-status-bg: /*##scoreboardStatusBg##*/;
+  --wm-scoreboard-status-color: /*##scoreboardStatusColor##*/;
+  --wm-scoreboard-status-radius: /*##scoreboardStatusRadius##*/px;
+  --wm-scoreboard-status-font-size: /*##scoreboardStatusFontSize##*/px;
+
+  /* wms-param:end */
+  
+}
+
+.wms-full-bg * {
+  all: unset;
+}
+
+.wms-full-bg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  line-height: 0;
+}
+
+.wms-stickyWrapper {
+  display: block;
+  height: var(--wms-stickywrapper-height);
+  padding-bottom: var(--wms-skin-height);
+}
+
+.wms-full-bg .wms-stickyWrapper {
+  background-color: var(--wms-fullbg-bgcolor);
+}
+
+.wms-sticky {
+  display: block;
+  position: -webkit-sticky;
+  position: sticky;
+  top: var(--wms-sticky-top);
+  left: 0px;
+  width: 100%;
+}
+
+.wms-centerContents {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: var(--wms-skin-height);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.wms-centerContents > .wms-centeredContent {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wms-skinbg {
+  z-index: 1;
+  position: relative;
+  width: unset;
+}
+
+.wms-skinimg {
+  display: block;
+  width: var(--wms-skin-width);
+  height: var(--wms-skin-height);
+}
+
+.wms-skinimg img {
+  display: block;
+}
+
+.wms-safezone {
+  width: var(--wms-safezone-skin-width);
+  height: var(--wms-safezone-skin-height);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wms-cc {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.wms-siteBgHelper {
+  position: absolute;
+  display: inline-block;
+  width: 1000px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: calc(var(--wms-skin-height) + var(--wms-stickywrapper-height) - var(--wms-header-height));
+  margin-top: var(--wms-header-height);
+  background-color: var(--wms-site-bg-helper-color);
+}
+
+.wms-siteBgHelper.-wms1000 {
+  width: 1000px;
+}
+
+.wms-header-block {
+  margin: auto;
+  height: var(--wms-header-height);
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  top: 0;
+  z-index: 1;
+  width: var(--wms-max-width) !important;
+  max-width: var(--wms-max-expandable-width);
+}
+
+.wms-cont-scrollable {
+  z-index: 2;
+  pointer-events: all;
+  max-height: var(--wms-header-height);
+  will-change: transform;
+}
+
+.wms-cont-scrollable.-wms-right {
+  margin-left: auto;
+  position: sticky;
+  margin-right: calc((100% - var(--wms-content-width)) / 2);
+}
+
+.wms-cont-scrollable.-wms-left {
+  margin-right: 0;
+  position: sticky;
+  margin-left: calc((100% - var(--wms-content-width)) / 2);
+}
+
+.-wms-scrolling .wms-cont-scrollable {
+  width: calc((100% - var(--wms-content-width)) / 2);
+  height: auto;
+  max-height: fit-content;
+}
+
+.wms-full-bg.-wms-scrolling .wms-header-block {
+  width: 100% !important;
+  margin: 0;
+  height: calc(var(--wms-skin-height) + var(--wms-stickywrapper-height));
+}
+
+.wms-full-bg.-wms-scrolling .wms-cont-scrollable.-wms-right {
+  animation: wms-anim-right-scroll-perspective 3s forwards;
+}
+
+.wms-full-bg.-wms-scrolling .wms-cont-scrollable.-wms-left {
+  animation: wms-anim-left-scroll-perspective 3s forwards;
+}
+
+.wms-scoreboard {
+  width: var(--wm-scoreboard-width);
+  transform: scale3d(var(--wm-scoreboard-scale), var(--wm-scoreboard-scale), 1);
+  transform-origin: var(--wm-scoreboard-transform-origin);
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  background-color: var(--wm-scoreboard-bg-color);
+  color: var(--wm-scoreboard-text-color);
+  font-family: var(--wm-scoreboard-font-family);
+  z-index: 100;
+  border-radius: var(--wm-scoreboard-radius);
+  display: flex;
+  flex-direction: column;
+  height: var(--wm-scoreboard-height);
+  border: var(--wm-scoreboard-border);
+  background: var(--wm-scoreboard-bg);
+  box-shadow: var(--wm-scoreboard-shadow);
+  will-change: transform;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.-wms-scrolling .wms-scoreboard {
+  width: min(var(--wm-scoreboard-scrolling-width), var(--wm-scoreboard-max-width));
+  max-width: var(--wm-scoreboard-max-width);
+}
+
+.-wms-scrolling .-wms-right .wms-scoreboard {
+  transform-style: preserve-3d;
+  animation: wms-anim-scoreboard-rotate-right 3s forwards;
+}
+
+.-wms-scrolling .-wms-left .wms-scoreboard {
+  transform-style: preserve-3d;
+  animation: wms-anim-scoreboard-rotate-left 3s forwards;
+}
+
+.wms-scoreboard-container {
+  perspective: 1000px;
+  perspective-origin: 50% 50%;
+  display: block;
+}
+
+.wms-scoreboard ul,
+.wms-scoreboard li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wms-scoreboard-team {
+  flex: 1 1 var(--wm-scoreboard-team-min-width);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: min(100%, var(--wm-scoreboard-team-min-width));
+  position: relative;
+  overflow: hidden;
+  background: var(--wm-scoreboard-team-bg);
+  border-right: var(--wm-scoreboard-border-soft);
+}
+
+.wms-scoreboard-team::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-size: cover, var(--wm-scoreboard-team-flag-size);
+  opacity: var(--wm-scoreboard-team-flag-opacity);
+  filter: var(--wm-scoreboard-team-flag-filter);
+  pointer-events: none;
+}
+
+.wms-scoreboard-team:first-of-type::before {
+  background-image: var(--wm-scoreboard-team-flag-vignette), var(--wm-scoreboard-home-flag-image);
+  background-position: center, var(--wm-scoreboard-home-flag-position);
+}
+
+.wms-scoreboard-team:nth-of-type(2)::before {
+  background-image: var(--wm-scoreboard-team-flag-vignette), var(--wm-scoreboard-away-flag-image);
+  background-position: center, var(--wm-scoreboard-away-flag-position);
+}
+
+.wms-scoreboard-team:nth-of-type(2) {
+  border-right: 0;
+}
+
+.wms-scoreboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--wm-scoreboard-header-gap);
+  padding: var(--wm-scoreboard-header-padding);
+  background: var(--wm-scoreboard-header-bg);
+  border-bottom: var(--wm-scoreboard-header-border);
+  font-size: var(--wm-scoreboard-header-font-size);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-wrap: wrap;
+  color: var(--wm-scoreboard-header-color);
+  flex: 0 0 auto;
+}
+
+ul.wms-scoreboard__events {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  background: var(--wm-scoreboard-event-bg);
+}
+
+.wms-scoreboard__event {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--wm-scoreboard-event-gap);
+  width: 100%;
+  padding: var(--wm-scoreboard-event-padding);
+  box-sizing: border-box;
+}
+
+.wms-scoreboard__home-score,
+.wms-scoreboard__away-score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--wm-scoreboard-score-min-width);
+  margin: 0;
+  padding: var(--wm-scoreboard-score-padding);
+  border-radius: var(--wm-scoreboard-radius-sm);
+  background: var(--wm-scoreboard-score-bg);
+  color: var(--wm-scoreboard-text-color);
+  font-size: var(--wm-scoreboard-score-font-size);
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: var(--wm-scoreboard-score-shadow);
+  position: relative;
+  z-index: 1;
+}
+
+.wms-scoreboard__home,
+.wms-scoreboard__away {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: var(--wm-scoreboard-team-name-padding);
+  color: var(--wm-scoreboard-text-color);
+  font-size: var(--wm-scoreboard-team-font-size);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+.wms-scoreboard__status {
+  display: flex;
+  flex: 1 0 100%;
+  align-items: center;
+  justify-content: center;
+  padding: var(--wm-scoreboard-status-wrap-padding);
+}
+
+.wms-scoreboard__status-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--wm-scoreboard-status-padding);
+  border-radius: var(--wm-scoreboard-status-radius);
+  background: var(--wm-scoreboard-status-bg);
+  color: var(--wm-scoreboard-status-color);
+  font-size: var(--wm-scoreboard-status-font-size);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.wms-scoreboard__fallback {
+  display: none;
+}
+
+.wms-scoreboard__league::before {
+  content: var(--wm-txt-league);
+}
+
+.wms-scoreboard__season::before {
+  content: var(--wm-txt-season);
+}
+
+.wms-scoreboard__home-score::before {
+  content: var(--wm-txt-home-score);
+}
+
+.wms-scoreboard__home::before {
+  content: var(--wm-txt-home);
+}
+
+.wms-scoreboard__away-score::before {
+  content: var(--wm-txt-away-score);
+}
+
+.wms-scoreboard__away::before {
+  content: var(--wm-txt-away);
+}
+
+.wms-scoreboard__status-text::before {
+  content: var(--wm-txt-status);
+}
+
+@keyframes wms-anim-scoreboard-rotate-right {
+  0% {
+    transform: scale3d(var(--wm-scoreboard-scale), var(--wm-scoreboard-scale), 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translate3d(0px, 0px, 0px) skew(0deg, 0deg);
+  }
+  25% {
+    transform: scale3d(var(--wm-scoreboard-scale), var(--wm-scoreboard-scale), 1) rotateX(0deg) rotateY(calc(var(--wm-scoreboard-rotate-y) * -1)) rotateZ(0deg) translate3d(calc(var(--wm-scoreboard-rotate-translate-x) * -1), 0px, 0px) skew(0deg, 0deg);
+  }
+  100% {
+    transform: scale3d(var(--wm-scoreboard-scale), var(--wm-scoreboard-scale), 1) rotateX(0deg) rotateY(calc(var(--wm-scoreboard-rotate-y) * -1)) rotateZ(0deg) translate3d(calc(var(--wm-scoreboard-rotate-translate-x) * -1), 0px, 0px) skew(0deg, 0deg);
+  }
+}
+
+@keyframes wms-anim-scoreboard-rotate-left {
+  0% {
+    transform: scale3d(var(--wm-scoreboard-scale), var(--wm-scoreboard-scale), 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translate3d(0px, 0px, 0px) skew(0deg, 0deg);
+  }
+  25% {
+    transform: scale3d(var(--wm-scoreboard-scale), var(--wm-scoreboard-scale), 1) rotateX(0deg) rotateY(var(--wm-scoreboard-rotate-y)) rotateZ(0deg) translate3d(var(--wm-scoreboard-rotate-translate-x), 0px, 0px) skew(0deg, 0deg);
+  }
+  100% {
+    transform: scale3d(var(--wm-scoreboard-scale), var(--wm-scoreboard-scale), 1) rotateX(0deg) rotateY(var(--wm-scoreboard-rotate-y)) rotateZ(0deg) translate3d(var(--wm-scoreboard-rotate-translate-x), 0px, 0px) skew(0deg, 0deg);
+  }
+}
+
+@keyframes wms-anim-right-scroll-perspective {
+  0% {
+    top: 0px;
+    margin-right: calc((100% - var(--wms-content-width)) / 2);
+  }
+  25% {
+    top: 0px;
+    margin-right: 0px;
+  }
+  100% {
+    top: var(--wms-video-scrolled-vertical-position-top);
+    margin-right: 0px;
+  }
+}
+
+@keyframes wms-anim-left-scroll-perspective {
+  0% {
+    top: 0px;
+    margin-left: calc((100% - var(--wms-content-width)) / 2);
+  }
+  25% {
+    top: 0px;
+    margin-left: 0px;
+  }
+  100% {
+    top: var(--wms-video-scrolled-vertical-position-top);
+    margin-left: 0px;
+  }
+}

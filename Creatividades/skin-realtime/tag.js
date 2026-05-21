@@ -1,7 +1,7 @@
 _skn_creative={
-  "title": "halo",
+  "title": "skin-realtime-fut",
   "adPath": "https://PLACEHOLDER/PLACEHOLDER",
-  "uuid": "cb59969c",
+  "uuid": "6bcb37ce",
   "Type": "SkinClassic",
   "params": {
     "__type__": "device",
@@ -279,93 +279,175 @@ _skn_creative={
                     }
                   }
                 }
-              }
-            }
-          },
-          "fullfg": {
-            "tagName": "div",
-            "attrs": {
-              "class": "wms-full-fg -wms-expanded wms-expanded-halo"
-            },
-            "size": {
-              "width": "100%"
-            },
-            "name": "wmsFullFgMain",
-            "b": {
-              "Click": {
-                "url": {
-                  "__type__": "expression",
-                  "expression": "[%/params/click%]"
-                },
-                "hidePointer": false,
-                "events": [
-                  {
-                    "expression": "[%/skin_producer%].logMetric([%/skin_producer/names/CLICK%], 1, [%/creativeId%])"
-                  },
-                  {
-                    "expression": "[%/skin_producer%].incMetric([%/skin_producer/names/CLICK_COUNT%], [%/creativeId%])"
-                  },
-                  {
-                    "expression": "[%/skin_producer%].logTime([%/skin_producer/names/CLICK%], [%/creativeId%])"
-                  },
-                  {
-                    "expression": "[%/skin_producer%].logClickDetail([%/event%], [%/creativeId%])"
-                  }
-                ]
-              }
-            },
-            "subNodes": {
-              "halo": {
+              },
+              "fullBgHeaderBlock": {
                 "tagName": "div",
                 "attrs": {
-                  "class": {
-                    "__type__": "expression",
-                    "expression": "[%/params/contentWidth%]",
-                    "1000": "wms-halo wms-1000",
-                    "1200": "wms-halo wms-1200"
+                  "class": "wms-header-block"
+                },
+                "b": {
+                  "Style": {
+                    "width": "var(--wms-content-width)"
+                  },
+                  "TimeKeeper": {
+                    "stopEvents": [
+                      {
+                        "expression": "[%/skin_producer%].incValue('megabanner_visible_time', [%/event/elapsedTime%], [%/creativeId%])"
+                      }
+                    ],
+                    "onUnload": [
+                      {
+                        "expression": "[%/skin_producer%].incValue('megabanner_visible_time', [%/event/elapsedTime%], [%/creativeId%])"
+                      }
+                    ]
+                  },
+                  "EvalNodeViewAbility": {
+                    "evalOnStart": "1",
+                    "ratio": 0.5,
+                    "steps": 10,
+                    "onVisible": [
+                      {
+                        "path": "../fullBgHeaderBlock/b/TimeKeeper",
+                        "message": "start"
+                      }
+                    ],
+                    "onHidden": [
+                      {
+                        "path": "../fullBgHeaderBlock/b/TimeKeeper",
+                        "message": "stop"
+                      }
+                    ]
                   }
                 },
                 "subNodes": {
-                  "haloButtonContainer": {
+                  "div": {
                     "tagName": "div",
                     "attrs": {
-                      "class": "wms-halo-buttoncontainer"
+                      "class": "wms-cont-scrollable -wms1000 -wms-right"
                     },
                     "subNodes": {
-                      "boxBtns": {
+                      "div": {
                         "tagName": "div",
                         "attrs": {
-                          "class": "wms-box-btns -wms-generalbtns"
+                          "class": "wms-scoreboard-container"
                         },
                         "subNodes": {
-                          "btnClose": {
+                          "div": {
                             "tagName": "div",
                             "attrs": {
-                              "class": "wms-btn-close"
+                              "class": "wms-scoreboard"
+                            },
+                            "subNodes": {
+                              "div": {
+                                "tagName": "div",
+                                "attrs": {
+                                  "class": "wms-scoreboard__header"
+                                },
+                                "subNodes": {
+                                  "span": {
+                                    "tagName": "span",
+                                    "attrs": {
+                                      "class": "wms-scoreboard__league"
+                                    }
+                                  },
+                                  "span_2": {
+                                    "tagName": "span",
+                                    "attrs": {
+                                      "class": "wms-scoreboard__season"
+                                    }
+                                  }
+                                }
+                              },
+                              "ul": {
+                                "tagName": "ul",
+                                "attrs": {
+                                  "class": "wms-scoreboard__events"
+                                },
+                                "subNodes": {
+                                  "li": {
+                                    "tagName": "li",
+                                    "attrs": {
+                                      "class": "wms-scoreboard__event"
+                                    },
+                                    "subNodes": {
+                                      "div": {
+                                        "tagName": "div",
+                                        "attrs": {
+                                          "class": "wms-scoreboard-team"
+                                        },
+                                        "subNodes": {
+                                          "div": {
+                                            "tagName": "div",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__home-score"
+                                            }
+                                          },
+                                          "div_2": {
+                                            "tagName": "div",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__home"
+                                            }
+                                          }
+                                        }
+                                      },
+                                      "div_2": {
+                                        "tagName": "div",
+                                        "attrs": {
+                                          "class": "wms-scoreboard-team"
+                                        },
+                                        "subNodes": {
+                                          "div": {
+                                            "tagName": "div",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__away-score"
+                                            }
+                                          },
+                                          "div_2": {
+                                            "tagName": "div",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__away"
+                                            }
+                                          }
+                                        }
+                                      },
+                                      "div_3": {
+                                        "tagName": "div",
+                                        "attrs": {
+                                          "class": "wms-scoreboard__status"
+                                        },
+                                        "subNodes": {
+                                          "span": {
+                                            "tagName": "span",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__status-text"
+                                            }
+                                          },
+                                          "ul": {
+                                            "tagName": "ul",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__scorers"
+                                            }
+                                          },
+                                          "ul_2": {
+                                            "tagName": "ul",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__cards"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "div_2": {
+                                "tagName": "div",
+                                "attrs": {
+                                  "class": "wms-scoreboard__fallback"
+                                }
+                              }
                             }
                           }
-                        }
-                      }
-                    }
-                  },
-                  "haloContent": {
-                    "tagName": "div",
-                    "attrs": {
-                      "class": "wms-halo-content"
-                    },
-                    "subNodes": {
-                      "img": {
-                        "tagName": "canvas",
-                        "attrs": {
-                          "class": "wms-halo-banner",
-                          "width": 1920,
-                          "height": 90
-                        },
-                        "canvasImage": {
-                          "1000": "https://PLACEHOLDER/PLACEHOLDER/BANNER.png",
-                          "1200": "https://PLACEHOLDER/PLACEHOLDER/BANNER.png",
-                          "__type__": "expression",
-                          "expression": "[%/params/contentWidth%]"
                         }
                       }
                     }

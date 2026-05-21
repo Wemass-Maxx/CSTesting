@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentacion WMS HTML Converter</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 32px 18px 64px;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    main { max-width: 960px; margin: 0 auto; }
+    h1 { color: #58a6ff; font-size: 1.6rem; margin: 0 0 8px; }
+    h2 { color: #79c0ff; font-size: 1.05rem; margin: 28px 0 8px; }
+    p, li { font-size: .92rem; }
+    code {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      padding: 1px 5px;
+      color: #7ee787;
+    }
+    pre {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      overflow: auto;
+      padding: 14px 16px;
+      color: #7ee787;
+      font-size: .84rem;
+    }
+    .note {
+      border-left: 3px solid #d29922;
+      background: #161009;
+      padding: 10px 14px;
+      color: #e3b341;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>WMS HTML Converter</h1>
+  <p>
+    Esta herramienta convierte un mockup HTML con clases <code>wms-*</code> en los archivos necesarios
+    para una plantilla del sistema: <code>tag.js</code>, <code>metadata.json</code>,
+    <code>config.json</code>, <code>definition.json</code> y, si se aporta CSS,
+    <code>outer.css</code>/<code>outer-mobile.css</code> parametrizados.
+  </p>
+
+  <h2>Archivos de entrada</h2>
+  <ul>
+    <li><code>HTML desktop</code>: obligatorio. Debe contener los nodos WMS que el renderer creara.</li>
+    <li><code>HTML mobile</code>: opcional. Si se activa Desktop + Mobile y no se sube, se reutiliza el desktop.</li>
+    <li><code>outer.css</code>: opcional. Solo se parametrizan variables CSS marcadas con opt-in.</li>
+    <li><code>outer-mobile.css</code>: opcional. Usa las mismas reglas que desktop, pero genera campos con <code>DEVICE: "mobile"</code>.</li>
+  </ul>
+
+  <h2>Regla principal</h2>
+  <p>
+    El converter no parametriza CSS automaticamente. Una variable CSS solo se convierte en campo de formulario
+    si esta marcada con <code>wms-param</code>. Esto evita tocar variables internas del layout o del renderer.
+  </p>
+
+  <h2>Marcado por linea</h2>
+  <pre><code>:root {
+  --wm-scoreboard-width: 450px; /* wms-param label="Ancho marcador" */
+  --wm-scoreboard-scale: 1; /* wms-param type=Decimal label="Escala marcador" */
+  --wm-scoreboard-bg-color: #090d14; /* wms-param label="Color fondo marcador" */
+}</code></pre>
+
+  <h2>Marcado por bloque</h2>
+  <pre><code>:root {
+  /* wms-param:start section=scoreboard */
+  --wm-scoreboard-text-color: #ffffff;
+  --wm-scoreboard-radius: 10px;
+  --wm-scoreboard-status-bg: #d9ff3f;
+  /* wms-param:end */
+}</code></pre>
+
+  <h2>Opciones soportadas</h2>
+  <ul>
+    <li><code>field=nombreCampo</code>: fuerza el nombre del campo en <code>definition.json</code>.</li>
+    <li><code>label="Texto visible"</code>: define el texto del formulario.</li>
+    <li><code>type=String|Text|Enum|Boolean|Integer|Decimal|Image|Video|Zip</code>: fuerza el tipo.</li>
+    <li><code>device=desktop|mobile|both</code>: fuerza el dispositivo.</li>
+    <li><code>required=true</code>: marca el campo como obligatorio.</li>
+    <li><code>section=basic</code>: permite agruparlo con los campos basicos.</li>
+    <li><code>values=a|b|c</code>: valores para campos <code>Enum</code>.</li>
+  </ul>
+
+  <h2>Assets en CSS</h2>
+  <p>
+    Los assets dentro de CSS son sustituibles solo si la variable esta marcada. Un <code>url(...)</code>
+    marcado se infiere como <code>Image</code> salvo que se indique otro tipo.
+  </p>
+  <pre><code>:root {
+  --wm-scoreboard-home-flag-image: url("images/flags/BRA.png"); /* wms-param type=Image label="Bandera local" */
+}</code></pre>
+  <p>Salida esperada:</p>
+  <pre><code>--wm-scoreboard-home-flag-image: url("##scoreboardHomeFlagImage##");</code></pre>
+
+  <h2>Inferencia de tipos</h2>
+  <ul>
+    <li><code>450px</code> genera <code>Integer</code> y conserva la unidad en CSS.</li>
+    <li><code>0.45</code> genera <code>Decimal</code>.</li>
+    <li><code>"Texto"</code> genera <code>String</code> y conserva las comillas en CSS.</li>
+    <li><code>linear-gradient(...)</code>, <code>1px solid #fff</code> o <code>calc(...)</code> generan <code>String</code>.</li>
+    <li><code>url(...)</code> genera <code>Image</code> cuando esta dentro del opt-in.</li>
+  </ul>
+
+  <h2>Campos internos que conviene no marcar</h2>
+  <p>
+    No marques variables de infraestructura salvo que sepas que deben quedar editables en Creative Studio:
+    <code>--wms-content-width</code>, <code>--wms-skin-width</code>, <code>--wms-skin-height</code>,
+    <code>--wms-stickywrapper-height</code>, <code>--wms-header-height</code>,
+    <code>--wms-safezone-*</code> y variables calculadas por comportamientos del renderer.
+  </p>
+
+  <div class="note">
+    Los placeholders CSS usan el contrato del backend: <code>##campo##</code> y
+    <code>/*##campo##*/</code>. Creative Studio reemplaza esos valores cuando crea la creatividad final.
+  </div>
+</main>
+</body>
+</html>
