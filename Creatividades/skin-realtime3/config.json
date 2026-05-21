@@ -93,6 +93,26 @@
                     "expression": "[%/skin_producer%].logTime([%/skin_producer/names/IMPRESSION%], [%/creativeId%])"
                   }
                 ]
+              },
+              "YScrollObserver": {
+                "onEnter": {
+                  "events": [
+                    {
+                      "path": "~/fullbg",
+                      "message": "removeClass",
+                      "params": "-wms-scrolling"
+                    }
+                  ]
+                },
+                "onLeave": {
+                  "events": [
+                    {
+                      "path": "~/fullbg",
+                      "message": "addClass",
+                      "params": "-wms-scrolling"
+                    }
+                  ]
+                }
               }
             },
             "subNodes": {
