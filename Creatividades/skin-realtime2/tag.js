@@ -1,0 +1,463 @@
+_skn_creative={
+  "title": "skin-realtime-fut",
+  "adPath": "https://PLACEHOLDER/PLACEHOLDER",
+  "uuid": "6bcb37ce",
+  "Type": "SkinClassic",
+  "params": {
+    "__type__": "device",
+    "desktop": {
+      "__type__": "role",
+      "inner": {
+        "stylesheet": "file:inner.css",
+        "nodes": {
+          "root": {
+            "mode": "body",
+            "attrs": {
+              "class": "wms-bodyclass"
+            },
+            "size": {
+              "width": {
+                "__type__": "expression",
+                "expression": "[%/params/contentWidth%]"
+              }
+            },
+            "b": {
+              "Style": {
+                "background-color": "transparent"
+              },
+              "Click": {
+                "url": {
+                  "__type__": "expression",
+                  "expression": "[%/params/click%]"
+                },
+                "hidePointer": true,
+                "events": [
+                  {
+                    "expression": "[%/skin_producer%].logMetric([%/skin_producer/names/CLICK%], 1, [%/creativeId%])"
+                  },
+                  {
+                    "expression": "[%/skin_producer%].incMetric([%/skin_producer/names/CLICK_COUNT%], [%/creativeId%])"
+                  },
+                  {
+                    "expression": "[%/skin_producer%].logTime([%/skin_producer/names/CLICK%], [%/creativeId%])"
+                  },
+                  {
+                    "expression": "[%/skin_producer%].logClickDetail([%/event%], [%/creativeId%])"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "outer": {
+        "stylesheet": "file:outer.css",
+        "pixels": {
+          "img": {
+            "__type__": "expression",
+            "expression": "[%/params/imgPixels%]"
+          },
+          "script": {
+            "__type__": "expression",
+            "expression": "[%/params/jsPixels%]"
+          },
+          "html": {
+            "__type__": "expression",
+            "expression": "[%/params/htmlPixels%]"
+          }
+        },
+        "nodes": {
+          "fullbg": {
+            "tagName": "div",
+            "attrs": {
+              "class": "wms-full-bg"
+            },
+            "size": {
+              "width": "100%"
+            },
+            "name": "wmsFullBgMain",
+            "b": {
+              "CalculateHeight": {
+                "path": "/params/skins/CalculateHeight"
+              },
+              "CssVariableDeclaration": {
+                "path": "/params/skins/CssVariableDeclaration"
+              },
+              "CalculatePosition": {
+                "path": "/params/skins/CalculatePosition"
+              },
+              "Timer": {
+                "timeout": 0,
+                "events": [
+                  {
+                    "expression": "[%/skin_producer%].logMetric([%/skin_producer/names/IMPRESSION%], 1, [%/creativeId%])"
+                  },
+                  {
+                    "expression": "[%/skin_producer%].logTime([%/skin_producer/names/IMPRESSION%], [%/creativeId%])"
+                  }
+                ]
+              }
+            },
+            "subNodes": {
+              "stickyWrapper": {
+                "tagName": "div",
+                "attrs": {
+                  "class": "wms-stickyWrapper"
+                },
+                "subNodes": {
+                  "sticky": {
+                    "tagName": "div",
+                    "attrs": {
+                      "class": "wms-sticky"
+                    },
+                    "b": {
+                      "VerticalOffset": {
+                        "path": "/params/skins/VerticalOffset"
+                      }
+                    },
+                    "subNodes": {
+                      "centerContents": {
+                        "tagName": "div",
+                        "attrs": {
+                          "class": "wms-centerContents"
+                        },
+                        "subNodes": {
+                          "skinbg": {
+                            "tagName": "div",
+                            "attrs": {
+                              "class": "wms-skinbg wms-centeredContent"
+                            },
+                            "b": {
+                              "ViewportEvent": {
+                                "threshold": 0.01,
+                                "onEnter": [
+                                  {
+                                    "path": "../skinbg/b/ViewAbilityCheck",
+                                    "message": "start"
+                                  }
+                                ],
+                                "onExit": [
+                                  {
+                                    "path": "../skinbg/b/ViewAbilityCheck",
+                                    "message": "stop"
+                                  }
+                                ]
+                              },
+                              "ViewAbilityCheck": {
+                                "ratio": 0.33,
+                                "elapsedTime": 1000,
+                                "contentClass": ".wms-siteBgHelper",
+                                "events": [
+                                  {
+                                    "expression": "[%/skin_producer%].log([%/skin_producer/names/VIEW_ABILITY_EXTENDED%], 1, [%/creativeId%])"
+                                  },
+                                  {
+                                    "expression": "[%/skin_producer%].logTime([%/skin_producer/names/VIEW_ABILITY_EXTENDED%], [%/creativeId%])"
+                                  }
+                                ]
+                              }
+                            },
+                            "subNodes": {
+                              "skinimg": {
+                                "tagName": "canvas",
+                                "attrs": {
+                                  "class": "wms-skinimg",
+                                  "width": 1920,
+                                  "height": 1000,
+                                  "id": "canvas"
+                                },
+                                "canvasImage": {
+                                  "1000": "https://PLACEHOLDER/PLACEHOLDER/1000.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/1200.jpg",
+                                  "__type__": "expression",
+                                  "expression": "[%/params/contentWidth%]"
+                                }
+                              },
+                              "skinsafezone": {
+                                "tagName": "div",
+                                "attrs": {
+                                  "class": "wms-safezone"
+                                },
+                                "b": {
+                                  "ViewportEvent": {
+                                    "threshold": 0.01,
+                                    "onEnter": [
+                                      {
+                                        "path": "../skinsafezone/b/ViewAbilityCheck",
+                                        "message": "start"
+                                      }
+                                    ],
+                                    "onExit": [
+                                      {
+                                        "path": "../skinsafezone/b/ViewAbilityCheck",
+                                        "message": "stop"
+                                      }
+                                    ]
+                                  },
+                                  "ViewAbilityCheck": {
+                                    "ratio": 0.33,
+                                    "elapsedTime": 1000,
+                                    "contentClass": ".wms-siteBgHelper",
+                                    "events": [
+                                      {
+                                        "expression": "[%/skin_producer%].logMetric([%/skin_producer/names/VIEW_ABILITY%], 1, [%/creativeId%])"
+                                      },
+                                      {
+                                        "expression": "[%/skin_producer%].logTime([%/skin_producer/names/VIEW_ABILITY%], [%/creativeId%])"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "wms-cc": {
+                    "tagName": "div",
+                    "attrs": {
+                      "class": "wms-cc"
+                    },
+                    "b": {
+                      "Click": {
+                        "url": {
+                          "__type__": "expression",
+                          "expression": "[%/params/click%]"
+                        },
+                        "hidePointer": false,
+                        "events": [
+                          {
+                            "expression": "[%/skin_producer%].logMetric([%/skin_producer/names/CLICK%], 1, [%/creativeId%])"
+                          },
+                          {
+                            "expression": "[%/skin_producer%].incMetric([%/skin_producer/names/CLICK_COUNT%], [%/creativeId%])"
+                          },
+                          {
+                            "expression": "[%/skin_producer%].logTime([%/skin_producer/names/CLICK%], [%/creativeId%])"
+                          },
+                          {
+                            "expression": "[%/skin_producer%].logClickDetail([%/event%], [%/creativeId%])"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "wms-siteBgHelper": {
+                    "tagName": "div",
+                    "attrs": {
+                      "class": {
+                        "1000": "wms-siteBgHelper -wms1000",
+                        "1200": "wms-siteBgHelper -wms1200",
+                        "__type__": "expression",
+                        "expression": "[%/params/contentWidth%]"
+                      }
+                    },
+                    "b": {
+                      "Click": {
+                        "url": {
+                          "__type__": "expression",
+                          "expression": "[%/params/click%]"
+                        },
+                        "hidePointer": true,
+                        "events": [
+                          {
+                            "expression": "[%/skin_producer%].logMetric([%/skin_producer/names/CLICK%], 1, [%/creativeId%])"
+                          },
+                          {
+                            "expression": "[%/skin_producer%].incMetric([%/skin_producer/names/CLICK_COUNT%], [%/creativeId%])"
+                          },
+                          {
+                            "expression": "[%/skin_producer%].logTime([%/skin_producer/names/CLICK%], [%/creativeId%])"
+                          },
+                          {
+                            "expression": "[%/skin_producer%].logClickDetail([%/event%], [%/creativeId%])"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "fullBgHeaderBlock": {
+                "tagName": "div",
+                "attrs": {
+                  "class": "wms-header-block"
+                },
+                "b": {
+                  "Style": {
+                    "width": "var(--wms-content-width)"
+                  },
+                  "TimeKeeper": {
+                    "stopEvents": [
+                      {
+                        "expression": "[%/skin_producer%].incValue('megabanner_visible_time', [%/event/elapsedTime%], [%/creativeId%])"
+                      }
+                    ],
+                    "onUnload": [
+                      {
+                        "expression": "[%/skin_producer%].incValue('megabanner_visible_time', [%/event/elapsedTime%], [%/creativeId%])"
+                      }
+                    ]
+                  },
+                  "EvalNodeViewAbility": {
+                    "evalOnStart": "1",
+                    "ratio": 0.5,
+                    "steps": 10,
+                    "onVisible": [
+                      {
+                        "path": "../fullBgHeaderBlock/b/TimeKeeper",
+                        "message": "start"
+                      }
+                    ],
+                    "onHidden": [
+                      {
+                        "path": "../fullBgHeaderBlock/b/TimeKeeper",
+                        "message": "stop"
+                      }
+                    ]
+                  }
+                },
+                "subNodes": {
+                  "div": {
+                    "tagName": "div",
+                    "attrs": {
+                      "class": "wms-cont-scrollable -wms1000 -wms-right"
+                    },
+                    "subNodes": {
+                      "div": {
+                        "tagName": "div",
+                        "attrs": {
+                          "class": "wms-scoreboard-container"
+                        },
+                        "subNodes": {
+                          "div": {
+                            "tagName": "div",
+                            "attrs": {
+                              "class": "wms-scoreboard"
+                            },
+                            "subNodes": {
+                              "div": {
+                                "tagName": "div",
+                                "attrs": {
+                                  "class": "wms-scoreboard__header"
+                                },
+                                "subNodes": {
+                                  "span": {
+                                    "tagName": "span",
+                                    "attrs": {
+                                      "class": "wms-scoreboard__league"
+                                    }
+                                  },
+                                  "span_2": {
+                                    "tagName": "span",
+                                    "attrs": {
+                                      "class": "wms-scoreboard__season"
+                                    }
+                                  }
+                                }
+                              },
+                              "ul": {
+                                "tagName": "ul",
+                                "attrs": {
+                                  "class": "wms-scoreboard__events"
+                                },
+                                "subNodes": {
+                                  "li": {
+                                    "tagName": "li",
+                                    "attrs": {
+                                      "class": "wms-scoreboard__event"
+                                    },
+                                    "subNodes": {
+                                      "div": {
+                                        "tagName": "div",
+                                        "attrs": {
+                                          "class": "wms-scoreboard-team"
+                                        },
+                                        "subNodes": {
+                                          "div": {
+                                            "tagName": "div",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__home-score"
+                                            }
+                                          },
+                                          "div_2": {
+                                            "tagName": "div",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__home"
+                                            }
+                                          }
+                                        }
+                                      },
+                                      "div_2": {
+                                        "tagName": "div",
+                                        "attrs": {
+                                          "class": "wms-scoreboard-team"
+                                        },
+                                        "subNodes": {
+                                          "div": {
+                                            "tagName": "div",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__away-score"
+                                            }
+                                          },
+                                          "div_2": {
+                                            "tagName": "div",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__away"
+                                            }
+                                          }
+                                        }
+                                      },
+                                      "div_3": {
+                                        "tagName": "div",
+                                        "attrs": {
+                                          "class": "wms-scoreboard__status"
+                                        },
+                                        "subNodes": {
+                                          "span": {
+                                            "tagName": "span",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__status-text"
+                                            }
+                                          },
+                                          "ul": {
+                                            "tagName": "ul",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__scorers"
+                                            }
+                                          },
+                                          "ul_2": {
+                                            "tagName": "ul",
+                                            "attrs": {
+                                              "class": "wms-scoreboard__cards"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "div_2": {
+                                "tagName": "div",
+                                "attrs": {
+                                  "class": "wms-scoreboard__fallback"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
