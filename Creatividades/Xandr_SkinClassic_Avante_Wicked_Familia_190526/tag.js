@@ -1,6 +1,6 @@
 _skn_creative={
   "title": "Xandr_SkinClassic_Avante_Wicked_Familia_190526",
-  "adPath": ".",
+  "adPath": "https://PLACEHOLDER/PLACEHOLDER",
   "uuid": "b16a114e",
   "Type": "SkinClassic",
   "params": {
@@ -166,8 +166,8 @@ _skn_creative={
                                   "id": "canvas"
                                 },
                                 "canvasImage": {
-                                  "1000": "Skin av desktop 1000px v2.jpg",
-                                  "1200": "Skin av desktop 1200px v2.jpg",
+                                  "1000": "https://PLACEHOLDER/PLACEHOLDER/Skin%20av%20desktop%201000px%20v2.jpg",
+                                  "1200": "https://PLACEHOLDER/PLACEHOLDER/Skin%20av%20desktop%201200px%20v2.jpg",
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]"
                                 }
