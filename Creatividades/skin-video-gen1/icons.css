@@ -1,0 +1,131 @@
+:root {
+  --wms-icon-color: #fff;
+  --wms-icon-hover-color: #fff;
+  --wms-icon-active-color: var(--wms-icon-hover-color);
+  --wms-icon-disabled-color: rgb(255 255 255 / 45%);
+  --wms-icon-bg: rgb(0 0 0 / 80%);
+  --wms-icon-bg-hover: var(--wms-icon-bg);
+  --wms-icon-size: 35px;
+}
+
+.wms-icon {
+  display: block;
+  width: var(--wms-icon-size);
+  height: var(--wms-icon-size);
+  background-color: var(--wms-icon-color);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.wms-icon:hover,
+.wms-icon.-wms-active {
+  background-color: var(--wms-icon-hover-color);
+}
+
+.wms-icon.-wms-disabled {
+  background-color: var(--wms-icon-disabled-color);
+  pointer-events: none;
+}
+
+.wms-icon-sound-on,
+.wms-btn-sound {
+  mask-image: url("icons/sound-on.svg");
+  -webkit-mask-image: url("icons/sound-on.svg");
+}
+
+.wms-icon-sound-off,
+.wms-btn-sound.-soundoff {
+  mask-image: url("icons/sound-off.svg");
+  -webkit-mask-image: url("icons/sound-off.svg");
+}
+
+.wms-icon-close,
+.wms-btn-close {
+  mask-image: url("icons/close.svg");
+  -webkit-mask-image: url("icons/close.svg");
+}
+
+.wms-icon-expand,
+.wms-btn-expand {
+  mask-image: url("icons/expand.svg");
+  -webkit-mask-image: url("icons/expand.svg");
+}
+
+.wms-icon-minimize,
+.wms-btn-minimize {
+  mask-image: url("icons/minimize.svg");
+  -webkit-mask-image: url("icons/minimize.svg");
+}
+
+.wms-icon-play,
+.wms-btn-play {
+  mask-image: url("icons/play.svg");
+  -webkit-mask-image: url("icons/play.svg");
+}
+
+.wms-icon-fullexpand,
+.wms-fullexpand,
+.-wms-fullexpand {
+  mask-image: url("icons/fullexpand.svg");
+  -webkit-mask-image: url("icons/fullexpand.svg");
+}
+
+.wms-btn-sound,
+.wms-btn-close,
+.wms-btn-expand,
+.wms-btn-minimize,
+.wms-btn-play,
+.wms-fullexpand,
+.-wms-fullexpand {
+  display: block;
+  width: var(--wms-icon-size);
+  height: var(--wms-icon-size);
+  background-color: var(--wms-icon-color);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.wms-btn-sound:hover,
+.wms-btn-close:hover,
+.wms-btn-expand:hover,
+.wms-btn-minimize:hover,
+.wms-btn-play:hover,
+.wms-fullexpand:hover,
+.-wms-fullexpand:hover {
+  background-color: var(--wms-icon-hover-color);
+}
+
+.wms-count-down {
+  display: block;
+  width: var(--wms-icon-size);
+  height: var(--wms-icon-size);
+  background: var(--wms-icon-bg);
+}
+
+.wms-count-down::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--wms-icon-color);
+  mask: url("icons/countdown-1.svg") center / contain no-repeat;
+  -webkit-mask: url("icons/countdown-1.svg") center / contain no-repeat;
+}
+
+.wms-count-down.-wms-2s::before {
+  mask-image: url("icons/countdown-2.svg");
+  -webkit-mask-image: url("icons/countdown-2.svg");
+}
+
+.wms-count-down.-wms-3s::before {
+  mask-image: url("icons/countdown-3.svg");
+  -webkit-mask-image: url("icons/countdown-3.svg");
+}

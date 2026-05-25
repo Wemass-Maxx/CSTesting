@@ -1,0 +1,284 @@
+@import url("icons.css");
+
+:root {
+  --wms-fullbg-bgcolor: transparent;
+  --wms-site-bg-helper-color: transparent;
+
+  --wms-skin-width: 1920px;
+  --wms-skin-height: 1000px;
+  --wms-header-height: 250px;
+  --wms-safezone-skin-width: 1440px;
+  --wms-safezone-skin-height: 800px;
+
+  --wms-site-width-1000: 1000px;
+  --wms-site-width-1200: 1200px;
+
+  --wms-sticky-top: 0px;
+  --wms-stickywrapper-height: 0px;
+
+  --wms-mob-skin-height: 450px;
+  --wms-mob-full-bg-height: 600px;
+  --wms-mob-full-bg-max-width: 450px;
+
+  --wms-z-background: 1;
+  --wms-z-content: 2;
+  --wms-z-overlay: 3;
+  --wms-top-layer: 9999999999;
+}
+
+
+/* Reset fuerte acotado a los contenedores WMS de la creatividad. */
+.wms-full-bg,
+.wms-full-fg,
+.wms-mob-full-bg {
+  all: initial;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  direction: ltr;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  box-sizing: border-box;
+}
+
+.wms-full-bg *,
+.wms-full-bg *::before,
+.wms-full-bg *::after,
+.wms-full-fg *,
+.wms-full-fg *::before,
+.wms-full-fg *::after,
+.wms-mob-full-bg *,
+.wms-mob-full-bg *::before,
+.wms-mob-full-bg *::after {
+  all: unset;
+  box-sizing: border-box;
+}
+
+.wms-full-bg img,
+.wms-full-fg img,
+.wms-mob-full-bg img,
+.wms-full-bg canvas,
+.wms-full-fg canvas,
+.wms-mob-full-bg canvas,
+.wms-full-bg video,
+.wms-full-fg video,
+.wms-mob-full-bg video,
+.wms-full-bg svg,
+.wms-full-fg svg,
+.wms-mob-full-bg svg {
+  display: block;
+  max-width: none;
+}
+
+.wms-full-bg a,
+.wms-full-fg a,
+.wms-mob-full-bg a,
+.wms-full-bg button,
+.wms-full-fg button,
+.wms-mob-full-bg button {
+  cursor: pointer;
+}
+
+
+.wms-siteBgHelper {
+  position: absolute;
+  display: inline-block;
+  width: var(--wms-site-width-1000);
+  height: calc(var(--wms-skin-height) + var(--wms-stickywrapper-height) - var(--wms-header-height));
+  margin: auto;
+  margin-top: var(--wms-header-height);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--wms-site-bg-helper-color);
+}
+
+.wms-siteBgHelper.-wms1000 {
+  width: var(--wms-site-width-1000);
+}
+
+.wms-siteBgHelper.-wms1200 {
+  width: var(--wms-site-width-1200);
+}
+
+.wms-cc {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  cursor: pointer;
+}
+
+.wms-sticky {
+  display: block;
+  position: -webkit-sticky;
+  position: sticky;
+  top: var(--wms-sticky-top);
+  left: 0;
+  width: 100%;
+}
+
+.wms-mainContainer {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--wms-skin-height);
+}
+
+.wms-centerContents {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: var(--wms-skin-height);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.wms-centerContents > .wms-centeredContent {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wms-stickyWrapper {
+  display: block;
+  height: var(--wms-stickywrapper-height);
+  background-color: var(--wms-fullbg-bgcolor);
+  padding-bottom: var(--wms-skin-height);
+}
+
+.wms-safezone {
+  width: var(--wms-safezone-skin-width);
+  height: var(--wms-safezone-skin-height);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wms-skinbg {
+  z-index: var(--wms-z-background);
+  position: relative;
+  width: unset;
+}
+
+.wms-skinimg {
+  width: var(--wms-skin-width);
+  height: var(--wms-skin-height);
+}
+
+.wms-header-block {
+  margin: auto;
+  height: var(--wms-header-height);
+  display: flex;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  top: 0;
+}
+
+/*##outerCustomCSSAppend##*/
+
+
+:root {
+  --wms-video-aspect-ratio: 16 / 9;
+  --wms-video-fit: contain;
+  --wms-video-ui-size: 35px;
+}
+
+.wms-video-frame {
+  display: block;
+  position: relative;
+  height: var(--wms-header-height);
+  aspect-ratio: var(--wms-video-aspect-ratio);
+  max-width: 100%;
+  max-height: var(--wms-header-height);
+  pointer-events: all;
+  z-index: var(--wms-z-content);
+}
+
+.wms-video-frame.-wms-center {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wms-video-frame.-wms-left {
+  margin-right: auto;
+}
+
+.wms-video-frame.-wms-right {
+  margin-left: auto;
+}
+
+.wms-video-frame.-wms-width-aspect {
+  width: 100%;
+  height: auto;
+}
+
+.wms-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: var(--wms-video-fit);
+  pointer-events: none;
+}
+
+.wms-video-ui {
+  display: block;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+  pointer-events: none;
+}
+
+.wms-video-frame:hover .wms-video-ui,
+.wms-video-ui:hover {
+  opacity: 1;
+}
+
+.wms-video-ui::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, rgb(0 0 0 / 0%) 65%, rgb(0 0 0 / 70%) 100%);
+}
+
+.wms-video-controls {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: var(--wms-video-ui-size);
+  pointer-events: all;
+}
+
+.wms-video-controls .wms-btn-sound {
+  width: var(--wms-video-ui-size);
+  height: var(--wms-video-ui-size);
+}
+
+.-wms-nodisplay {
+  display: none;
+}
+
+
+:root {
+  --wms-video-aspect-ratio: 16 / 9;
+  --wms-video-fit: contain;
+  --wms-icon-color: #ffffff;
+  --wms-icon-hover-color: #ffffff;
+  --wms-icon-bg: rgb(0 0 0 / 80%);
+  --wms-icon-size: 35px;
+  --wms-video-ui-size: 35px;
+}
