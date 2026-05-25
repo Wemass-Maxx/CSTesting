@@ -192,7 +192,7 @@
   transform: translateX(-50%);
   pointer-events: none;
   top: 0;
-  z-index: 1;
+  /* z-index: 1; */
   width: var(--wms-max-width) !important;
   max-width: var(--wms-max-expandable-width);
 }

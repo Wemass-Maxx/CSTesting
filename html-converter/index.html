@@ -408,6 +408,27 @@ const PIXELS_EXPRS = {
   html:   { '__type__': 'expression', 'expression': '[%/params/htmlPixels%]' },
 };
 
+const WMS_BEHAVIOR_PRESETS = {
+  'yscroll-scrolling': {
+    YScrollObserver: {
+      onEnter: {
+        events: [
+          { path: '~/fullbg', message: 'removeClass', params: '-wms-scrolling' },
+        ],
+      },
+      onLeave: {
+        events: [
+          { path: '~/fullbg', message: 'addClass', params: '-wms-scrolling' },
+        ],
+      },
+    },
+  },
+};
+
+function cloneBehavior(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
 // ═══════════════════════════════════════════════════════════════
 //  BEHAVIOR FACTORY
 //  Returns the `b` object for a given element based on its classes.
@@ -535,6 +556,15 @@ function makeBehaviors(el, context) {
     }
   }
 
+  const behaviorNames = (el.dataset?.wmsBehaviors || '')
+    .split(/[,\s]+/)
+    .map(name => name.trim())
+    .filter(Boolean);
+  behaviorNames.forEach(name => {
+    const preset = WMS_BEHAVIOR_PRESETS[name];
+    if (preset) Object.assign(b, cloneBehavior(preset));
+  });
+
   return Object.keys(b).length > 0 ? b : null;
 }
 
@@ -654,6 +684,67 @@ function inferWidthVariantSrc(src, width) {
   return src;
 }
 
+function classTextForContentWidth(classText, width, positionParam = '') {
+  const widthToken = `-wms${width}`;
+  let inserted = false;
+  const tokens = classText.split(/\s+/).filter(Boolean);
+  const mapped = [];
+  tokens.forEach(token => {
+    if (/^-wms(?:1000|1200)$/.test(token)) {
+      if (!inserted) {
+        mapped.push(widthToken);
+        inserted = true;
+      }
+      return;
+    }
+    if (positionParam && /^-wms-(?:left|right)$/.test(token)) {
+      mapped.push(`-wms-##${positionParam}##`);
+      return;
+    }
+    mapped.push(token);
+  });
+  if (!inserted) mapped.push(widthToken);
+  return mapped.join(' ');
+}
+
+function responsiveClassExpression(classText, positionParam = '') {
+  if (!/\s-wms(?:1000|1200)\b|^-wms(?:1000|1200)\b/.test(classText)) return null;
+  return {
+    '__type__': 'expression',
+    'expression': '[%/params/contentWidth%]',
+    '1000': classTextForContentWidth(classText, '1000', positionParam),
+    '1200': classTextForContentWidth(classText, '1200', positionParam),
+  };
+}
+
+function titleFromDataName(name) {
+  return String(name || '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/^./, c => c.toUpperCase())
+    .trim();
+}
+
+function collectNodeFields(el, context) {
+  const fields = {};
+  const positionParam = el.dataset?.wmsPositionParam?.trim();
+  if (positionParam) {
+    const values = (el.dataset.wmsPositionValues || 'left|right')
+      .split('|')
+      .map(value => value.trim())
+      .filter(Boolean);
+    fields[positionParam] = {
+      LABEL: el.dataset.wmsPositionLabel || titleFromDataName(positionParam),
+      TYPE: 'Enum',
+      DEVICE: context === 'mobile' ? 'mobile' : 'desktop',
+      VALUES: values.length ? values : ['left', 'right'],
+      DEFAULT: el.dataset.wmsPositionDefault || (values.includes('right') ? 'right' : values[0] || 'right'),
+      REQUIRED: el.dataset.wmsPositionRequired === 'true',
+    };
+  }
+  return fields;
+}
+
 // ═══════════════════════════════════════════════════════════════
 //  DOM WALKER
 // ═══════════════════════════════════════════════════════════════
@@ -743,9 +834,13 @@ function walkNode(el, adPath, context, _w) {
       'expression': '[%/params/contentWidth%]',
       ...WMS_CONVERTER_CONFIG.siteBgHelperClasses,
     };
+  } else if (attrs.class && !el.hasAttribute('data-wms-fixed-class')) {
+    attrs.class = responsiveClassExpression(attrs.class, el.dataset?.wmsPositionParam?.trim()) || attrs.class;
   }
 
   const node = { tagName: tag, attrs };
+  const nodeFields = collectNodeFields(el, context);
+  if (Object.keys(nodeFields).length) node.__wmsFields = nodeFields;
 
   // size: width 100% for layer roots
   if (el.classList.contains('wms-full-bg') || el.classList.contains('wms-mob-full-bg') ||
@@ -1004,6 +1099,7 @@ function replacePlaceholders(obj) {
   if (Array.isArray(obj)) return obj.map(replacePlaceholders);
   const result = {};
   for (const [key, value] of Object.entries(obj)) {
+    if (key === '__wmsFields') continue;
     if (key === 'canvasImage' && value && typeof value === 'object') {
       const ci = { ...value };
       if ('1000' in ci) ci['1000'] = '##img_1000##';
@@ -1016,6 +1112,21 @@ function replacePlaceholders(obj) {
     }
   }
   return result;
+}
+
+function collectNodeDefinedFields(params) {
+  const fields = {};
+  function visit(node) {
+    if (!node || typeof node !== 'object') return;
+    if (node.__wmsFields && typeof node.__wmsFields === 'object') {
+      Object.assign(fields, node.__wmsFields);
+    }
+    Object.entries(node).forEach(([key, value]) => {
+      if (key !== '__wmsFields') visit(value);
+    });
+  }
+  visit(params);
+  return fields;
 }
 
 function buildConfigJson(params, type) {
@@ -1091,10 +1202,17 @@ function convert(desktopHtml, mobileHtml, opts) {
   if (adPath) { const m = adPath.match(/(\d{4}-\d{2})/); if (m) folder = m[1]; }
   const metadataImages = collectMetadataImages(params, safeAdPath);
   const usedFieldNames = new Set(['adServer', 'title', 'crmId', 'sspId', 'clickUrl', ...Object.keys(metadataImages)]);
+  const nodeFields = collectNodeDefinedFields(params);
+  Object.keys(nodeFields).forEach(name => usedFieldNames.add(name));
   const desktopCssResult = parameterizeCss(desktopCss, 'desktop', usedFieldNames, _w);
   const mobileCssResult = parameterizeCss(mobileCss, 'mobile', usedFieldNames, _w);
-  const cssFields = { ...desktopCssResult.fields, ...mobileCssResult.fields };
+  const cssFields = { ...nodeFields, ...desktopCssResult.fields, ...mobileCssResult.fields };
   const cssDefaults = { ...desktopCssResult.defaults, ...mobileCssResult.defaults };
+  const nodeDefaults = Object.fromEntries(
+    Object.entries(nodeFields)
+      .filter(([, field]) => Object.prototype.hasOwnProperty.call(field, 'DEFAULT'))
+      .map(([name, field]) => [name, field.DEFAULT])
+  );
 
   const meta = {
     title: safeTitle, adServer: adServer || 'Xandr',
@@ -1102,6 +1220,7 @@ function convert(desktopHtml, mobileHtml, opts) {
     type: 'SkinClassic', creativeType: 'SKIN',
     uuid, adPath: adPath || '', folder, date: dateStr,
     ...metadataImages,
+    ...nodeDefaults,
     ...cssDefaults,
     fullBackgroundColor: 'transparent',
     pixels_script: '', pixels_img: '', pixels_html: '',

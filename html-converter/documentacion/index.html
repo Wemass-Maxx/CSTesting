@@ -112,6 +112,73 @@
     <li><code>url(...)</code> genera <code>Image</code> cuando esta dentro del opt-in.</li>
   </ul>
 
+  <h2>Behaviors declarativos</h2>
+  <p>
+    Los behaviors opcionales de nodos se activan con <code>data-wms-behaviors</code>. El atributo no se copia
+    al JSON final; solo sirve como instruccion para el converter.
+  </p>
+  <pre><code>&lt;div class="wms-full-bg" data-wms-behaviors="yscroll-scrolling"&gt;</code></pre>
+  <p>Salida esperada en el nodo <code>fullbg</code>:</p>
+  <pre><code>"YScrollObserver": {
+  "onEnter": {
+    "events": [
+      { "path": "~/fullbg", "message": "removeClass", "params": "-wms-scrolling" }
+    ]
+  },
+  "onLeave": {
+    "events": [
+      { "path": "~/fullbg", "message": "addClass", "params": "-wms-scrolling" }
+    ]
+  }
+}</code></pre>
+
+  <h2>Clases responsive 1000/1200</h2>
+  <p>
+    Si un nodo incluye <code>-wms1000</code> o <code>-wms1200</code>, el converter transforma su
+    <code>class</code> en una expresion dependiente de <code>contentWidth</code>.
+  </p>
+  <pre><code>&lt;div class="wms-cont-scrollable -wms1000 -wms-right"&gt;</code></pre>
+  <p>Salida esperada:</p>
+  <pre><code>"class": {
+  "__type__": "expression",
+  "expression": "[%/params/contentWidth%]",
+  "1000": "wms-cont-scrollable -wms1000 -wms-right",
+  "1200": "wms-cont-scrollable -wms1200 -wms-right"
+}</code></pre>
+  <p>
+    Para conservar una clase fija, usa <code>data-wms-fixed-class</code> en el nodo.
+  </p>
+  <pre><code>&lt;div class="wms-custom -wms1000" data-wms-fixed-class&gt;</code></pre>
+
+  <h2>Posición izquierda/derecha parametrizable</h2>
+  <p>
+    Para que una clase <code>-wms-left</code> o <code>-wms-right</code> sea intercambiable desde formulario,
+    declara el campo con <code>data-wms-position-param</code>. El converter crea el campo <code>Enum</code>
+    y reemplaza la clase por <code>-wms-##campo##</code>.
+  </p>
+  <pre><code>&lt;div
+  class="wms-cont-scrollable -wms1000 -wms-right"
+  data-wms-position-param="scoreboardPosition"
+  data-wms-position-label="Posición del marcador"
+  data-wms-position-values="left|right"
+  data-wms-position-default="right"&gt;</code></pre>
+  <p>Salida esperada:</p>
+  <pre><code>"class": {
+  "__type__": "expression",
+  "expression": "[%/params/contentWidth%]",
+  "1000": "wms-cont-scrollable -wms1000 -wms-##scoreboardPosition##",
+  "1200": "wms-cont-scrollable -wms1200 -wms-##scoreboardPosition##"
+}</code></pre>
+  <p>Campo generado:</p>
+  <pre><code>"scoreboardPosition": {
+  "LABEL": "Posición del marcador",
+  "TYPE": "Enum",
+  "DEVICE": "desktop",
+  "VALUES": ["left", "right"],
+  "DEFAULT": "right",
+  "REQUIRED": false
+}</code></pre>
+
   <h2>Campos internos que conviene no marcar</h2>
   <p>
     No marques variables de infraestructura salvo que sepas que deben quedar editables en Creative Studio:
