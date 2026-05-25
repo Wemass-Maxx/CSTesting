@@ -1,0 +1,22 @@
+{
+  "adServer": "Xandr",
+  "title": "Xandr_SkinVideo_FORD_Formula1_MOCKUP_200526",
+  "crmId": "",
+  "sspId": "",
+  "clickUrl": "",
+  "fullBackgroundColor": "transparent",
+  "outerCustomCSSAppend": "",
+  "pixels_script": "",
+  "pixels_img": "",
+  "pixels_html": "",
+  "type": "SkinVideo",
+  "creativeType": "SKIN",
+  "date": "2026-05-25 16:42",
+  "folder": "2026-05",
+  "adPath": "https://PLACEHOLDER/PLACEHOLDER",
+  "uuid": "2c2a58eb",
+  "img_1000": "Skin av desktop 1000px.jpg",
+  "img_1200": "Skin toggle desktop 1200px.jpg",
+  "videoSrc": "Our Time.mp4",
+  "videoSrcMobile": "Our Time.mp4"
+}
