@@ -93,6 +93,11 @@ _skn_creative={
                   },
                   {
                     "expression": "[%/skin_producer%].logTime([%/skin_producer/names/IMPRESSION%], [%/creativeId%])"
+                  },
+                  {
+                    "path": "[[wmsTopVideo]]",
+                    "message": "play",
+                    "condition": "1 == 1"
                   }
                 ]
               }
