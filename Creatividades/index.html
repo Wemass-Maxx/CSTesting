@@ -149,6 +149,7 @@
   const BRANCH = 'main';
   const FOLDER = 'Creatividades';
   const CDN    = `https://cdn.jsdelivr.net/gh/${REPO}@${BRANCH}/${FOLDER}`;
+  const RAW    = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${FOLDER}`;
   const PREVIEW = 'https://creative-studio.wemass.com/iframe_preview';
   const LOCAL_FOLDERS = [
     'skin-halo',
@@ -243,11 +244,16 @@
   }
 
   async function getMetadata(folder) {
-    const local = await fetch(`${folder}/metadata.json`);
-    if (local.ok) return local.json();
+    const sources = [
+      `${folder}/metadata.json`,
+      `${RAW}/${folder}/metadata.json`,
+      `${CDN}/${folder}/metadata.json`,
+    ];
 
-    const remote = await fetch(`${CDN}/${folder}/metadata.json`);
-    if (remote.ok) return remote.json();
+    for (const source of sources) {
+      const res = await fetch(source);
+      if (res.ok) return res.json();
+    }
 
     throw new Error(`metadata.json no encontrado en ${folder}`);
   }
