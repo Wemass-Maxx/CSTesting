@@ -150,13 +150,16 @@
   const FOLDER = 'Creatividades';
   const CDN    = `https://cdn.jsdelivr.net/gh/${REPO}@${BRANCH}/${FOLDER}`;
   const PREVIEW = 'https://creative-studio.wemass.com/iframe_preview';
-  const LOCAL_FOLDERS = ['skin-halo'];
+  const LOCAL_FOLDERS = [
+    'skin-halo',
+    'Xandr_SkinVerticalVideoCountdownAnimated_Demo',
+  ];
 
   const WIDTHS = [
-    { key: 'img_1000', width: 1000, device: 'desktop', label: 'Desktop 1000px' },
-    { key: 'img_1200', width: 1200, device: 'desktop', label: 'Desktop 1200px' },
-    { key: 'img_450',  width: 450,  device: 'mobile',  label: 'Mobile 450px'   },
-    { key: 'img_768',  width: 768,  device: 'tablet',  label: 'Tablet 768px'   },
+    { width: 1000, device: 'desktop', label: 'Desktop 1000px', keys: ['img_1000', 'zipFile1000', 'zipFile1000_js', 'animationId1000'] },
+    { width: 1200, device: 'desktop', label: 'Desktop 1200px', keys: ['img_1200', 'zipFile1200', 'zipFile1200_js', 'animationId1200'] },
+    { width: 450,  device: 'mobile',  label: 'Mobile 450px',   keys: ['img_450', 'zipFile450', 'zipFile450_js', 'animationId450'] },
+    { width: 768,  device: 'tablet',  label: 'Tablet 768px',   keys: ['img_768', 'zipFile768', 'zipFile768_js', 'animationId768'] },
   ];
 
   function buildUrl(folder, meta, width, device) {
@@ -175,7 +178,7 @@
   }
 
   function renderCard(folder, meta) {
-    const variants = WIDTHS.filter(w => meta[w.key]);
+    const variants = WIDTHS.filter(w => w.keys.some(key => meta[key]));
     if (!variants.length) return null;
 
     const card = document.createElement('div');
@@ -192,7 +195,7 @@
       </div>
     `;
 
-    for (const { key, width, device, label } of variants) {
+    for (const { width, device, label } of variants) {
       const url  = buildUrl(folder, meta, width, device);
       const row  = document.createElement('div');
       row.className = 'url-row';
