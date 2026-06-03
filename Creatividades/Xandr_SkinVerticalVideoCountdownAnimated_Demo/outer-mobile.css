@@ -1,0 +1,174 @@
+/* Variables */
+:root {
+    --wms-mob-full-bg-height: 600px;
+    --wms-mob-full-bg-max-width: 450px;
+    --wms-skin-height: 450px;
+    --wms-sticky-top: 0px;
+}
+
+/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÓN ENCIMA DE ESTO SERÁ DEVUELTA A LOS VALORES INICIALES */
+.wms-mob-full-bg,
+.wms-mob-full-bg * {
+    all: initial;
+}
+
+/* Inicio hoja de estilos general */
+.wms-cc-mob,
+.wms-centerContents {
+    position: sticky;
+    top: var(--wms-sticky-top);
+    left: 0;
+    width: 100%;
+    height: var(--wms-skin-height);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.wms-cc-mob {
+    height: var(--wms-mob-full-bg-height);
+    margin-top: calc(var(--wms-skin-height) * -1);
+    z-index: 1;
+    pointer-events: all;
+}
+
+.wms-centerContents {
+    max-width: 100%;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.wms-skinAnimation {
+    width: 100%;
+    max-width: var(--wms-mob-full-bg-max-width);
+    height: var(--wms-skin-height);
+}
+
+.wms-mob-full-bg {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@media screen and (orientation: portrait) {
+    .wms-mob-full-bg {
+        height: var(--wms-mob-full-bg-height);
+    }
+}
+
+@media screen and (orientation: landscape) {
+    .wms-mob-full-bg {
+        top: var(--wms-sticky-top);
+        width: 100%;
+        max-width: var(--wms-mob-full-bg-max-width);
+    }
+}
+
+
+/* css para video y controles */
+
+.wms-btns-canvas {
+    position: absolute;
+    z-index: 3;
+    top: 0px;
+    bottom: 0px;
+    max-height: 100%;
+    max-width: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+    aspect-ratio: 9 / 16;
+}
+
+
+/* .wms-btns-canvas > div {
+    opacity: 75%;
+} */
+
+.wms-box-btns {
+    position: absolute;
+    right: 5px;
+    width: 35px;
+}
+
+.wms-btn-sound {
+    display: block;
+    width: 35px;
+    height: 35px;
+    background: url(images/wms-sprites.svg) 118px -2px;
+}
+
+.wms-btn-sound.-soundoff {
+    background-position: 158px -2px;
+}
+
+.-wms-nodisplay {
+    display: none;
+}
+
+.wms-cont-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+}
+
+.wms-video {
+    pointer-events: none;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    max-height: 100%;
+    max-width: 100%;
+    margin: auto;
+    object-fit: contain;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
+
+.wms-cont-video.-wms-center .wms-video {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wms-cont-video.-wms-left .wms-video {
+    left: 0;
+    right: auto;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.wms-cont-video.-wms-right .wms-video {
+    left: auto;
+    right: 0;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.wms-cont-video.-wms-center .wms-btns-canvas {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wms-cont-video.-wms-left .wms-btns-canvas {
+    left: 0;
+    right: auto;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.wms-cont-video.-wms-right .wms-btns-canvas {
+    left: auto;
+    right: 0;
+    margin-left: auto;
+    margin-right: 0;
+}
