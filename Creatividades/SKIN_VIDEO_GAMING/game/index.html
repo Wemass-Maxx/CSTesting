@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Fórmula Win</title>
+    <style>
+      @font-face {
+        font-family: "BrickByte";
+        src: url("fonts/brick-byte.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+      body {
+        margin: 0;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+      }
+      canvas {
+        width: 100% !important;
+        height: auto !important;
+        display: block;
+      }
+      #rotate-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: #111;
+        color: #fff;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        font-family: "BrickByte", sans-serif;
+        letter-spacing: 0.1em;
+        font-size: 1.2rem;
+        text-align: center;
+        gap: 1rem;
+        padding: 2rem;
+      }
+      #rotate-overlay svg {
+        width: 64px;
+        height: 64px;
+        fill: #fff;
+        animation: rotate-hint 2s ease-in-out infinite;
+      }
+      @keyframes rotate-hint {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(90deg);
+        }
+      }
+
+      .container-fluid-max-xl {
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+      }
+      @media (min-width: 1024px) {
+        .container-fluid-max-xl {
+          max-width: 1440px;
+          padding-right: 4rem !important;
+          padding-left: 4rem !important;
+        }
+      }
+    </style>
+    <script type="module" crossorigin src="./js/index-jMC7KdC1.js"></script>
+    <link rel="modulepreload" crossorigin href="./js/phaser-DxORzGL4.js">
+  </head>
+  <body>
+    <div id="rotate-overlay">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M16.48 2.52c3.27 1.55 5.61 4.72 5.97 8.48h1.5C23.44 4.84 18.29 0 12 0l-.66.03 3.81 3.81 1.33-1.32zm-6.25-.77c-.59-.59-1.54-.59-2.12 0L1.75 8.11c-.59.59-.59 1.54 0 2.12l12.02 12.02c.59.59 1.54.59 2.12 0l6.36-6.36c.59-.59.59-1.54 0-2.12L10.23 1.75zm4.6 19.44L2.81 9.17l6.36-6.36 12.02 12.02-6.36 6.36zm-7.31.29C4.25 19.94 1.91 16.76 1.55 13H.05C.56 19.16 5.71 24 12 24l.66-.03-3.81-3.81-1.33 1.32z" />
+      </svg>
+      <p>Rota el dispositivo para jugar</p>
+    </div>
+    <div id="game-container" class="container-fluid-max-xl"></div>
+    <script>
+      (function () {
+        var overlay = document.getElementById("rotate-overlay");
+
+        function isPortrait() {
+          if (screen.orientation) {
+            return screen.orientation.type.startsWith("portrait");
+          }
+          // fallback for older Safari
+          return typeof window.orientation === "number" ? Math.abs(window.orientation) !== 90 : window.innerHeight > window.innerWidth;
+        }
+
+        function isMobile() {
+          return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && window.screen.width <= 1024);
+        }
+
+        function update() {
+          overlay.style.display = isMobile() && isPortrait() ? "flex" : "none";
+        }
+
+        update();
+        if (screen.orientation) {
+          screen.orientation.addEventListener("change", update);
+        } else {
+          window.addEventListener("orientationchange", update);
+        }
+      })();
+    </script>
+  </body>
+</html>
