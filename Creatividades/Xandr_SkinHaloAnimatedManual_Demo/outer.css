@@ -1,0 +1,323 @@
+/* =============================================================
+   outer-halo.css — Desktop Ad Skin Halo
+   Versión reducida de outer.css.
+   Contiene únicamente los estilos necesarios para skin-halo
+   (index3.html). Breakpoints: 1000px y 1200px.
+   ============================================================= */
+
+/* =============================================================
+   §1  CSS CUSTOM PROPERTIES
+   ============================================================= */
+
+:root {
+	--wms-fullbg-bgcolor: "##fullBackgroundColor##";
+	--wms-skin-width: 1920px;
+	--wms-skin-height: 1000px;
+	--wms-sticky-top: 0px;
+	--wms-stickywrapper-height: 1818px;
+	--wms-safezone-skin-width: 1440px;
+	--wms-safezone-skin-height: 800px;
+	--wms-header-height: 250px;
+	--wms-ui-bg: rgb(0 0 0 / 80%);
+	--wms-btn-size: 35px;
+	--wms-bg-overlay-color: rgb(0 0 0 / 75%);
+	--wms-top-layer: 9999999999;
+	--wms-site-bg-helper-color: transparent;
+
+	/* halo */
+	--wms-halo-bg-img1000: url('/ad_creatives/"##img_1000##"');
+	--wms-halo-bg-img1200: url('/ad_creatives/"##img_1200##"');
+	--wms-halo-height: 90px;
+}
+
+/* =============================================================
+   §2  RESET UNIVERSAL
+   ============================================================= */
+
+.wms-full-bg *,
+.wms-full-fg * {
+	all: unset;
+}
+
+/* =============================================================
+   §3  RAÍCES DE CAPA
+   ============================================================= */
+
+.wms-full-bg,
+.wms-full-fg {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	line-height: 0;
+}
+
+.wms-full-fg {
+	pointer-events: none;
+}
+
+.wms-full-fg .wms-stickyWrapper {
+	pointer-events: none;
+}
+
+/* =============================================================
+   §4  STACK STICKY SCROLL
+   ============================================================= */
+
+.wms-stickyWrapper {
+	display: block;
+	height: var(--wms-stickywrapper-height);
+	padding-bottom: var(--wms-skin-height);
+}
+
+.wms-full-bg .wms-stickyWrapper {
+	background-color: var(--wms-fullbg-bgcolor);
+}
+
+.wms-sticky {
+	display: block;
+	position: -webkit-sticky;
+	position: sticky;
+	top: var(--wms-sticky-top);
+	left: 0px;
+	width: 100%;
+}
+
+/* =============================================================
+   §5  STACK DE CENTRADO
+   ============================================================= */
+
+.wms-centerContents {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	height: var(--wms-skin-height);
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	max-width: 100%;
+	overflow: hidden;
+}
+
+.wms-centerContents > .wms-centeredContent {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.wms-skinbg {
+	z-index: 1;
+	position: relative;
+	width: unset;
+}
+
+/* =============================================================
+   §6  SLOT IMAGEN
+   ============================================================= */
+
+.wms-skinimg {
+	display: block;
+	width: var(--wms-skin-width);
+	height: var(--wms-skin-height);
+}
+
+/* =============================================================
+   §7  ZONA SEGURA
+   ============================================================= */
+
+.wms-safezone {
+	width: var(--wms-safezone-skin-width);
+	height: var(--wms-safezone-skin-height);
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+/* =============================================================
+   §8  CLICK OVERLAY Y HELPER DE VIEWABILITY
+   ============================================================= */
+
+.wms-cc {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+}
+
+.wms-siteBgHelper {
+	position: absolute;
+	display: inline-block;
+	width: 1000px;
+	left: 50%;
+	transform: translateX(-50%);
+	height: calc(
+		var(--wms-skin-height) +
+		var(--wms-stickywrapper-height) -
+		var(--wms-header-height)
+	);
+	margin-top: var(--wms-header-height);
+	background-color: var(--wms-site-bg-helper-color);
+}
+
+.wms-siteBgHelper.-wms1000 {
+	width: 1000px;
+}
+
+.wms-siteBgHelper.-wms1200 {
+	width: 1200px;
+}
+
+/* =============================================================
+   §9  BOTONES
+   ============================================================= */
+
+.wms-box-btns {
+	display: block;
+	width: var(--wms-btn-size);
+	height: auto;
+	position: absolute;
+	right: 5px;
+	pointer-events: all;
+}
+
+.wms-box-btns.-wms-generalbtns {
+	background-color: var(--wms-ui-bg);
+	padding: 4px;
+	border-radius: 5px;
+	z-index: var(--wms-top-layer);
+	position: absolute;
+}
+
+.wms-box-btns.-wms-generalbtns > div {
+	opacity: 80%;
+}
+
+.wms-box-btns.-wms-generalbtns > div:hover {
+	opacity: 100%;
+}
+
+.wms-btn-close {
+	display: block;
+	width: var(--wms-btn-size);
+	height: var(--wms-btn-size);
+	background: url(images/x.svg);
+	background-position: 0px 0px;
+}
+
+.wms-btn-close {
+	display: none;
+}
+
+.-wms-expanded .wms-btn-close {
+	display: block;
+}
+
+/* =============================================================
+   §10  EXPAND / OVERLAY STATE
+   ============================================================= */
+
+.wms-full-fg.-wms-expanded {
+	background-color: var(--wms-bg-overlay-color);
+	z-index: var(--wms-top-layer);
+	height: 100%;
+	pointer-events: all;
+}
+
+.wms-full-fg.-wms-expanded .wms-sticky {
+	z-index: var(--wms-top-layer);
+}
+
+.wms-full-fg.-wms-expanded:not(.wms-expanded-halo) .wms-sticky {
+	position: fixed !important;
+	top: 0 !important;
+}
+
+/* =============================================================
+   §11  SKIN HALO
+   ============================================================= */
+
+.wms-halo-banner {
+	display: block;
+	width: var(--wms-skin-width);
+	height: var(--wms-halo-height);
+	cursor: pointer;
+}
+
+.wms-full-fg.wms-expanded-halo {
+	background-color: transparent !important;
+	pointer-events: none;
+}
+
+.wms-expanded-halo .wms-btn-close {
+	display: block;
+}
+
+.wms-full-fg .wms-halo {
+	display: flex;
+	bottom: 0 !important;
+	position: fixed;
+	width: 100%;
+	height: var(--wms-halo-height);
+	justify-content: center;
+	align-items: end;
+	z-index: calc(var(--wms-top-layer) + 1);
+	pointer-events: all;
+	background-attachment: fixed;
+	background-size: initial;
+	background-position: center var(--wms-viewport-top-skin-offset, 0px);
+	background-repeat: no-repeat;
+}
+
+.wms-full-fg .wms-halo.wms-1000 {
+	background-image: var(--wms-halo-bg-img1000);
+}
+
+.wms-full-fg .wms-halo.wms-1200 {
+	background-image: var(--wms-halo-bg-img1200);
+}
+
+.wms-full-fg .wms-halo-content {
+	display: block;
+	bottom: 0 !important;
+	position: relative;
+}
+
+.wms-full-fg .wms-skinbg .wms-halo {
+	display: none;
+}
+
+.wms-halo .wms-box-btns.-wms-generalbtns {
+	position: relative;
+	left: calc(100% - 35px);
+}
+
+.wms-halo-buttoncontainer {
+	position: absolute;
+	height: var(--wms-halo-height);
+	width: var(--wms-content-width, 1000px);
+	margin: auto;
+	z-index: calc(var(--wms-top-layer) + 2);
+	pointer-events: none;
+}
+
+.wms-halo-buttoncontainer > * {
+	pointer-events: all;
+}
+
+@media (min-height: 1001px) {
+	.wms-full-fg .wms-halo {
+		top: calc(var(--wms-skin-height) - var(--wms-halo-height)) !important;
+	}
+
+	.wms-full-fg.wms-expanded-halo {
+		display: none;
+	}
+}
+
+/*##outerCustomCSSAppend##*/
