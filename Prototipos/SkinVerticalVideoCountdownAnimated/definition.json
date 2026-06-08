@@ -1,0 +1,368 @@
+{
+  "ASSETS": [
+    "images/wms-sprites.svg"
+  ],
+  "FIELDS": {
+    "adServer": {
+      "LABEL": "AdServer (Plataforma para la que se prepara el Clicktag de la pieza)",
+      "TYPE": "Enum",
+      "DEVICE": "both",
+      "REQUIRED": true,
+      "VALUES": [
+        "Xandr",
+        "TTD",
+        "DV360"
+      ],
+      "DEFAULT": "Xandr",
+      "SECTION": "basic"
+    },
+    "title": {
+      "LABEL": "Nombre (AdServer_SkinVerticalVideoCountdownAnimated_agencia_anunciante_campana_fecha)",
+      "TYPE": "String",
+      "DEVICE": "both",
+      "DEFAULT": "AdServer_SkinVerticalVideoCountdownAnimated_agencia_anunciante_campana_fecha",
+      "REQUIRED": true,
+      "SECTION": "basic"
+    },
+    "crmId": {
+      "LABEL": "Id en CRM",
+      "TYPE": "String",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "SECTION": "basic"
+    },
+    "sspId": {
+      "LABEL": "Id en SSP/DSP",
+      "TYPE": "String",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "SECTION": "basic"
+    },
+    "clickUrl": {
+      "LABEL": "Url de click (CC)",
+      "TYPE": "String",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "SECTION": "basic"
+    },
+    "zipFile1000": {
+      "LABEL": "Arte de Animate 1000px (ZIP)",
+      "TYPE": "Zip",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "zipFile1200": {
+      "LABEL": "Arte de Animate 1200px (ZIP)",
+      "TYPE": "Zip",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "zipFile450": {
+      "LABEL": "Arte de Animate 450px (ZIP)",
+      "TYPE": "Zip",
+      "DEVICE": "mobile",
+      "REQUIRED": false
+    },
+    "enableVideoPauseOutView": {
+      "LABEL": "Activar que el Video se detenga cuando sale del Viewport.",
+      "TYPE": "Boolean",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "DEFAULT": false
+    },
+    "enableVideoStartOffViewport": {
+      "LABEL": "Activar que el video comience estando fuera del viewport",
+      "TYPE": "Boolean",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "DEFAULT": true
+    },
+    "videoPosition": {
+      "LABEL": "Posición del video",
+      "TYPE": "Enum",
+      "DEVICE": "desktop",
+      "VALUES": [
+        "left",
+        "right"
+      ],
+      "DEFAULT": "right",
+      "REQUIRED": true
+    },
+    "videoSrc": {
+      "LABEL": "Fichero de Video",
+      "TYPE": "Video",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "videoPositionMobile": {
+      "LABEL": "Posición del video en móvil",
+      "TYPE": "Enum",
+      "DEVICE": "mobile",
+      "VALUES": [
+        "left",
+        "center",
+        "right"
+      ],
+      "DEFAULT": "center",
+      "REQUIRED": false
+    },
+    "videoSrcMobile": {
+      "LABEL": "Fichero de Video para móvil",
+      "TYPE": "Video",
+      "DEVICE": "mobile",
+      "REQUIRED": false
+    },
+    "fullBackgroundColor": {
+      "LABEL": "Color del fondo (CSS)",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true,
+      "DEFAULT": "transparent"
+    },
+    "outerCustomCSSAppend": {
+      "LABEL": "Custom CSS",
+      "TYPE": "Text",
+      "DEVICE": "desktop",
+      "REQUIRED": false
+    },
+    "pixels_script": {
+      "LABEL": "Pixels (JS) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+      "TYPE": "Text",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "REPLACE_QUOTES": true
+    },
+    "pixels_img": {
+      "LABEL": "Pixels (IMG) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+      "TYPE": "Text",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "REPLACE_QUOTES": true
+    },
+    "pixels_html": {
+      "LABEL": "Pixels (HTML) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+      "TYPE": "Text",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "REPLACE_QUOTES": true
+    },
+    "end-date": {
+      "LABEL": "Fecha fin con el formato YYYY-MM-DDTHH:MM:SS (Año-Mes-DíaTHora:Minuto:Segundo)",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true,
+      "DEFAULT": "2025-00-00T00:00:00"
+    },
+    "counter-position": {
+      "LABEL": "Posicion del contador",
+      "TYPE": "Enum",
+      "DEVICE": "desktop",
+      "VALUES": [
+        "header",
+        "left",
+        "right"
+      ],
+      "REQUIRED": false,
+      "DEFAULT": "header"
+    },
+    "cypher-animation": {
+      "LABEL": "Animación del contador",
+      "TYPE": "Enum",
+      "DEVICE": "desktop",
+      "VALUES": [
+        "-anim-scaleup",
+        "-anim-vibrate",
+        "-anim-vibrateCard",
+        "-anim-fadeintop",
+        "-anim-fadeintopCard",
+        "-anim-flipinX",
+        "-anim-flipinXCard",
+        "none"
+      ],
+      "REQUIRED": false,
+      "DEFAULT": "-anim-vibrate"
+    },
+    "counter-top-distance": {
+      "LABEL": "Distancia del contador al top [px]",
+      "TYPE": "Integer",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": 90
+    },
+    "counter-left-distance": {
+      "LABEL": "Distancia a la izquierda del contador [%,px,vw, etc.] (translateX combinado con izquierda al 50% centrará el contador)",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": "0"
+    },
+    "counter-width": {
+      "LABEL": "Ancho del contador [px] (Los laterales tienen 220px de ancho en 1000px y 120px de ancho en 1200px si es estricto)",
+      "TYPE": "Integer",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": 600
+    },
+    "counter-padding": {
+      "LABEL": "Padding del contador [px]",
+      "TYPE": "Integer",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": 0
+    },
+    "counter-transform": {
+      "LABEL": "Transformaciones del contador (translateX combinado con izquierda al 50% centrará el contador)",
+      "TYPE": "Enum",
+      "DEVICE": "desktop",
+      "VALUES": [
+        "translateX(-50%)",
+        "initial"
+      ],
+      "REQUIRED": false,
+      "DEFAULT": "translateX(-50%)"
+    },
+    "counter-background-color": {
+      "LABEL": "Color de fondo del contador (color CSS)",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true,
+      "DEFAULT": "transparent"
+    },
+    "animation-duration": {
+      "LABEL": "Duracición de la animación [ms]",
+      "TYPE": "Integer",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": 500
+    },
+    "counter-box-color": {
+      "LABEL": "Color del contador (color CSS)",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true,
+      "DEFAULT": "transparent"
+    },
+    "counter-box-border-radius": {
+      "LABEL": "Radio de esquina del contador [px]",
+      "TYPE": "Integer",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": 5
+    },
+    "counter-box-margin": {
+      "LABEL": "Margen del contador [px]",
+      "TYPE": "Integer",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": 5
+    },
+    "counter-box-border": {
+      "LABEL": "Borde del contador [definición de CSS border]",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": "solid 2px #eeee"
+    },
+    "counter-font-color": {
+      "LABEL": "Color de fuente del contador (color CSS)",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true,
+      "DEFAULT": "#FFF"
+    },
+    "counter-font-size": {
+      "LABEL": "Tamaño de fuente del contador [px]",
+      "TYPE": "Integer",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": 100
+    },
+    "counter-font-weight": {
+      "LABEL": "Peso de fuente del contador [px]",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": false,
+      "DEFAULT": "bold"
+    },
+    "counter-font-family": {
+      "LABEL": "Familias de fuentes del contador",
+      "TYPE": "Enum",
+      "DEVICE": "desktop",
+      "VALUES": [
+        "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif",
+        "Century Gothic, CenturyGothic, AppleGothic, sans-serif",
+        "TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif",
+        "Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace",
+        "Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif"
+      ],
+      "REQUIRED": false,
+      "DEFAULT": "Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+    },
+    "counter-text-align": {
+      "LABEL": "Alineación del texto del contador",
+      "TYPE": "Enum",
+      "DEVICE": "desktop",
+      "VALUES": [
+        "center",
+        "left",
+        "right"
+      ],
+      "REQUIRED": false,
+      "DEFAULT": "center"
+    },
+    "counter-text-shadow": {
+      "LABEL": "Sombra del texto del contador",
+      "TYPE": "Enum",
+      "DEVICE": "desktop",
+      "VALUES": [
+        "2px 2px 11px #000000ba",
+        "2px 2px 10px #675a3d",
+        "none"
+      ],
+      "REQUIRED": false,
+      "DEFAULT": "2px 2px 11px #000000ba"
+    }
+  },
+  "GROUPS": {
+    "Animate": {
+      "LABEL": "Adobe Animate",
+      "FIELDS": [
+        "zipFile1200",
+        "zipFile1000",
+        "zipFile450"
+      ]
+    },
+    "Video": {
+      "LABEL": "Video",
+      "FIELDS": [
+        "videoSrc",
+        "videoPosition"
+      ]
+    },
+    "Countdown": {
+      "LABEL": "Countdown",
+      "FIELDS": [
+        "end-date",
+        "counter-position",
+        "cypher-animation",
+        "counter-top-distance",
+        "counter-left-distance",
+        "counter-width",
+        "counter-padding",
+        "counter-transform",
+        "counter-background-color",
+        "animation-duration",
+        "counter-box-color",
+        "counter-box-border-radius",
+        "counter-box-margin",
+        "counter-box-border",
+        "counter-font-color",
+        "counter-font-size",
+        "counter-font-weight",
+        "counter-font-family",
+        "counter-text-align",
+        "counter-text-shadow"
+      ]
+    }
+  }
+}

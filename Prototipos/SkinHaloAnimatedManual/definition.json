@@ -1,0 +1,230 @@
+{
+  "ASSETS": [
+    "images/x.svg"
+  ],
+  "FIELDS": {
+    "adServer": {
+      "LABEL": "AdServer (Plataforma para la que se prepara el Clicktag de la pieza)",
+      "TYPE": "Enum",
+      "DEVICE": "both",
+      "SECTION": "basic",
+      "REQUIRED": true,
+      "VALUES": [
+        "Xandr",
+        "TTD",
+        "DV360"
+      ],
+      "DEFAULT": "Xandr"
+    },
+    "title": {
+      "LABEL": "Nombre (AdServer_SkinHalo_agencia_anunciante_campaña_fecha)",
+      "TYPE": "String",
+      "DEVICE": "both",
+      "SECTION": "basic",
+      "DEFAULT": "AdServer_SkinHalo_agencia_anunciante_campaña_fecha",
+      "REQUIRED": true
+    },
+    "crmId": {
+      "LABEL": "Id en CRM",
+      "TYPE": "String",
+      "DEVICE": "both",
+      "SECTION": "basic",
+      "REQUIRED": false
+    },
+    "sspId": {
+      "LABEL": "Id en SSP/DSP",
+      "TYPE": "String",
+      "DEVICE": "both",
+      "SECTION": "basic",
+      "REQUIRED": false
+    },
+    "clickUrl": {
+      "LABEL": "Url de click (CC)",
+      "TYPE": "String",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "SECTION": "basic"
+    },
+    "img_1000": {
+      "LABEL": "Arte 1000px (Imagen)",
+      "TYPE": "Image",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "img_1200": {
+      "LABEL": "Arte 1200px (Imagen)",
+      "TYPE": "Image",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "img_sticky": {
+      "LABEL": "Banner sticky (Imagen)",
+      "TYPE": "Image",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "img_450": {
+      "LABEL": "Arte 900px x 900px (tamaño base de imagen de 450px x2 para pantallas 2x dpi) (Imagen)",
+      "TYPE": "Image",
+      "DEVICE": "mobile",
+      "REQUIRED": false
+    },
+    "fullBackgroundColor": {
+      "LABEL": "Color del fondo (CSS)",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true,
+      "DEFAULT": "transparent"
+    },
+    "outerCustomCSSAppend": {
+      "LABEL": "Custom CSS",
+      "TYPE": "Text",
+      "DEVICE": "desktop",
+      "REQUIRED": false
+    },
+    "pixels_script": {
+      "LABEL": "Pixels (JS) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+      "TYPE": "Text",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "REPLACE_QUOTES": true
+    },
+    "pixels_img": {
+      "LABEL": "Pixels (IMG) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+      "TYPE": "Text",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "REPLACE_QUOTES": true
+    },
+    "pixels_html": {
+      "LABEL": "Pixels (HTML) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+      "TYPE": "Text",
+      "DEVICE": "both",
+      "REQUIRED": false,
+      "REPLACE_QUOTES": true
+    },
+    "zipFile1000": {
+      "LABEL": "Arte Animate 1000px (ZIP)",
+      "TYPE": "Zip",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "zipFile1000_js": {
+      "LABEL": "JS Animate 1000px",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true,
+      "DEFAULT": "1000.js"
+    },
+    "animationId1000": {
+      "LABEL": "Composition ID Animate 1000px",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "animationClass1000": {
+      "LABEL": "Clase exportada Animate 1000px",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "zipFile1200": {
+      "LABEL": "Arte Animate 1200px (ZIP)",
+      "TYPE": "Zip",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "zipFile1200_js": {
+      "LABEL": "JS Animate 1200px",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true,
+      "DEFAULT": "1200.js"
+    },
+    "animationId1200": {
+      "LABEL": "Composition ID Animate 1200px",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "animationClass1200": {
+      "LABEL": "Clase exportada Animate 1200px",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "zipFileSticky": {
+      "LABEL": "Banner sticky Animate (ZIP)",
+      "TYPE": "Zip",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "zipFileSticky_js": {
+      "LABEL": "JS Animate sticky",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true,
+      "DEFAULT": "halo.js"
+    },
+    "animationIdSticky": {
+      "LABEL": "Composition ID Animate sticky",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "animationClassSticky": {
+      "LABEL": "Clase exportada Animate sticky",
+      "TYPE": "String",
+      "DEVICE": "desktop",
+      "REQUIRED": true
+    },
+    "zipFile450": {
+      "LABEL": "Arte Animate mobile 450px (ZIP)",
+      "TYPE": "Zip",
+      "DEVICE": "mobile",
+      "REQUIRED": false
+    },
+    "zipFile450_js": {
+      "LABEL": "JS Animate mobile",
+      "TYPE": "String",
+      "DEVICE": "mobile",
+      "REQUIRED": false,
+      "DEFAULT": "1000.js"
+    },
+    "animationId450": {
+      "LABEL": "Composition ID Animate mobile",
+      "TYPE": "String",
+      "DEVICE": "mobile",
+      "REQUIRED": false
+    },
+    "animationClass450": {
+      "LABEL": "Clase exportada Animate mobile",
+      "TYPE": "String",
+      "DEVICE": "mobile",
+      "REQUIRED": false
+    }
+  },
+  "GROUPS": {
+    "Animate": {
+      "LABEL": "Adobe Animate",
+      "FIELDS": [
+        "zipFile1200",
+        "zipFile1200_js",
+        "animationId1200",
+        "animationClass1200",
+        "zipFile1000",
+        "zipFile1000_js",
+        "animationId1000",
+        "animationClass1000",
+        "zipFileSticky",
+        "zipFileSticky_js",
+        "animationIdSticky",
+        "animationClassSticky",
+        "zipFile450",
+        "zipFile450_js",
+        "animationId450",
+        "animationClass450"
+      ]
+    }
+  }
+}
