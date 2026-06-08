@@ -2,41 +2,39 @@
 
 :root {
     --wms-fullbg-bgcolor: transparent;
-    /* VALOR COLOR FONDO SKINS */
     --wms-skin-width: 1920px;
     --wms-skin-height: 1000px;
     --wms-sticky-top: 0px;
     --wms-stickywrapper-height: 0px;
-    --wms-header-height: 250px;
     --wms-safezone-skin-width: 1440px;
     --wms-safezone-skin-height: 800px;
+    --wms-header-height: 250px;
 
     /* Variables de countdown */
 
     --wms-countdown-top: 30px;
-    --wms-countdown-left: 50%;
+    --wms-countdown-left: 31%;
     --wms-countdown-width: 600px;
-    --wms-countdown-padding: 0px;
+    --wms-countdown-padding: 3px;
     --wms-countdown-transform: translateX(-50%);
     --wms-countdown-bg-color: transparent;
 
     --wms-animation-duration: 500ms;
     --wms-countdown-box-bgcolor: transparent;
-    --wms-countdown-box-border-radius: 5px;
+    --wms-countdown-box-border-radius: 10px;
     --wms-countdown-box-margin: 5px;
-    --wms-countdown-box-border: solid 2px #eeee;
+    --wms-countdown-box-border: solid 0px #eeee;
 
     --wms-countdown-font-color: #FFF;
     --wms-countdown-font-size: 100px;
     --wms-countdown-font-weight: bold;
     --wms-countdown-font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     --wms-countdown-text-align: center;
-    --wms-text-shadow: 2px 2px 11px #000000ba;
+    --wms-text-shadow: none;
 }
 
-/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÓN ENCIMA DE ESTO SERÁ DEVUELTA A LOS VALORES INICIALES */
-.wms-full-bg *,
-.wms-full-fg * {
+/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÃ“N ENCIMA DE ESTO SERÃ DEVUELTA A LOS VALORES INICIALES */
+.wms-full-bg * {
     all: initial;
 }
 
@@ -69,53 +67,6 @@
     cursor: pointer;
 }
 
-/* .wms-full-fg {
-    position: absolute;
-    width: 100%;
-} */
-
-.wms-full-fg {
-    pointer-events: none;
-}
-
-.wms-centerContents {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: var(--wms-skin-height);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    max-width: 100%;
-    overflow: hidden;
-
-}
-
-.wms-full-fg .wms-centerContents {
-    height: calc(var(--wms-skin-height) - var(--wms-header-height));
-}
-
-.wms-centerContents>.wms-centeredContent {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.wms-full-bg .wms-stickyWrapper {
-    background-color: var(--wms-fullbg-bgcolor);
-}
-
-.wms-stickyWrapper {
-    display: block;
-    height: var(--wms-stickywrapper-height);
-    /* calcular por site para que no choque con el footer del mismo */
-    /*padding-bottom: var(--wms-skin-height);*/
-    /*Comentado por Lucio: el wms-sticky ya tiene un margin-top, este padding no parece necesario y agrega espacio al final del skin.*/
-}
-
 .wms-sticky {
     display: block;
     position: -webkit-sticky;
@@ -124,168 +75,6 @@
     left: 0px;
     width: 100%;
 }
-
-.wms-safezone {
-    width: var(--wms-safezone-skin-width);
-    height: var(--wms-safezone-skin-height);
-    position: absolute;
-    top: 0;
-    left: 50%;
-    /* Place the container horizontally at the center of the page */
-    transform: translateX(-50%);
-    /* Center the container using transform */
-}
-
-.wms-skinbg {
-    z-index: 1;
-    position: relative;
-    width: unset;
-}
-
-/* .wms-skinAnimation {
-    width: var(--wms-skin-width);
-    height: var(--wms-skin-height);
-} */
-
-.wms-skinimg {
-    width: var(--wms-skin-width);
-    height: var(--wms-skin-height);
-}
-
-.wms-btns-canvas {
-    display: block;
-    opacity: 0;
-    transition: opacity 0.2s ease-in;
-    position: absolute;
-    background: linear-gradient(45deg, rgba(0, 0, 0, 0) 65%, rgba(0, 0, 0, 0.70) 100%);
-    z-index: 1;
-    pointer-events: all;
-}
-
-.-wms1000px .wms-cont-video .wms-btns-canvas {
-    width: calc((100vw - 1000px) / 2);
-    height: calc(((100vw - 1000px) / 2) * 1.78);
-    max-width: 459px;
-}
-
-.-wms1200px .wms-cont-video .wms-btns-canvas {
-    width: calc((100vw - 1200px) / 2);
-    height: calc(((100vw - 1200px) / 2) * 1.78);
-    max-width: 359px;
-}
-
-.wms-btns-canvas>div {
-    opacity: 75%;
-}
-
-.wms-btns-canvas>div:hover {
-    opacity: 100%;
-}
-
-.wms-btns-canvas:hover {
-    opacity: 100;
-}
-
-.wms-box-btns {
-    display: block;
-    width: 35px;
-    height: auto;
-    position: absolute;
-    right: 5px;
-    pointer-events: all;
-}
-
-.wms-btn-sound {
-    display: block;
-    width: 35px;
-    height: 35px;
-    background: url(images/wms-sprites.svg);
-    background-position: 118px -2px;
-}
-
-.wms-btn-sound.-soundoff {
-    background-position: 158px -2px;
-}
-
-.-wms-nodisplay {
-    display: none;
-}
-
-.wms-cont-video {
-    z-index: 2;
-}
-
-.wms-full-fg .wms-sticky {
-    margin-top: var(--wms-header-height);
-}
-
-.wms-verticalvideo-container.-wms-left {
-    flex-direction: row;
-}
-
-.wms-verticalvideo-container.-wms-right {
-    flex-direction: row-reverse;
-}
-
-.wms-video-vertical {
-    max-width: 100%;
-    max-height: 817px;
-    position: relative;
-    margin-left: auto;
-}
-
-.wms-verticalvideo-container {
-    margin: auto;
-    max-width: var(--wms-skin-width);
-    height: calc(var(--wms-skin-height) - var(--wms-header-height));
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: stretch;
-}
-
-.-wms1000px .wms-sitespacer {
-    width: 1000px;
-}
-
-.-wms1200px .wms-sitespacer {
-    width: 1200px;
-}
-
-.-wms1000px .wms-lateral {
-    width: calc((100vw - 1000px) / 2);
-    max-width: 459px;
-    display: flex;
-}
-
-.-wms1200px .wms-lateral {
-    width: calc((100vw - 1200px) / 2);
-    max-width: 359px;
-    display: flex;
-}
-
-.wms-skinfg {
-    position: relative;
-    width: unset;
-}
-
-.wms-bg-header-block {
-    margin: auto;
-    height: var(--wms-header-height);
-    display: flex;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    pointer-events: none;
-    top: 0;
-}
-
-
-/* countdown css */
-
-/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÓN ENCIMA DE ESTO SERÁ DEVUELTA A LOS VALORES INICIALES */
-/* .wms-full-bg * {
-    all: initial;
-} */
 
 .wms-full-bg {
     position: absolute;
@@ -299,6 +88,55 @@
     top: 0px;
     left: 0px;
     width: 100%;
+    height: var(--wms-skin-height);
+}
+
+.wms-centerContents {
+    position: absolute;
+    top: 0;
+    left: 50%; /* Place the container horizontally at the center of the page */
+    transform: translateX(-50%); /* Center the container using transform */
+    width: 100%;
+    height: var(--wms-skin-height);
+    display: flex;
+    align-items: flex-start; /* Align the image to the top */
+    justify-content: center;
+    max-width: 100%;
+    overflow: hidden;
+
+}
+
+.wms-centerContents > .wms-centeredContent {
+    position: absolute;
+    top: 0; /* Position the image at the top of the container */
+    left: 50%; /* Place the image horizontally at the center of the container */
+    transform: translateX(-50%); /* Center the image using transform */
+}
+
+.wms-stickyWrapper {
+    display: block;
+    height: var(--wms-stickywrapper-height); /* calcular por site para que no choque con el footer del mismo */
+    background-color: var(--wms-fullbg-bgcolor);
+    padding-bottom: var(--wms-skin-height);
+}
+
+.wms-safezone {
+    width: var(--wms-safezone-skin-width);
+    height: var(--wms-safezone-skin-height);
+    position: absolute;
+    top: 0;
+    left: 50%; /* Place the container horizontally at the center of the page */
+    transform: translateX(-50%); /* Center the container using transform */
+}
+
+.wms-skinbg {
+    z-index: 1;
+    position: relative;
+    width: unset;
+}
+
+.wms-skinimg {
+    width: var(--wms-skin-width);
     height: var(--wms-skin-height);
 }
 
@@ -400,6 +238,7 @@
     width: calc((100% - 1200px) / 2);
     max-width: 360px;
 }
+
 .wms-countdown-container {
     width: var(--wms-safezone-skin-width);
     height: var(--wms-safezone-skin-height);
@@ -420,13 +259,13 @@
     background-color: var(--wms-countdown-bg-color);
 }
 
-.wms-counter-block>* {
+.wms-counter-block > * {
     margin: var(--wms-countdown-box-margin);
     display: block;
     clip-path: inset(0 0 0 0);
 }
 
-.wms-counter-block>*>div {
+.wms-counter-block > * > div {
     border-radius: var(--wms-countdown-box-border-radius);
     border: var(--wms-countdown-box-border);
     color: var(--wms-countdown-font-color);
@@ -450,7 +289,6 @@
     0% {
         transform: scale(0.5);
     }
-
     100% {
         transform: scale(1);
     }
@@ -460,7 +298,6 @@
     0% {
         transform: scale(0.5);
     }
-
     100% {
         transform: scale(1);
     }
@@ -481,11 +318,9 @@
     0% {
         transform: scale(1);
     }
-
     50% {
         transform: scale(0.97);
     }
-
     100% {
         transform: scale(1);
     }
@@ -495,11 +330,9 @@
     0% {
         transform: scale(1);
     }
-
     50% {
         transform: scale(0.97);
     }
-
     100% {
         transform: scale(1);
     }
@@ -529,7 +362,6 @@
         transform: translateY(-50px);
         opacity: 0;
     }
-
     100% {
         transform: translateY(0);
         opacity: 1;
@@ -541,7 +373,6 @@
         transform: translateY(-50px);
         opacity: 0;
     }
-
     100% {
         transform: translateY(0);
         opacity: 1;
@@ -648,3 +479,5 @@
 .-anim-flipinXCard div:has(> .wms-state-2) {
     animation: flipInXb var(--wms-animation-duration) ease 0s 1 normal none;
 }
+
+
