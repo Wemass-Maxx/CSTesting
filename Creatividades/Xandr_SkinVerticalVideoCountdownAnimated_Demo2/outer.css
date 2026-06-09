@@ -69,13 +69,10 @@
     cursor: pointer;
 }
 
-/* .wms-full-fg {
-    position: absolute;
-    width: 100%;
-} */
-
 .wms-full-fg {
+    position: absolute;
     pointer-events: none;
+    width: 100%;
 }
 
 .wms-centerContents {
@@ -383,23 +380,6 @@
     display: none;
 }
 
-.-wms1000px .wms-sitespacer {
-    width: 1000px;
-}
-
-.-wms1200px .wms-sitespacer {
-    width: 1200px;
-}
-
-.-wms1000px .wms-lateral {
-    width: calc((100% - 1000px) / 2);
-    max-width: 460px;
-}
-
-.-wms1200px .wms-lateral {
-    width: calc((100% - 1200px) / 2);
-    max-width: 360px;
-}
 .wms-countdown-container {
     width: var(--wms-safezone-skin-width);
     height: var(--wms-safezone-skin-height);
