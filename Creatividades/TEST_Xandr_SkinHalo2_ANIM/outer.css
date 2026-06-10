@@ -110,6 +110,19 @@
 	transform: translateX(-50%);
 }
 
+.wms-backgroundimage {
+	background-image: var(--wms-halo-bg-img1000);
+	background-attachment: fixed;
+	background-size: initial;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+.wms-1000 .wms-backgroundimage {
+    background-image: var(--wms-halo-bg-img1000);
+}
+.wms-1200 .wms-backgroundimage {
+	background-image: var(--wms-halo-bg-img1200);
+}
 .wms-skinbg {
 	z-index: 1;
 	position: relative;
