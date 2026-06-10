@@ -129,7 +129,7 @@ _skn_creative={  "title":"TEST_Xandr_SkinHaloANIM",
                           "skinbg": {
                             "tagName": "div",
                             "attrs": {
-                              "class": "wms-skinbg wms-centeredContent wms-backgroundimage"
+                              "class": "wms-skinbg wms-centeredContent"
                             },
                             "b": {
                               "ViewportEvent": {
@@ -162,6 +162,12 @@ _skn_creative={  "title":"TEST_Xandr_SkinHaloANIM",
                               }
                             },
                             "subNodes": {
+                                "skinbgimage": {
+                                "tagName": "div",
+                                "attrs": {
+                                  "class": "wms-backgroundimage"
+                                }
+                              },
                               "skinanimation": {
                                 "tagName": "div",
                                 "b": {

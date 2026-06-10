@@ -116,6 +116,9 @@
 	background-size: initial;
 	background-position: center top;
 	background-repeat: no-repeat;
+	display: block;
+	width: var(--wms-skin-width);
+	height: var(--wms-skin-height);
 }
 .wms-1000 .wms-backgroundimage {
     background-image: var(--wms-halo-bg-img1000);
