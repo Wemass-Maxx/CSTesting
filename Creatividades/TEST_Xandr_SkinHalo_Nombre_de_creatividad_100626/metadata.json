@@ -1,0 +1,18 @@
+{
+  "title": "TEST_Xandr_SkinHalo_Nombre_de_creatividad_100626",
+  "adServer": "Xandr",
+  "clickUrl": "https://www.wemass.com/",
+  "type": "SkinHalo",
+  "creativeType": "SKIN",
+  "uuid": "b02342a7",
+  "adPath": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/TEST_Xandr_SkinHalo_Nombre_de_creatividad_100626",
+  "folder": "2026-06",
+  "date": "2026-06-10 00:00",
+  "img_1000": "1000.webp",
+  "img_1200": "1200.webp",
+  "img_450": "1000.webp",
+  "fullBackgroundColor": "transparent",
+  "pixels_script": "",
+  "pixels_img": "",
+  "pixels_html": ""
+}

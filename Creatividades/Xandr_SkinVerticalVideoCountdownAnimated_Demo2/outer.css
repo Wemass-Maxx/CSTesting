@@ -279,11 +279,6 @@
 
 /* countdown css */
 
-/* (RESET DE CLASES HIJAS DE NODOS WMS) CUALQUIER DECLARACIÓN ENCIMA DE ESTO SERÁ DEVUELTA A LOS VALORES INICIALES */
-/* .wms-full-bg * {
-    all: initial;
-} */
-
 .wms-full-bg {
     position: absolute;
     top: 0px;
