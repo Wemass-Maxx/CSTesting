@@ -1,5 +1,5 @@
 _skn_creative={  "title":"TEST_Xandr_SkinHaloANIM", 
-  "adPath":"https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/TEST_Xandr_SkinHalo3_ANIM",
+  "adPath":"https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/TEST_Xandr_SkinHalo4_ANIM",
   "uuid":"b02342a8", 
 
   "Type": "SkinHaloAnimated",
