@@ -132,6 +132,20 @@
 	width: unset;
 }
 
+/* AdobeAnimation inyecta un canvas hijo al 100%, por eso el solape con
+   wms-backgroundimage se hace con margin-top negativo en lugar de
+   position:absolute. Scopeado a .wms-skinbg para no afectar al bloque halo,
+   que tambien usa la clase wms-skinAnimation. */
+.wms-skinbg .wms-skinAnimation {
+	display: block;
+	width: var(--wms-skin-width);
+	height: var(--wms-skin-height);
+	margin-top: calc(var(--wms-skin-height) * -1);
+	z-index: 2;
+	pointer-events: none;
+	line-height: 0;
+}
+
 /* =============================================================
    §6  SLOT IMAGEN
    ============================================================= */
