@@ -25,8 +25,8 @@
 	--wms-site-bg-helper-color: transparent;
 
 	/* halo */
-	--wms-halo-bg-img1000: url('/ad_creatives/2026-06/TEST_Xandr_SkinHalo_Nombre_de_creatividad_100626/1000.webp');
-	--wms-halo-bg-img1200: url('/ad_creatives/2026-06/TEST_Xandr_SkinHalo_Nombre_de_creatividad_100626/1200.webp');
+	--wms-halo-bg-img1000: url('1000.webp');
+	--wms-halo-bg-img1200: url('1200.webp');
 	--wms-halo-height: 90px;
 }
 
