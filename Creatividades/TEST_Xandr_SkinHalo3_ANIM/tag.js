@@ -1,5 +1,5 @@
 _skn_creative={  "title":"TEST_Xandr_SkinHaloANIM", 
-  "adPath":"https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/TEST_Xandr_SkinHalo2_ANIM", 
+  "adPath":"https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/TEST_Xandr_SkinHalo3_ANIM",
   "uuid":"b02342a8", 
 
   "Type": "SkinHaloAnimated",
@@ -174,14 +174,14 @@ _skn_creative={  "title":"TEST_Xandr_SkinHaloANIM",
                                   "1000": {
                                     "AdobeAnimation": {
                                       "id": "A9085FCE5E16284F86BA72A0BAAA114D",
-                                      "animationClass": "_1000",
+                                      "animationClass": "desktop",
                                       "animationUrl": "1000.js"
                                     }
                                   },
                                   "1200": {
                                     "AdobeAnimation": {
                                       "id": "A9085FCE5E16284F86BA72A0BAAA114D",
-                                      "animationClass": "_1200",
+                                      "animationClass": "desktop",
                                       "animationUrl": "1200.js"
                                     }
                                   },
@@ -509,15 +509,15 @@ _skn_creative={  "title":"TEST_Xandr_SkinHaloANIM",
                     "b": {
                       "1000": {
                         "AdobeAnimation": {
-                          "id": "A9085FCE5E16284F86BA72A0BAAA114D",
-                          "animationClass": "_halo",
+                          "id": "F3D9AC4CB370C04997E5178A54010156",
+                          "animationClass": "halo90x1000",
                           "animationUrl": "halo.js"
                         }
                       },
                       "1200": {
                         "AdobeAnimation": {
-                          "id": "A9085FCE5E16284F86BA72A0BAAA114D",
-                          "animationClass": "_halo",
+                          "id": "F3D9AC4CB370C04997E5178A54010156",
+                          "animationClass": "halo90x1000",
                           "animationUrl": "halo.js"
                         }
                       },
@@ -527,7 +527,7 @@ _skn_creative={  "title":"TEST_Xandr_SkinHaloANIM",
                     "attrs": {
                       "class": "wms-skinAnimation"
                     }
-                  },
+                  }
                 }
               }
             }
