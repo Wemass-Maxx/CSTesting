@@ -28,6 +28,7 @@
 	--wms-halo-bg-img1000: url('1000.webp');
 	--wms-halo-bg-img1200: url('1200.webp');
 	--wms-halo-height: 90px;
+	--wms-content-margin: calc((100% - var(--wms-content-width)) / 2);
 }
 
 /* =============================================================
@@ -272,6 +273,7 @@
 	background-size: initial;
 	background-position: center var(--wms-viewport-top-skin-offset, 0px);
 	background-repeat: no-repeat;
+	clip-path: inset(0 var(--wms-content-margin) 0 var(--wms-content-margin));
 }
 
 .wms-full-fg .wms-halo.wms-1000 {
