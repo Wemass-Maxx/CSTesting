@@ -1,0 +1,107 @@
+{
+    "ASSETS": [
+        "images/x.svg"
+    ],
+    "FIELDS": {
+        "adServer": {
+            "LABEL": "AdServer (Plataforma para la que se prepara el Clicktag de la pieza)",
+            "TYPE": "Enum",
+            "DEVICE": "both",
+            "SECTION": "basic",
+            "REQUIRED": true,
+            "VALUES": [
+                "Xandr",
+                "TTD",
+                "DV360"
+            ],
+            "DEFAULT": "Xandr"
+        },
+        "title": {
+            "LABEL": "Nombre (AdServer_SkinHalo_agencia_anunciante_campaña_fecha)",
+            "TYPE": "String",
+            "DEVICE": "both",
+            "SECTION": "basic",
+            "DEFAULT": "AdServer_SkinHalo_agencia_anunciante_campaña_fecha",
+            "REQUIRED": true
+        },
+        "crmId": {
+            "LABEL": "Id en CRM",
+            "TYPE": "String",
+            "DEVICE": "both",
+            "SECTION": "basic",
+            "REQUIRED": false
+        },
+        "sspId": {
+            "LABEL": "Id en SSP/DSP",
+            "TYPE": "String",
+            "DEVICE": "both",
+            "SECTION": "basic",
+            "REQUIRED": false
+        },
+        "clickUrl": {
+            "LABEL": "Url de click (CC)",
+            "TYPE": "String",
+            "DEVICE": "both",
+            "REQUIRED": false,
+            "SECTION": "basic"
+        },
+        "img_1000": {
+            "LABEL": "Arte 1000px (Imagen)",
+            "TYPE": "Image",
+            "DEVICE": "desktop",
+            "REQUIRED": true
+        },
+        "img_1200": {
+            "LABEL": "Arte 1200px (Imagen)",
+            "TYPE": "Image",
+            "DEVICE": "desktop",
+            "REQUIRED": true
+        },
+        "img_sticky": {
+            "LABEL": "Banner sticky (Imagen)",
+            "TYPE": "Image",
+            "DEVICE": "desktop",
+            "REQUIRED": true
+        },
+        "img_450": {
+            "LABEL": "Arte 900px x 900px (tamaño base de imagen de 450px x2 para pantallas 2x dpi) (Imagen)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": false
+        },
+        "fullBackgroundColor": {
+            "LABEL": "Color del fondo (CSS)",
+            "TYPE": "String",
+            "DEVICE": "desktop",
+            "REQUIRED": true,
+            "DEFAULT": "transparent"
+        },
+        "outerCustomCSSAppend": {
+            "LABEL": "Custom CSS",
+            "TYPE": "Text",
+            "DEVICE": "desktop",
+            "REQUIRED": false
+        },
+        "pixels_script": {
+            "LABEL": "Pixels (JS) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+            "TYPE": "Text",
+            "DEVICE": "both",
+            "REQUIRED": false,
+            "REPLACE_QUOTES": true
+        },
+        "pixels_img": {
+            "LABEL": "Pixels (IMG) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+            "TYPE": "Text",
+            "DEVICE": "both",
+            "REQUIRED": false,
+            "REPLACE_QUOTES": true
+        },
+        "pixels_html": {
+            "LABEL": "Pixels (HTML) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+            "TYPE": "Text",
+            "DEVICE": "both",
+            "REQUIRED": false,
+            "REPLACE_QUOTES": true
+        }
+    }
+}

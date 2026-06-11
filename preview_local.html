@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Local iframe_preview replica</title>
+<style>
+  body { margin: 0; }
+  .wm-cuerpowebskin { max-width: 1000px; background: #fff; margin: auto; }
+  .content { min-height: 2400px; padding: 20px; }
+  .fakepar { color: #444; font-family: sans-serif; margin: 1em 0; }
+</style>
+<!-- Userscript replica (same file Tampermonkey runs), must run at document-start -->
+<script src="/wms-local-preview.user.js"></script>
+</head>
+<body>
+  <div class="content">
+    <div class="megabanner"></div>
+    <div class="wm-cuerpowebskin">
+      <h1 class="fakepar">Fake site content</h1>
+      <p class="fakepar">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p class="fakepar">Sed do eiusmod tempor incididunt ut labore et dolore.</p>
+    </div>
+  </div>
+  <script type="text/javascript">
+    window.creativeURL = new URLSearchParams(location.search).get('custom_creative');
+    window.siteConfig = "https://creative-studio.wemass.com/sites";
+    window.environment = "";
+    __wms_creative = 1;
+    __wms_isPreview = 1;
+    __wms_siteCfgUrl = `${siteConfig}/creative-studio.wemass/sitecfg1000.json`;
+    __wms_click_url = "http://www.wemass.com";
+  </script>
+  <script>
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.id = '__wms-creative-script';
+    script.src = `https://statics.wemass.com/skins/wmsSkin.js?creative=${window.creativeURL}`;
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>
