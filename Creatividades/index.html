@@ -153,6 +153,8 @@
   const PREVIEW = 'https://creative-studio.wemass.com/iframe_preview';
   const LOCAL_FOLDERS = [
     'skin-halo',
+    'SkinHaloVideo',
+    'SkinHaloVideoAnimated',
     'Xandr_SkinVerticalVideoCountdownAnimated_Demo',
   ];
 
@@ -166,7 +168,9 @@
   function buildUrl(folder, meta, width, device) {
     const date     = meta.folder || (meta.date || '').slice(0, 7) || '2026-05';
     const campaign = meta.title  || folder;
-    const creative = `${CDN}/${folder}/tag.js`;
+    const creative = LOCAL_FOLDERS.includes(folder)
+      ? new URL(`${folder}/tag.js`, location.href).href
+      : `${CDN}/${folder}/tag.js`;
     return `${PREVIEW}?date=${date}&campaign=${encodeURIComponent(campaign)}&custom_creative=${encodeURIComponent(creative)}&width=${width}&device=${device}`;
   }
 
