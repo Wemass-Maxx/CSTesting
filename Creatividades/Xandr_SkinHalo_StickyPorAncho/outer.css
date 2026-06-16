@@ -212,6 +212,21 @@
 	background-position: 0px 0px;
 }
 
+/* ajustamos el botón de close en halo */
+.wms-halo .wms-btn-close {
+	width: calc(var(--wms-btn-size) - 15px);
+	height: calc(var(--wms-btn-size) - 15px);
+}
+
+.wms-halo .wms-box-btns.-wms-generalbtns {
+	top: 5px;
+	position: relative;
+	left: calc(100% - var(--wms-btn-size));
+}
+.wms-halo .wms-box-btns {
+	width: calc(var(--wms-btn-size) - 15px);
+}
+
 .wms-btn-close {
 	display: none;
 }
@@ -298,11 +313,6 @@
 
 .wms-full-fg .wms-skinbg .wms-halo {
 	display: none;
-}
-
-.wms-halo .wms-box-btns.-wms-generalbtns {
-	position: relative;
-	left: calc(100% - 35px);
 }
 
 .wms-halo-buttoncontainer {
