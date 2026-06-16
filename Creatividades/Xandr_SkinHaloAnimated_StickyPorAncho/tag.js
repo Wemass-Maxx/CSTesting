@@ -172,14 +172,14 @@ _skn_creative={"title":"Xandr_SkinHaloAnimated_StickyPorAncho", "adPath":"https:
                                                                         "AdobeAnimation": {
                                                                             "id": "AED3D5A5E5588B419C9884B1D24E6A7C",
                                                                             "animationClass": "_1000",
-                                                                            "animationUrl": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloAnimated_StickyPorAncho/1000.js"
+                                                                            "animationUrl": "1000.js"
                                                                         }
                                                                     },
                                                                     "1200": {
                                                                         "AdobeAnimation": {
                                                                             "id": "AED3D5A5E5588B419C9884B1D24E6A7C",
                                                                             "animationClass": "_1200",
-                                                                            "animationUrl": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloAnimated_StickyPorAncho/1200.js"
+                                                                            "animationUrl": "1200.js"
                                                                         }
                                                                     },
                                                                     "__type__": "expression",
@@ -426,14 +426,14 @@ _skn_creative={"title":"Xandr_SkinHaloAnimated_StickyPorAncho", "adPath":"https:
                                                 "AdobeAnimation": {
                                                     "id": "AED3D5A5E5588B419C9884B1D24E6A7C",
                                                     "animationClass": "_1000",
-                                                    "animationUrl": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloAnimated_StickyPorAncho/1000.js"
+                                                    "animationUrl": "1000.js"
                                                 }
                                             },
                                             "1200": {
                                                 "AdobeAnimation": {
                                                     "id": "AED3D5A5E5588B419C9884B1D24E6A7C",
                                                     "animationClass": "_1200",
-                                                    "animationUrl": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloAnimated_StickyPorAncho/1200.js"
+                                                    "animationUrl": "1200.js"
                                                 }
                                             },
                                             "__type__": "expression",
@@ -550,7 +550,7 @@ _skn_creative={"title":"Xandr_SkinHaloAnimated_StickyPorAncho", "adPath":"https:
                                                     "id": "canvas"
                                                 },
                                                 "canvasImage": {
-                                                    "450": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloAnimated_StickyPorAncho/1000.jpg",
+                                                    "450": "1000.jpg",
                                                     "__type__": "expression",
                                                     "expression": "[%/params/contentWidth%]"
                                                 }
