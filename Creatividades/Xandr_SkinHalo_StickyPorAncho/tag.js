@@ -1,5 +1,5 @@
 _skn_creative={  "title":"Xandr_SkinHalo_StickyPorAncho", 
-  "adPath":"https://cs-assets.wemass.com/ad_creatives/2026-06/Xandr_SkinHalo_StickyPorAncho", 
+  "adPath":"https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHalo_StickyPorAncho", 
   "uuid":"b02342a7", 
 
   "Type": "SkinHalo",
@@ -168,8 +168,8 @@ _skn_creative={  "title":"Xandr_SkinHalo_StickyPorAncho",
                                 "canvasImage": {
                                   "__type__": "expression",
                                   "expression": "[%/params/contentWidth%]",
-                                  "1000": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHalo_StickyPorAncho/1000.webp",
-                                  "1200": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHalo_StickyPorAncho/1200.webp"
+                                  "1000": "1000.webp",
+                                  "1200": "1200.webp"
                                 }
                               },
                               "skinsafezone": {
@@ -423,8 +423,8 @@ _skn_creative={  "title":"Xandr_SkinHalo_StickyPorAncho",
                         "canvasImage": {
                           "__type__": "expression",
                           "expression": "[%/params/contentWidth%]",
-                          "1000": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHalo_StickyPorAncho/sticky_1000.png",
-                          "1200": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHalo_StickyPorAncho/sticky_1200.png"
+                          "1000": "1000x90.webp",
+                          "1200": "1200x90.webp"
                         }
                       }
                     }
@@ -538,7 +538,7 @@ _skn_creative={  "title":"Xandr_SkinHalo_StickyPorAncho",
                         "canvasImage": {
                           "__type__": "expression",
                           "expression": "[%/params/contentWidth%]",
-                          "450": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHalo_StickyPorAncho/1000.webp"
+                          "450": "1000.webp"
                         }
                       }
                     }

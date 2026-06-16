@@ -24,9 +24,9 @@
 	--wms-top-layer: 9999999999;
 	--wms-site-bg-helper-color: transparent;
 
-	/* halo */
-	--wms-halo-bg-img1000: url(1000.jpg);
-	--wms-halo-bg-img1200: url(1200.jpg);
+	/* halo: mismo arte que wms-full-bg (el CSS lo recorta a la franja) */
+	--wms-halo-bg-img1000: url(1000.webp);
+	--wms-halo-bg-img1200: url(1200.webp);
 	--wms-halo-height: 90px;
 }
 
@@ -122,6 +122,29 @@
 	display: block;
 	width: var(--wms-skin-width);
 	height: var(--wms-skin-height);
+}
+
+/* Capa de fondo estático detrás de la animación de fondo.
+   Mismo arte que wms-full-bg, al tamaño del skin (1920x1000), centrado
+   arriba y sin repetir. La animación (.wms-skinAnimation) se solapa
+   exactamente encima con su margin-top negativo. */
+.wms-backgroundimage {
+	display: block;
+	position: relative;
+	z-index: 1;
+	width: var(--wms-skin-width);
+	height: var(--wms-skin-height);
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: var(--wms-skin-width) var(--wms-skin-height);
+}
+
+.wms-full-bg.wms-1000 .wms-backgroundimage {
+	background-image: url(1000.webp);
+}
+
+.wms-full-bg.wms-1200 .wms-backgroundimage {
+	background-image: url(1200.webp);
 }
 
 /* Nodo de Animate superpuesto al canvas de fondo (wms-skinimg).

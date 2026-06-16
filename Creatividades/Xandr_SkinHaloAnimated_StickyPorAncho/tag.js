@@ -170,15 +170,15 @@ _skn_creative={"title":"Xandr_SkinHaloAnimated_StickyPorAncho", "adPath":"https:
                                                                 "b": {
                                                                     "1000": {
                                                                         "AdobeAnimation": {
-                                                                            "id": "AED3D5A5E5588B419C9884B1D24E6A7C",
-                                                                            "animationClass": "_1000",
+                                                                            "id": "A9085FCE5E16284F86BA72A0BAAA114D",
+                                                                            "animationClass": "desktop",
                                                                             "animationUrl": "1000.js"
                                                                         }
                                                                     },
                                                                     "1200": {
                                                                         "AdobeAnimation": {
-                                                                            "id": "AED3D5A5E5588B419C9884B1D24E6A7C",
-                                                                            "animationClass": "_1200",
+                                                                            "id": "A9085FCE5E16284F86BA72A0BAAA114D",
+                                                                            "animationClass": "desktop",
                                                                             "animationUrl": "1200.js"
                                                                         }
                                                                     },
@@ -424,16 +424,16 @@ _skn_creative={"title":"Xandr_SkinHaloAnimated_StickyPorAncho", "adPath":"https:
                                         "b": {
                                             "1000": {
                                                 "AdobeAnimation": {
-                                                    "id": "AED3D5A5E5588B419C9884B1D24E6A7C",
-                                                    "animationClass": "_1000",
-                                                    "animationUrl": "1000.js"
+                                                    "id": "F3D9AC4CB370C04997E5178A54010156",
+                                                    "animationClass": "halo90x1000",
+                                                    "animationUrl": "halo1000.js"
                                                 }
                                             },
                                             "1200": {
                                                 "AdobeAnimation": {
-                                                    "id": "AED3D5A5E5588B419C9884B1D24E6A7C",
-                                                    "animationClass": "_1200",
-                                                    "animationUrl": "1200.js"
+                                                    "id": "F3D9AC4CB370C04997E5178A54010156",
+                                                    "animationClass": "halo90x1000",
+                                                    "animationUrl": "halo1200.js"
                                                 }
                                             },
                                             "__type__": "expression",
@@ -550,7 +550,7 @@ _skn_creative={"title":"Xandr_SkinHaloAnimated_StickyPorAncho", "adPath":"https:
                                                     "id": "canvas"
                                                 },
                                                 "canvasImage": {
-                                                    "450": "1000.jpg",
+                                                    "450": "1000.webp",
                                                     "__type__": "expression",
                                                     "expression": "[%/params/contentWidth%]"
                                                 }
