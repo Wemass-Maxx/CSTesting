@@ -291,6 +291,10 @@
 	pointer-events: none;
 }
 
+.-wms-nodisplay {
+	display: none !important;
+}
+
 .wms-expanded-halo .wms-btn-close {
 	display: block;
 }
