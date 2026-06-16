@@ -1,0 +1,20 @@
+{
+  "title": "Xandr_SkinHalo_StickyPorAncho",
+  "adServer": "Xandr",
+  "clickUrl": "https://www.wemass.com/",
+  "type": "SkinHalo",
+  "creativeType": "SKIN",
+  "uuid": "b02342a7",
+  "adPath": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHalo_StickyPorAncho",
+  "folder": "2026-06",
+  "date": "2026-06-15 00:00",
+  "img_1000": "1000.webp",
+  "img_1200": "1200.webp",
+  "img_sticky_1000": "sticky_1000.png",
+  "img_sticky_1200": "sticky_1200.png",
+  "img_450": "1000.webp",
+  "fullBackgroundColor": "transparent",
+  "pixels_script": "",
+  "pixels_img": "",
+  "pixels_html": ""
+}
