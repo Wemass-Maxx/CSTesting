@@ -281,7 +281,7 @@
 
 .wms-halo-banner {
 	display: block;
-	width: var(--wms-skin-width);
+	width: var(--wms-content-width, 1000px);
 	height: var(--wms-halo-height);
 	cursor: pointer;
 }
@@ -323,11 +323,6 @@
 	display: block;
 	bottom: 0 !important;
 	position: relative;
-}
-
-.wms-full-fg .wms-halo-content .wms-skinAnimation {
-	width: var(--wms-content-width, 1000px);
-	height: var(--wms-halo-height);
 }
 
 .wms-full-fg .wms-skinbg .wms-halo {

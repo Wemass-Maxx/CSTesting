@@ -419,28 +419,36 @@ _skn_creative={"title":"Xandr_SkinHaloAnimated_StickyPorAncho", "adPath":"https:
                                             }
                                         }
                                     },
-                                    "skinhaloanimation": {
+                                                                        "haloContent": {
                                         "tagName": "div",
-                                        "b": {
-                                            "1000": {
-                                                "AdobeAnimation": {
-                                                    "id": "F3D9AC4CB370C04997E5178A54010156",
-                                                    "animationClass": "halo90x1000",
-                                                    "animationUrl": "halo1000.js"
-                                                }
-                                            },
-                                            "1200": {
-                                                "AdobeAnimation": {
-                                                    "id": "F3D9AC4CB370C04997E5178A54010156",
-                                                    "animationClass": "halo90x1000",
-                                                    "animationUrl": "halo1200.js"
-                                                }
-                                            },
-                                            "__type__": "expression",
-                                            "expression": "[%/params/contentWidth%]"
-                                        },
                                         "attrs": {
-                                            "class": "wms-skinAnimation"
+                                            "class": "wms-halo-content"
+                                        },
+                                        "subNodes": {
+                                            "img": {
+                                                "tagName": "div",
+                                                "b": {
+                                                    "1000": {
+                                                        "AdobeAnimation": {
+                                                            "id": "F3D9AC4CB370C04997E5178A54010156",
+                                                            "animationClass": "halo90x1000",
+                                                            "animationUrl": "halo1000.js"
+                                                        }
+                                                    },
+                                                    "1200": {
+                                                        "AdobeAnimation": {
+                                                            "id": "F3D9AC4CB370C04997E5178A54010156",
+                                                            "animationClass": "halo90x1000",
+                                                            "animationUrl": "halo1200.js"
+                                                        }
+                                                    },
+                                                    "__type__": "expression",
+                                                    "expression": "[%/params/contentWidth%]"
+                                                },
+                                                "attrs": {
+                                                    "class": "wms-halo-banner"
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -550,7 +558,7 @@ _skn_creative={"title":"Xandr_SkinHaloAnimated_StickyPorAncho", "adPath":"https:
                                                     "id": "canvas"
                                                 },
                                                 "canvasImage": {
-                                                    "450": "1000.webp",
+                                                    "450": "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloAnimated_StickyPorAncho/1000.webp",
                                                     "__type__": "expression",
                                                     "expression": "[%/params/contentWidth%]"
                                                 }
