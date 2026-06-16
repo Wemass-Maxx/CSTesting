@@ -346,9 +346,6 @@
 	}
 }
 
-/* =============================================================
-   §12  HEADER VIDEO (center / left / right / custom)
-   ============================================================= */
 
 .wms-header-block {
 	margin: auto;
@@ -460,3 +457,5 @@
 .clickable {
 	pointer-events: all;
 }
+
+
