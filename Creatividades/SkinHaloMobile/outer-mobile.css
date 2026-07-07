@@ -1,0 +1,220 @@
+/* ==========================================================================
+   WMS Halo Mobile - portable ad component.
+   Scoped under .wms-halo to avoid leaking styles into the host site.
+   ========================================================================== */
+
+.wms-halo {
+    --wms-fullbg-bgcolor: "##fullBackgroundColor##";
+    --wms-halo-z-index: 2147483647;
+    --wms-halo-main-z-index: 2;
+    --wms-halo-bottom-z-index: 1;
+    --wms-halo-main-width: 1320;
+    --wms-halo-main-height: 2868;
+    --wms-halo-bottom-width: 1320;
+    --wms-halo-bottom-height: 400;
+    --wms-halo-bottom-padding-ratio: 30.3030303%;
+    --wms-btn-size: 35px;
+    --wms-ui-bg: rgb(0 0 0 / 80%);
+    --wms-btn-offset: 5px;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: visible;
+    pointer-events: none;
+    z-index: var(--wms-halo-z-index);
+    background-color: var(--wms-fullbg-bgcolor);
+}
+
+.wms-halo,
+.wms-halo * {
+    box-sizing: border-box;
+}
+
+.wms-halo picture {
+    display: contents;
+}
+
+.wms-halo__layer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.wms-halo__layer.-wms-nodisplay {
+    display: none !important;
+}
+
+.wms-halo__layer--main {
+    z-index: var(--wms-halo-main-z-index);
+}
+
+.wms-halo__link,
+.wms-halo__bottom-link {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.wms-halo__img,
+.wms-halo__txt {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: max(100%, calc(100vh * var(--wms-halo-main-width) / var(--wms-halo-main-height)));
+    width: max(100%, calc(100lvh * var(--wms-halo-main-width) / var(--wms-halo-main-height)));
+    height: auto;
+    aspect-ratio: var(--wms-halo-main-width) / var(--wms-halo-main-height);
+    display: block;
+}
+
+.wms-halo__img {
+    -webkit-clip-path: url(#wmsHaloClip);
+    clip-path: url(#wmsHaloClip);
+}
+
+.wms-halo__txt {
+    pointer-events: none;
+}
+
+.wms-halo__layer--bottom {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: auto;
+    aspect-ratio: var(--wms-halo-bottom-width) / var(--wms-halo-bottom-height);
+    overflow: visible;
+    z-index: var(--wms-halo-bottom-z-index);
+}
+
+.wms-halo__layer--bottom::before {
+    content: "";
+    display: block;
+    padding-top: var(--wms-halo-bottom-padding-ratio);
+}
+
+.wms-halo__layer--main:not(.-wms-nodisplay) ~ .wms-halo__layer--bottom .wms-halo__bottom-link,
+.wms-halo__layer--main:not(.-wms-nodisplay) ~ .wms-halo__layer--bottom .wms-box-btns {
+    pointer-events: none;
+}
+
+.wms-halo__bottom-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.wms-halo__bottom-img,
+.wms-halo__bottom-txt {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--wms-halo-bottom-width) / var(--wms-halo-bottom-height);
+    display: block;
+}
+
+.wms-halo__bottom-txt {
+    pointer-events: none;
+}
+
+.wms-halo .wms-box-btns {
+    box-sizing: content-box;
+    display: block;
+    width: var(--wms-btn-size);
+    height: auto;
+    position: absolute;
+    top: var(--wms-btn-offset);
+    right: var(--wms-btn-offset);
+    pointer-events: auto;
+}
+
+.wms-halo .wms-box-btns.-wms-generalbtns {
+    background-color: var(--wms-ui-bg);
+    padding: 4px;
+    border-radius: 5px;
+}
+
+.wms-halo .wms-box-btns.-wms-generalbtns > div {
+    opacity: 80%;
+}
+
+.wms-halo .wms-box-btns.-wms-generalbtns > div:hover {
+    opacity: 100%;
+}
+
+.wms-halo .wms-btn-close {
+    box-sizing: content-box;
+    display: block;
+    width: var(--wms-btn-size);
+    height: var(--wms-btn-size);
+    background: url(images/x.svg) 0 0 no-repeat;
+    cursor: pointer;
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    .wms-halo__layer--main {
+        display: none;
+    }
+
+    .wms-halo__layer--bottom {
+        left: 50%;
+        right: auto;
+        width: min(100vh, 1320px);
+        max-height: 100vh;
+        transform: translateX(-50%);
+        pointer-events: none;
+    }
+
+    .wms-halo__layer--main:not(.-wms-nodisplay) ~ .wms-halo__layer--bottom .wms-halo__bottom-link,
+    .wms-halo__layer--main:not(.-wms-nodisplay) ~ .wms-halo__layer--bottom .wms-box-btns,
+    .wms-halo__layer--bottom .wms-halo__bottom-link,
+    .wms-halo__layer--bottom .wms-box-btns {
+        pointer-events: auto;
+    }
+}
+
+@media (min-width: 501px) and (min-height: 501px) {
+    .wms-halo__layer--main {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: auto;
+        width: calc(100vh * var(--wms-halo-main-width) / var(--wms-halo-main-height));
+    }
+}
+
+@media (orientation: portrait) and (max-width: 600px) {
+    .wms-halo__layer--main {
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        height: 100lvh;
+    }
+
+    .wms-halo__layer--main > .wms-box-btns {
+        position: fixed;
+        top: var(--wms-btn-offset);
+        right: var(--wms-btn-offset);
+        top: calc(env(safe-area-inset-top) + var(--wms-btn-offset));
+        right: calc(env(safe-area-inset-right) + var(--wms-btn-offset));
+    }
+}
+
+/*##outerCustomCSSAppend##*/

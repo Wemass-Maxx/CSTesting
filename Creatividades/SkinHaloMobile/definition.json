@@ -1,0 +1,206 @@
+{
+    "displayName": "Mobile Halo",
+    "category": "Skins",
+    "subtype": "Halo",
+    "ASSETS": [
+        "images/x.svg"
+    ],
+    "FIELDS": {
+        "adServer": {
+            "LABEL": "AdServer (Plataforma para la que se prepara el Clicktag de la pieza)",
+            "TYPE": "Enum",
+            "DEVICE": "both",
+            "SECTION": "basic",
+            "REQUIRED": true,
+            "VALUES": [
+                "Xandr",
+                "TTD",
+                "DV360",
+                "Amazon"
+            ],
+            "DEFAULT": "Xandr"
+        },
+        "title": {
+            "LABEL": "Nombre (AdServer_SkinHaloMobile_agencia_anunciante_campana_fecha)",
+            "TYPE": "String",
+            "DEVICE": "both",
+            "SECTION": "basic",
+            "DEFAULT": "AdServer_SkinHaloMobile_agencia_anunciante_campana_fecha",
+            "REQUIRED": true
+        },
+        "crmId": {
+            "LABEL": "Id en CRM",
+            "TYPE": "String",
+            "DEVICE": "both",
+            "SECTION": "basic",
+            "REQUIRED": false
+        },
+        "sspId": {
+            "LABEL": "Id en SSP/DSP",
+            "TYPE": "String",
+            "DEVICE": "both",
+            "SECTION": "basic",
+            "REQUIRED": false
+        },
+        "clickUrl": {
+            "LABEL": "Url de click (CC)",
+            "TYPE": "String",
+            "DEVICE": "both",
+            "REQUIRED": false,
+            "SECTION": "basic"
+        },
+        "haloMain720Avif": {
+            "LABEL": "Halo principal 720w (AVIF)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloMain1080Avif": {
+            "LABEL": "Halo principal 1080w (AVIF)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloMain1320Avif": {
+            "LABEL": "Halo principal 1320w (AVIF)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloMain720Webp": {
+            "LABEL": "Halo principal 720w (WebP)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloMain1080Webp": {
+            "LABEL": "Halo principal 1080w (WebP)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloMain1320Webp": {
+            "LABEL": "Halo principal 1320w (WebP)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloTextSvg": {
+            "LABEL": "Texto principal SVG",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloTextAlt": {
+            "LABEL": "Texto alternativo principal",
+            "TYPE": "String",
+            "DEVICE": "mobile",
+            "REQUIRED": false,
+            "DEFAULT": "TU MENSAJE. Saber mas"
+        },
+        "haloBottom720Avif": {
+            "LABEL": "Halo bottom 720w (AVIF)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloBottom1080Avif": {
+            "LABEL": "Halo bottom 1080w (AVIF)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloBottom1320Avif": {
+            "LABEL": "Halo bottom 1320w (AVIF)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloBottom720Webp": {
+            "LABEL": "Halo bottom 720w (WebP)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloBottom1080Webp": {
+            "LABEL": "Halo bottom 1080w (WebP)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloBottom1320Webp": {
+            "LABEL": "Halo bottom 1320w (WebP)",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloBottomTextSvg": {
+            "LABEL": "Texto bottom SVG",
+            "TYPE": "Image",
+            "DEVICE": "mobile",
+            "REQUIRED": true
+        },
+        "haloBottomTextAlt": {
+            "LABEL": "Texto alternativo bottom",
+            "TYPE": "String",
+            "DEVICE": "mobile",
+            "REQUIRED": false,
+            "DEFAULT": "TU MENSAJE. Saber mas"
+        },
+        "fullBackgroundColor": {
+            "LABEL": "Color del fondo (CSS)",
+            "TYPE": "String",
+            "DEVICE": "mobile",
+            "REQUIRED": true,
+            "DEFAULT": "transparent"
+        },
+        "outerCustomCSSAppend": {
+            "LABEL": "Custom CSS",
+            "TYPE": "Text",
+            "DEVICE": "mobile",
+            "REQUIRED": false
+        },
+        "pixels_script": {
+            "LABEL": "Pixels (JS) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+            "TYPE": "Text",
+            "DEVICE": "both",
+            "REQUIRED": false,
+            "REPLACE_QUOTES": true
+        },
+        "pixels_img": {
+            "LABEL": "Pixels (IMG) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+            "TYPE": "Text",
+            "DEVICE": "both",
+            "REQUIRED": false,
+            "REPLACE_QUOTES": true
+        },
+        "pixels_html": {
+            "LABEL": "Pixels (HTML) - Cada linea debe ir entre comillas y separado por comas (como Array)",
+            "TYPE": "Text",
+            "DEVICE": "both",
+            "REQUIRED": false,
+            "REPLACE_QUOTES": true
+        }
+    },
+    "GROUPS": {
+        "Assets": {
+            "LABEL": "Assets halo mobile",
+            "FIELDS": [
+                "haloMain720Webp",
+                "haloMain1080Webp",
+                "haloMain1320Webp",
+                "haloMain720Avif",
+                "haloMain1080Avif",
+                "haloMain1320Avif",
+                "haloTextSvg",
+                "haloBottom720Webp",
+                "haloBottom1080Webp",
+                "haloBottom1320Webp",
+                "haloBottom720Avif",
+                "haloBottom1080Avif",
+                "haloBottom1320Avif",
+                "haloBottomTextSvg"
+            ]
+        }
+    }
+}
