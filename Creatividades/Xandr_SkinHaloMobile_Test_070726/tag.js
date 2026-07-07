@@ -1,0 +1,402 @@
+_skn_creative={
+    "title":  "Xandr_SkinHaloMobile_Test_070726",
+    "adPath":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726",
+    "crmId":  "test",
+    "sspId":  "test",
+    "uuid":  "shm-test-070726",
+    "Type":  "SkinHaloMobile",
+    "params":  {
+                   "__type__":  "device",
+                   "desktop":  {
+                                   "__type__":  "role",
+                                   "inner":  {
+                                                 "stylesheet":  "file:inner.css",
+                                                 "nodes":  {
+                                                               "root":  {
+                                                                            "mode":  "body",
+                                                                            "attrs":  {
+                                                                                          "class":  "wms-bodyclass"
+                                                                                      },
+                                                                            "size":  {
+                                                                                         "width":  {
+                                                                                                       "__type__":  "expression",
+                                                                                                       "expression":  "[%/params/contentWidth%]"
+                                                                                                   }
+                                                                                     },
+                                                                            "b":  {
+                                                                                      "Style":  {
+                                                                                                    "background-color":  "transparent"
+                                                                                                }
+                                                                                  }
+                                                                        }
+                                                           }
+                                             },
+                                   "outer":  {
+                                                 "stylesheet":  "file:outer.css",
+                                                 "pixels":  {
+                                                                "img":  {
+                                                                            "__type__":  "expression",
+                                                                            "expression":  "[%/params/imgPixels%]"
+                                                                        },
+                                                                "script":  {
+                                                                               "__type__":  "expression",
+                                                                               "expression":  "[%/params/jsPixels%]"
+                                                                           },
+                                                                "html":  {
+                                                                             "__type__":  "expression",
+                                                                             "expression":  "[%/params/htmlPixels%]"
+                                                                         }
+                                                            },
+                                                 "nodes":  {
+
+                                                           }
+                                             }
+                               },
+                   "mobile":  {
+                                  "__type__":  "role",
+                                  "inner":  {
+
+                                            },
+                                  "outer":  {
+                                                "stylesheet":  "file:outer-mobile.css",
+                                                "pixels":  {
+                                                               "img":  {
+                                                                           "__type__":  "expression",
+                                                                           "expression":  "[%/params/imgPixels%]"
+                                                                       },
+                                                               "script":  {
+                                                                              "__type__":  "expression",
+                                                                              "expression":  "[%/params/jsPixels%]"
+                                                                          },
+                                                               "html":  {
+                                                                            "__type__":  "expression",
+                                                                            "expression":  "[%/params/htmlPixels%]"
+                                                                        }
+                                                           },
+                                                "nodes":  {
+                                                              "haloRoot":  {
+                                                                               "tagName":  "div",
+                                                                               "size":  {
+                                                                                            "width":  "100%"
+                                                                                        },
+                                                                               "attrs":  {
+                                                                                             "class":  "wms-halo"
+                                                                                         },
+                                                                               "b":  {
+                                                                                         "CalculateHeight":  {
+                                                                                                                 "path":  "/params/skins/CalculateHeight"
+                                                                                                             },
+                                                                                         "CssVariableDeclaration":  {
+                                                                                                                        "path":  "/params/skins/CssVariableDeclaration"
+                                                                                                                    },
+                                                                                         "CalculatePosition":  {
+                                                                                                                   "path":  "/params/skins/CalculatePosition"
+                                                                                                               },
+                                                                                         "Timer":  {
+                                                                                                       "timeout":  0,
+                                                                                                       "events":  [
+                                                                                                                      {
+                                                                                                                          "expression":  "[%/skin_producer%].logMetric([%/skin_producer/names/IMPRESSION%], 1, [%/creativeId%])"
+                                                                                                                      },
+                                                                                                                      {
+                                                                                                                          "expression":  "[%/skin_producer%].logTime([%/skin_producer/names/IMPRESSION%], [%/creativeId%])"
+                                                                                                                      }
+                                                                                                                  ]
+                                                                                                   },
+                                                                                         "ViewportEvent":  {
+                                                                                                               "threshold":  0.01,
+                                                                                                               "onEnter":  [
+                                                                                                                               {
+                                                                                                                                   "path":  "../haloRoot/b/ViewAbilityCheck",
+                                                                                                                                   "message":  "start"
+                                                                                                                               }
+                                                                                                                           ],
+                                                                                                               "onExit":  [
+                                                                                                                              {
+                                                                                                                                  "path":  "../haloRoot/b/ViewAbilityCheck",
+                                                                                                                                  "message":  "stop"
+                                                                                                                              }
+                                                                                                                          ]
+                                                                                                           },
+                                                                                         "ViewAbilityCheck":  {
+                                                                                                                  "ratio":  0.5,
+                                                                                                                  "elapsedTime":  1000,
+                                                                                                                  "contentClass":  ".wms-halo__img",
+                                                                                                                  "events":  [
+                                                                                                                                 {
+                                                                                                                                     "expression":  "[%/skin_producer%].logMetric([%/skin_producer/names/VIEW_ABILITY%], 1, [%/creativeId%])"
+                                                                                                                                 },
+                                                                                                                                 {
+                                                                                                                                     "expression":  "[%/skin_producer%].logTime([%/skin_producer/names/VIEW_ABILITY%], [%/creativeId%])"
+                                                                                                                                 }
+                                                                                                                             ]
+                                                                                                              }
+                                                                                     },
+                                                                               "subNodes":  {
+                                                                                                "clipSvg":  {
+                                                                                                                "tagName":  "svg",
+                                                                                                                "attrs":  {
+                                                                                                                              "width":  0,
+                                                                                                                              "height":  0,
+                                                                                                                              "style":  "position:absolute",
+                                                                                                                              "aria-hidden":  "true",
+                                                                                                                              "focusable":  "false"
+                                                                                                                          },
+                                                                                                                "subNodes":  {
+                                                                                                                                 "defs":  {
+                                                                                                                                              "tagName":  "defs",
+                                                                                                                                              "subNodes":  {
+                                                                                                                                                               "clipPath":  {
+                                                                                                                                                                                "tagName":  "clipPath",
+                                                                                                                                                                                "attrs":  {
+                                                                                                                                                                                              "id":  "wmsHaloClip",
+                                                                                                                                                                                              "clipPathUnits":  "objectBoundingBox"
+                                                                                                                                                                                          },
+                                                                                                                                                                                "subNodes":  {
+                                                                                                                                                                                                 "path":  {
+                                                                                                                                                                                                              "tagName":  "path",
+                                                                                                                                                                                                              "attrs":  {
+                                                                                                                                                                                                                            "d":  "M1,0.996509C1,0.997436 0.999201,0.998321 0.997777,0.998976C0.996354,0.99963 0.994424,0.999994 0.992412,0.999994C0.907347,0.999933 0.133395,0.999394 0.015129,0.999315C0.00677,0.999309 0,0.996188 0,0.992339C0,0.968467 0,0.888533 0,0.836594C0,0.809661 0.04181,0.78657 0.099372,0.781721C0.172448,0.775558 0.275669,0.766855 0.373507,0.758606C0.538056,0.744733 0.657576,0.678733 0.657576,0.60174L0.657576,0.013946C0.657576,0.010249 0.660768,0.006703 0.666452,0.004085C0.672135,0.001467 0.679842,0 0.687879,0L1,0L1,0.996509Z"
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                          }
+                                                                                                                                                                                             }
+                                                                                                                                                                            }
+                                                                                                                                                           }
+                                                                                                                                          }
+                                                                                                                             }
+                                                                                                            },
+                                                                                                "mainLayer":  {
+                                                                                                                  "tagName":  "div",
+                                                                                                                  "name":  "wmsHaloMainLayer",
+                                                                                                                  "attrs":  {
+                                                                                                                                "class":  "wms-halo__layer wms-halo__layer--main"
+                                                                                                                            },
+                                                                                                                  "subNodes":  {
+                                                                                                                                   "mainLink":  {
+                                                                                                                                                    "tagName":  "div",
+                                                                                                                                                    "attrs":  {
+                                                                                                                                                                  "class":  "wms-halo__link",
+                                                                                                                                                                  "role":  "link",
+                                                                                                                                                                  "tabindex":  "0"
+                                                                                                                                                              },
+                                                                                                                                                    "b":  {
+                                                                                                                                                              "Click":  {
+                                                                                                                                                                            "url":  {
+                                                                                                                                                                                        "__type__":  "expression",
+                                                                                                                                                                                        "expression":  "[%/params/click%]"
+                                                                                                                                                                                    },
+                                                                                                                                                                            "hidePointer":  false,
+                                                                                                                                                                            "events":  [
+                                                                                                                                                                                           {
+                                                                                                                                                                                               "expression":  "[%/skin_producer%].logMetric([%/skin_producer/names/CLICK%], 1, [%/creativeId%])"
+                                                                                                                                                                                           },
+                                                                                                                                                                                           {
+                                                                                                                                                                                               "expression":  "[%/skin_producer%].incMetric([%/skin_producer/names/CLICK_COUNT%], [%/creativeId%])"
+                                                                                                                                                                                           },
+                                                                                                                                                                                           {
+                                                                                                                                                                                               "expression":  "[%/skin_producer%].logTime([%/skin_producer/names/CLICK%], [%/creativeId%])"
+                                                                                                                                                                                           },
+                                                                                                                                                                                           {
+                                                                                                                                                                                               "expression":  "[%/skin_producer%].logClickDetail([%/event%], [%/creativeId%])"
+                                                                                                                                                                                           }
+                                                                                                                                                                                       ]
+                                                                                                                                                                        }
+                                                                                                                                                          },
+                                                                                                                                                    "subNodes":  {
+                                                                                                                                                                     "mainPicture":  {
+                                                                                                                                                                                         "tagName":  "picture",
+                                                                                                                                                                                         "subNodes":  {
+                                                                                                                                                                                                          "sourceAvif":  {
+                                                                                                                                                                                                                             "tagName":  "source",
+                                                                                                                                                                                                                             "attrs":  {
+                                                                                                                                                                                                                                           "type":  "image/avif",
+                                                                                                                                                                                                                                           "media":  "(orientation: portrait), (min-height: 501px)",
+                                                                                                                                                                                                                                           "sizes":  "100vw",
+                                                                                                                                                                                                                                           "srcset":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-720.avif 720w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-1080.avif 1080w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-1320.avif 1320w"
+                                                                                                                                                                                                                                       }
+                                                                                                                                                                                                                         },
+                                                                                                                                                                                                          "sourceWebp":  {
+                                                                                                                                                                                                                             "tagName":  "source",
+                                                                                                                                                                                                                             "attrs":  {
+                                                                                                                                                                                                                                           "type":  "image/webp",
+                                                                                                                                                                                                                                           "media":  "(orientation: portrait), (min-height: 501px)",
+                                                                                                                                                                                                                                           "sizes":  "100vw",
+                                                                                                                                                                                                                                           "srcset":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-720.webp 720w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-1080.webp 1080w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-1320.webp 1320w"
+                                                                                                                                                                                                                                       }
+                                                                                                                                                                                                                         },
+                                                                                                                                                                                                          "img":  {
+                                                                                                                                                                                                                      "tagName":  "img",
+                                                                                                                                                                                                                      "attrs":  {
+                                                                                                                                                                                                                                    "class":  "wms-halo__img",
+                                                                                                                                                                                                                                    "src":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-1320.webp",
+                                                                                                                                                                                                                                    "width":  1320,
+                                                                                                                                                                                                                                    "height":  2868,
+                                                                                                                                                                                                                                    "fetchpriority":  "high",
+                                                                                                                                                                                                                                    "decoding":  "async",
+                                                                                                                                                                                                                                    "alt":  "",
+                                                                                                                                                                                                                                    "sizes":  "100vw",
+                                                                                                                                                                                                                                    "srcset":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-720.webp 720w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-1080.webp 1080w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-1320.webp 1320w"
+                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                  }
+                                                                                                                                                                                                      }
+                                                                                                                                                                                     },
+                                                                                                                                                                     "mainText":  {
+                                                                                                                                                                                      "tagName":  "img",
+                                                                                                                                                                                      "attrs":  {
+                                                                                                                                                                                                    "class":  "wms-halo__txt",
+                                                                                                                                                                                                    "src":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-mobile-maintextvector.svg",
+                                                                                                                                                                                                    "alt":  "Lets GO 96pt. Just a test 48pt"
+                                                                                                                                                                                                }
+                                                                                                                                                                                  }
+                                                                                                                                                                 }
+                                                                                                                                                },
+                                                                                                                                   "mainButtons":  {
+                                                                                                                                                       "tagName":  "div",
+                                                                                                                                                       "attrs":  {
+                                                                                                                                                                     "class":  "wms-box-btns -wms-generalbtns"
+                                                                                                                                                                 },
+                                                                                                                                                       "subNodes":  {
+                                                                                                                                                                        "btnClose":  {
+                                                                                                                                                                                         "tagName":  "div",
+                                                                                                                                                                                         "attrs":  {
+                                                                                                                                                                                                       "class":  "wms-btn-close",
+                                                                                                                                                                                                       "role":  "button",
+                                                                                                                                                                                                       "aria-label":  "Cerrar",
+                                                                                                                                                                                                       "tabindex":  "0"
+                                                                                                                                                                                                   },
+                                                                                                                                                                                         "b":  {
+                                                                                                                                                                                                   "ClickEvent":  {
+                                                                                                                                                                                                                      "events":  [
+                                                                                                                                                                                                                                     {
+                                                                                                                                                                                                                                         "path":  "[[wmsHaloMainLayer]]",
+                                                                                                                                                                                                                                         "message":  "addClass",
+                                                                                                                                                                                                                                         "params":  "-wms-nodisplay"
+                                                                                                                                                                                                                                     }
+                                                                                                                                                                                                                                 ]
+                                                                                                                                                                                                                  }
+                                                                                                                                                                                               }
+                                                                                                                                                                                     }
+                                                                                                                                                                    }
+                                                                                                                                                   }
+                                                                                                                               }
+                                                                                                              },
+                                                                                                "bottomLayer":  {
+                                                                                                                    "tagName":  "div",
+                                                                                                                    "name":  "wmsHaloBottomLayer",
+                                                                                                                    "attrs":  {
+                                                                                                                                  "class":  "wms-halo__layer wms-halo__layer--bottom"
+                                                                                                                              },
+                                                                                                                    "subNodes":  {
+                                                                                                                                     "bottomLink":  {
+                                                                                                                                                        "tagName":  "div",
+                                                                                                                                                        "attrs":  {
+                                                                                                                                                                      "class":  "wms-halo__bottom-link",
+                                                                                                                                                                      "role":  "link",
+                                                                                                                                                                      "tabindex":  "0"
+                                                                                                                                                                  },
+                                                                                                                                                        "b":  {
+                                                                                                                                                                  "Click":  {
+                                                                                                                                                                                "url":  {
+                                                                                                                                                                                            "__type__":  "expression",
+                                                                                                                                                                                            "expression":  "[%/params/click%]"
+                                                                                                                                                                                        },
+                                                                                                                                                                                "hidePointer":  false,
+                                                                                                                                                                                "events":  [
+                                                                                                                                                                                               {
+                                                                                                                                                                                                   "expression":  "[%/skin_producer%].logMetric([%/skin_producer/names/CLICK%], 1, [%/creativeId%])"
+                                                                                                                                                                                               },
+                                                                                                                                                                                               {
+                                                                                                                                                                                                   "expression":  "[%/skin_producer%].incMetric([%/skin_producer/names/CLICK_COUNT%], [%/creativeId%])"
+                                                                                                                                                                                               },
+                                                                                                                                                                                               {
+                                                                                                                                                                                                   "expression":  "[%/skin_producer%].logTime([%/skin_producer/names/CLICK%], [%/creativeId%])"
+                                                                                                                                                                                               },
+                                                                                                                                                                                               {
+                                                                                                                                                                                                   "expression":  "[%/skin_producer%].logClickDetail([%/event%], [%/creativeId%])"
+                                                                                                                                                                                               }
+                                                                                                                                                                                           ]
+                                                                                                                                                                            }
+                                                                                                                                                              },
+                                                                                                                                                        "subNodes":  {
+                                                                                                                                                                         "bottomPicture":  {
+                                                                                                                                                                                               "tagName":  "picture",
+                                                                                                                                                                                               "subNodes":  {
+                                                                                                                                                                                                                "sourceAvif":  {
+                                                                                                                                                                                                                                   "tagName":  "source",
+                                                                                                                                                                                                                                   "attrs":  {
+                                                                                                                                                                                                                                                 "type":  "image/avif",
+                                                                                                                                                                                                                                                 "sizes":  "(orientation: landscape) 100vh, 100vw",
+                                                                                                                                                                                                                                                 "srcset":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-720.avif 720w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-1080.avif 1080w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-1320.avif 1320w"
+                                                                                                                                                                                                                                             }
+                                                                                                                                                                                                                               },
+                                                                                                                                                                                                                "sourceWebp":  {
+                                                                                                                                                                                                                                   "tagName":  "source",
+                                                                                                                                                                                                                                   "attrs":  {
+                                                                                                                                                                                                                                                 "type":  "image/webp",
+                                                                                                                                                                                                                                                 "sizes":  "(orientation: landscape) 100vh, 100vw",
+                                                                                                                                                                                                                                                 "srcset":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-720.webp 720w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-1080.webp 1080w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-1320.webp 1320w"
+                                                                                                                                                                                                                                             }
+                                                                                                                                                                                                                               },
+                                                                                                                                                                                                                "img":  {
+                                                                                                                                                                                                                            "tagName":  "img",
+                                                                                                                                                                                                                            "attrs":  {
+                                                                                                                                                                                                                                          "class":  "wms-halo__bottom-img",
+                                                                                                                                                                                                                                          "src":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-1320.webp",
+                                                                                                                                                                                                                                          "width":  1320,
+                                                                                                                                                                                                                                          "height":  400,
+                                                                                                                                                                                                                                          "fetchpriority":  "low",
+                                                                                                                                                                                                                                          "decoding":  "async",
+                                                                                                                                                                                                                                          "alt":  "",
+                                                                                                                                                                                                                                          "sizes":  "(orientation: landscape) 100vh, 100vw",
+                                                                                                                                                                                                                                          "srcset":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-720.webp 720w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-1080.webp 1080w, https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-1320.webp 1320w"
+                                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                        }
+                                                                                                                                                                                                            }
+                                                                                                                                                                                           },
+                                                                                                                                                                         "bottomText":  {
+                                                                                                                                                                                            "tagName":  "img",
+                                                                                                                                                                                            "attrs":  {
+                                                                                                                                                                                                          "class":  "wms-halo__bottom-txt",
+                                                                                                                                                                                                          "src":  "https://cdn.jsdelivr.net/gh/Wemass-Maxx/CSTesting@main/Creatividades/Xandr_SkinHaloMobile_Test_070726/halo-bottom-mobile.svg",
+                                                                                                                                                                                                          "alt":  "Lets GO 96pt. Just a test 48pt"
+                                                                                                                                                                                                      }
+                                                                                                                                                                                        }
+                                                                                                                                                                     }
+                                                                                                                                                    },
+                                                                                                                                     "bottomButtons":  {
+                                                                                                                                                           "tagName":  "div",
+                                                                                                                                                           "attrs":  {
+                                                                                                                                                                         "class":  "wms-box-btns -wms-generalbtns"
+                                                                                                                                                                     },
+                                                                                                                                                           "subNodes":  {
+                                                                                                                                                                            "btnClose":  {
+                                                                                                                                                                                             "tagName":  "div",
+                                                                                                                                                                                             "attrs":  {
+                                                                                                                                                                                                           "class":  "wms-btn-close",
+                                                                                                                                                                                                           "role":  "button",
+                                                                                                                                                                                                           "aria-label":  "Cerrar",
+                                                                                                                                                                                                           "tabindex":  "0"
+                                                                                                                                                                                                       },
+                                                                                                                                                                                             "b":  {
+                                                                                                                                                                                                       "ClickEvent":  {
+                                                                                                                                                                                                                          "events":  [
+                                                                                                                                                                                                                                         {
+                                                                                                                                                                                                                                             "path":  "[[wmsHaloBottomLayer]]",
+                                                                                                                                                                                                                                             "message":  "addClass",
+                                                                                                                                                                                                                                             "params":  "-wms-nodisplay"
+                                                                                                                                                                                                                                         }
+                                                                                                                                                                                                                                     ]
+                                                                                                                                                                                                                      }
+                                                                                                                                                                                                   }
+                                                                                                                                                                                         }
+                                                                                                                                                                        }
+                                                                                                                                                       }
+                                                                                                                                 }
+                                                                                                                }
+                                                                                            }
+                                                                           }
+                                                          }
+                                            }
+                              }
+               }
+}
